@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mon carnet de droit — Révisions</title>
+<style>
+:root{--bg:#0b1020;--panel:#121a2d;--panel2:#18233b;--line:#293754;--text:#edf3ff;--muted:#9aabc8;--accent:#7c9cff;--accent2:#9b83ff;--green:#55d6a0;--orange:#ffbd69;--red:#ff7b86}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% 0%,#1a2850 0,transparent 35%),var(--bg);color:var(--text);font:15px/1.55 Inter,Segoe UI,Arial,sans-serif}
+button,input,textarea{font:inherit}button{cursor:pointer;border:0}
+.app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+aside{padding:28px 18px;background:#0d1528;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:22px}
+.brand{display:flex;gap:12px;align-items:center;padding:0 8px}.logo{width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:grid;place-items:center;font-size:22px;font-weight:800;color:white}.brand strong{display:block;font-size:16px}.brand small{color:var(--muted)}
+.navlabel{font-size:11px;letter-spacing:1.5px;color:#7283a3;padding:0 10px;margin:12px 0 4px}
+.nav button{width:100%;text-align:left;background:transparent;color:var(--muted);padding:11px 12px;border-radius:10px;margin:2px 0}.nav button.active,.nav button:hover{background:var(--panel2);color:white}.nav button span{margin-right:10px}
+.side-note{margin-top:auto;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;color:var(--muted);font-size:12px}
+main{padding:34px clamp(18px,4vw,54px);max-width:1400px;width:100%;margin:auto}
+.top{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:28px}.eyebrow{color:var(--accent);font-size:12px;text-transform:uppercase;letter-spacing:1.7px;font-weight:700}h1{font-size:clamp(27px,4vw,38px);line-height:1.15;margin:7px 0} .subtitle{color:var(--muted);margin:0}
+.actions{display:flex;gap:9px;flex-wrap:wrap}.btn{padding:10px 15px;border-radius:10px;background:var(--panel2);color:var(--text);border:1px solid var(--line);font-weight:650}.btn.primary{background:linear-gradient(135deg,#668cff,#8d79f5);border:0;color:white}.btn:hover{filter:brightness(1.12)}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:25px 0}.stat{background:linear-gradient(145deg,var(--panel),#111a2d);border:1px solid var(--line);border-radius:15px;padding:17px}.stat small{color:var(--muted)}.stat strong{display:block;font-size:25px;margin-top:4px}
+.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:28px 0 14px;flex-wrap:wrap}.toolbar h2{margin:0;font-size:19px}.search{background:var(--panel);border:1px solid var(--line);border-radius:10px;color:var(--text);padding:10px 13px;min-width:220px;outline:none}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(245px,1fr));gap:15px}
+.day-card{background:linear-gradient(155deg,#17233b,#111a2d);border:1px solid var(--line);border-radius:16px;padding:18px;min-height:190px;display:flex;flex-direction:column;transition:.18s}
+.day-card:hover{transform:translateY(-3px);border-color:#647fcb}.day-card .topline{display:flex;justify-content:space-between;align-items:center}.daynum{font-size:11px;color:#b7c7e7;background:#253555;border-radius:20px;padding:5px 9px}.status{font-size:11px;color:var(--green)}.status.empty{color:var(--orange)}
+.day-card h3{margin:15px 0 5px;font-size:18px}.day-card p{color:var(--muted);font-size:13px;margin:0 0 15px}.card-bottom{margin-top:auto;display:flex;justify-content:space-between;align-items:center}.tag{font-size:11px;color:#b9c8e7;background:#202e4a;padding:5px 8px;border-radius:7px}.open{background:transparent;color:#a9bdff;font-weight:700;padding:7px}
+.empty-card{border:1px dashed #465779;background:#111a2d80;align-items:center;justify-content:center;text-align:center;color:var(--muted)}.empty-card .plus{font-size:30px;color:var(--accent);line-height:1}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:clamp(17px,3vw,28px);margin-top:22px}
+.hidden{display:none!important}.back{background:transparent;color:#a9bdff;padding:0;margin-bottom:17px;font-weight:700}
+.lesson-head{display:flex;justify-content:space-between;gap:15px;align-items:flex-start;flex-wrap:wrap}.lesson-head h2{font-size:27px;margin:4px 0}.lesson-meta{color:var(--muted);font-size:13px}
+.lesson-content h3{font-size:17px;margin:25px 0 9px;color:#b8c9ff}.lesson-content p{color:#d5def0}.lesson-content ul{padding-left:22px;color:#d5def0}.lesson-content li{margin:7px 0}.definition{background:#1a2945;border-left:3px solid var(--accent);padding:13px 15px;border-radius:0 10px 10px 0;margin:12px 0}
+.editor{display:grid;gap:12px}.editor label{display:grid;gap:6px;color:#b8c8e4;font-size:13px}.editor input,.editor textarea{width:100%;background:#0d1629;color:var(--text);border:1px solid var(--line);border-radius:9px;padding:11px;outline:none}.editor textarea{min-height:130px;resize:vertical}.editor textarea.large{min-height:260px}
+.notice{color:var(--muted);font-size:12px;margin-top:14px}.footer{color:#7182a2;font-size:12px;text-align:center;margin:35px 0 10px}
+@media(max-width:760px){.app{grid-template-columns:1fr}aside{padding:13px 16px;border-right:0;border-bottom:1px solid var(--line)}.brand{padding:0}.nav{display:flex;overflow:auto;gap:5px}.navlabel,.side-note{display:none}.nav button{white-space:nowrap;width:auto}.stats{gap:8px}.stat{padding:12px}.stat strong{font-size:21px}main{padding-top:24px}}
+@media print{body{background:white;color:#111}.app{display:block}aside,.actions,.back,.toolbar,.footer,.btn{display:none!important}main{padding:0}.panel,.day-card{background:white;color:#111;border:0}.lesson-content p,.lesson-content li{color:#222}.lesson-content h3{color:#222}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside>
+  <div class="brand"><div class="logo">D</div><div><strong>Mon carnet de droit</strong><small>Fiches de révision</small></div></div>
+  <div class="navlabel">ESPACE DE TRAVAIL</div>
+  <nav class="nav">
+    <button class="active" id="navHome" onclick="showHome()"><span>▦</span>Vue d'ensemble</button>
+    <button onclick="showHome();document.getElementById('dayGrid').scrollIntoView({behavior:'smooth'})"><span>▤</span>Tous les cours</button>
+  </nav>
+  <div class="side-note">Tes fiches sont enregistrées automatiquement dans ce navigateur. Pense à exporter une sauvegarde de temps en temps.</div>
+</aside>
+<main>
+  <section id="homeView">
+    <div class="top"><div><div class="eyebrow">Espace de révision</div><h1>Ton parcours de droit</h1><p class="subtitle">Organise tes cours jour après jour et révise à ton rythme.</p></div><div class="actions"><button class="btn" onclick="exportData()">↓ Sauvegarder</button><button class="btn primary" onclick="newLesson()">＋ Ajouter un jour</button></div></div>
+    <div class="stats">
+      <div class="stat"><small>Fiches complétées</small><strong id="statDone">1</strong></div>
+      <div class="stat"><small>Jours prévus</small><strong id="statTotal">10</strong></div>
+      <div class="stat"><small>Progression</small><strong id="statProgress">10 %</strong></div>
+    </div>
+    <div class="toolbar"><h2 id="gridTitle">Tes fiches de cours</h2><input class="search" id="search" placeholder="Rechercher un cours…" oninput="renderGrid()"></div>
+    <div class="grid" id="dayGrid"></div>
+    <p class="notice">Les jours 2 à 10 sont des emplacements vides. Tu peux les remplir quand tu recevras tes prochains cours, ou ajouter d'autres journées.</p>
+  </section>
+  <section id="lessonView" class="hidden">
+    <button class="back" onclick="showHome()">← Retour aux fiches</button>
+    <div class="panel">
+      <div class="lesson-head"><div><div class="eyebrow" id="lessonEyebrow">JOUR 1</div><h2 id="lessonTitle"></h2><div class="lesson-meta" id="lessonMeta"></div></div><div class="actions"><button class="btn" id="summaryToggle" onclick="toggleSummary()" aria-pressed="false">Résumé : désactivé</button><button class="btn" onclick="editCurrent()">✎ Modifier</button><button class="btn" onclick="window.print()">Imprimer</button></div></div>
+      <div class="lesson-content" id="lessonContent"></div>
+    </div>
+  </section>
+  <section id="editorView" class="hidden">
+    <button class="back" onclick="showHome()">← Retour aux fiches</button>
+    <div class="panel">
+      <div class="eyebrow">PERSONNALISATION</div><h2 id="editorHeading">Ajouter une fiche</h2>
+      <div class="editor">
+        <label>Jour / numéro<input id="editDay" type="number" min="1" value="2"></label>
+        <label>Titre du cours<input id="editTitle" placeholder="Ex. Les sources du droit"></label>
+        <label>Matière ou catégorie<input id="editCategory" placeholder="Ex. Introduction au droit"></label>
+        <label>Résumé court<textarea id="editSummary" placeholder="Quelques lignes pour retrouver rapidement le contenu…"></textarea></label>
+        <label>Contenu de la fiche<textarea class="large" id="editBody" placeholder="Écris ton cours ici. Tu peux utiliser des titres, des listes et des exemples en texte brut."></textarea></label>
+        <div class="actions"><button class="btn primary" onclick="saveLesson()">Enregistrer la fiche</button><button class="btn" onclick="showHome()">Annuler</button><button class="btn" id="deleteBtn" onclick="deleteCurrent()" style="display:none;color:#ff9ba3">Supprimer</button></div>
+      </div>
+      <p class="notice">Astuce : sépare les notions avec des titres et des listes pour faciliter la révision.</p>
+    </div>
+  </section>
+  <div class="footer">Carnet personnel • Enregistrement local dans ton navigateur</div>
+</main>
+</div>
+<script>
+const starter = {
+ day:1, title:"Introduction générale au droit", category:"Introduction au droit",
+ summary:"Définition du droit, caractéristiques, branches du droit et institutions belges.",
+ body:`## 1. Introduction au droit : définition et finalités
+Le droit se définit comme l'ensemble des règles établies pour permettre la vie en société et régir les relations entre les individus, ainsi qu'entre l'État et les citoyens.
+
+Ses objectifs principaux sont :
+- Éviter l'anarchie.
+- Empêcher la « loi du plus fort ».
+- Organiser la vie en commun de manière pacifique.
+
+## 2. Les quatre grandes caractéristiques du droit
+Le droit positif est le droit en vigueur dans une société et à un moment donné.
+
+### Le droit est invasif
+Il prend de plus en plus de place dans nos vies. Il existe de moins en moins de sphères privées totalement dénuées de règles juridiques.
+
+### Le droit est de plus en plus complet et complexe
+La multiplication des textes de loi et des réglementations rend la matière difficile d'accès pour les non-spécialistes. Exemple donné dans le cours : la première loi belge sur la sécurité privée date de 1990 et comptait 24 articles ; la loi de remplacement de 2017 en compte près de 285.
+
+### Le droit est variable dans l'espace
+Les règles changent selon les pays. Elles peuvent aussi varier à l'intérieur d'un État fédéral, par exemple entre la Flandre et la Wallonie.
+
+### Le droit est évolutif dans le temps
+Le droit s'adapte aux changements de la société, par exemple avec l'évolution des règles relatives au mariage ou au transport de fonds.
+
+## 3. Évolution, variabilité et interprétation des lois
+### Qui fait la loi ?
+Les lois sont votées par le pouvoir législatif, notamment les représentants élus à la Chambre. Le Roi intervient dans le processus législatif par la sanction et la promulgation.
+
+### Sécurité juridique et ignorance de la loi
+L'expression « Nul n'est censé ignorer la loi » rappelle que chacun est tenu de respecter les règles applicables. En pratique, les citoyens et les juristes doivent se tenir informés de leur évolution.
+
+### L'interprétation
+Les juges interprètent et appliquent les textes aux situations concrètes. La précision d'une règle peut limiter les interprétations possibles, sans supprimer tout travail d'interprétation.
+
+## 4. Les différentes branches et catégories du droit
+### Droit international public
+Il concerne les relations entre États et les organisations internationales. Exemples : traités internationaux, Union européenne et OTAN.
+
+### Droit international privé
+Il traite des situations privées comportant un élément d'extranéité, par exemple un mariage ou un divorce impliquant plusieurs pays. Il aide notamment à déterminer la loi applicable et la juridiction compétente.
+
+### Droit interne privé
+Il concerne les relations entre personnes privées.
+- Droit civil : contrats, famille, divorce, baux.
+- Droit des affaires : activités des entreprises.
+- Droit social : droit du travail et sécurité sociale.
+
+### Droit interne public
+Il concerne l'organisation de l'État et l'exercice de la puissance publique.
+- Droit pénal : définit les infractions et les peines.
+- Droit fiscal : impôts et taxes.
+- Droit constitutionnel : organisation des pouvoirs et droits fondamentaux.
+- Droit judiciaire : organisation des juridictions et règles de procédure.
+- Droit administratif : fonctionnement des administrations et contrôle de leurs décisions.
+
+## 5. Structures et institutions belges
+### La Constitution
+Elle fixe les règles fondamentales de l'État belge, organise les pouvoirs publics et garantit des droits et libertés fondamentaux.
+
+### La monarchie constitutionnelle
+La Belgique est une monarchie constitutionnelle : les pouvoirs du Roi sont encadrés par la Constitution. Le Roi ne gouverne pas seul ; ses actes officiels requièrent en principe le contreseing ministériel.
+
+### Administration et sécurité privée
+Certaines professions réglementées, comme le gardiennage, sont soumises à des conditions légales. Le cours évoque notamment les vérifications liées à l'honorabilité et à la sécurité publique.
+
+## À retenir
+- Le droit organise la vie en société.
+- Le droit positif est le droit applicable à un moment et dans un lieu donnés.
+- Le droit varie selon les lieux et évolue dans le temps.
+- On distingue notamment droit international / droit interne, puis droit privé / droit public.
+- La Constitution organise les pouvoirs et protège les droits fondamentaux.
+
+## 6. Les subtilités du droit privé et du droit public
+### La distinction entre droit public et droit privé
+- Le droit public régit l'organisation de l'État, des services publics et les relations entre les autorités publiques et les citoyens. Dans ces relations, l'autorité publique peut disposer de prérogatives particulières prévues par la loi.
+- Le droit privé régit principalement les relations entre personnes privées, placées en principe sur un pied d'égalité juridique.
+- Cette distinction n'est pas toujours absolue : une même situation peut faire intervenir des règles de droit public et de droit privé.
+
+## 7. L'exercice du pouvoir réglementaire et la sécurité privée
+### L'habilitation légale
+Le gouvernement et les ministres ne peuvent pas adopter librement n'importe quelle règle. Leur pouvoir réglementaire doit reposer sur une base juridique et respecter les compétences que la Constitution et les lois leur attribuent. Par exemple, des arrêtés royaux peuvent préciser les conditions d'exercice des activités de gardiennage sur la base d'une loi.
+
+### La police administrative
+La police administrative vise principalement à prévenir les troubles à l'ordre public, notamment en matière de sécurité, de tranquillité et de salubrité publiques. Elle relève des autorités publiques compétentes.
+
+### La place du secteur privé
+Des entreprises privées peuvent exercer certaines activités encadrées de sécurité, comme le gardiennage, le transport de valeurs ou la sécurité d'événements. Elles ne remplacent pas la police et doivent respecter la législation applicable, sous le contrôle des autorités compétentes, notamment du SPF Intérieur.
+
+## 8. L'honorabilité et les enquêtes de sécurité
+Pour certaines professions sensibles, des conditions d'accès et des vérifications peuvent être imposées par la loi.
+
+- **Vérification des antécédents :** selon le régime légal applicable, l'examen peut aller au-delà de la simple consultation du casier judiciaire. Les contrôles doivent toutefois respecter les compétences légales et les règles relatives aux données personnelles.
+- **Évaluation des risques :** les autorités vérifient si les conditions légales d'honorabilité et de fiabilité sont remplies avant d'accorder, le cas échéant, une autorisation, un agrément ou une carte d'identification professionnelle.
+
+## 9. Les sanctions administratives et pénales
+Le non-respect des règles applicables aux activités de sécurité peut entraîner différentes conséquences.
+
+- **Sanctions pénales :** lorsqu'une infraction est prévue par la loi, une juridiction pénale peut prononcer une peine, par exemple une amende ou, si la loi le prévoit, une peine d'emprisonnement.
+- **Sanctions administratives :** l'autorité administrative compétente peut prendre les mesures prévues par la législation, par exemple une suspension ou un retrait d'autorisation, ou une amende administrative. Les conditions et les procédures dépendent du texte applicable.
+
+## À retenir
+- Le droit organise la vie en société.
+- Le droit positif est le droit applicable à un moment et dans un lieu donnés.
+- Le droit varie selon les lieux et évolue dans le temps.
+- On distingue notamment droit international / droit interne, puis droit privé / droit public.
+- Le droit public encadre l'action des autorités ; le droit privé régit principalement les relations entre personnes privées.
+- Les activités de sécurité privée sont réglementées et ne se confondent pas avec les missions de police.
+- Les sanctions administratives et pénales sont différentes et doivent avoir une base légale.`
+};
+let lessons = [];
+let currentDay = null;
+let editingDay = null;
+const STORAGE = "carnetDroit_v1";
+function load(){
+  try{const saved=JSON.parse(localStorage.getItem(STORAGE));if(Array.isArray(saved)&&saved.length){lessons=saved;}else{lessons=[starter];}}
+  catch(e){lessons=[starter];}
+  // Prépare automatiquement les dix premiers emplacements, sans écraser les fiches existantes.
+  for(let d=1;d<=10;d++) if(!lessons.some(x=>Number(x.day)===d)) lessons.push({day:d,title:"À compléter",category:"À venir",summary:"Emplacement réservé pour ton prochain cours.",body:""});
+  lessons.sort((a,b)=>a.day-b.day); persist();
+}
+function persist(){localStorage.setItem(STORAGE,JSON.stringify(lessons));}
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function renderGrid(){
+ const q=(document.getElementById("search").value||"").toLowerCase();
+ const grid=document.getElementById("dayGrid");grid.innerHTML="";
+ const filtered=lessons.filter(x=>(x.title+" "+x.category+" "+x.summary+" "+x.day).toLowerCase().includes(q));
+ filtered.forEach(x=>{
+  const done=!!(x.body&&x.body.trim());
+  const card=document.createElement("article");card.className="day-card";
+  card.innerHTML=`<div class="topline"><span class="daynum">JOUR ${x.day}</span><span class="status ${done?"":"empty"}">${done?"● FICHE prête":"○ À compléter"}</span></div><h3>${esc(x.title||"Sans titre")}</h3><p>${esc(x.summary||"Aucun résumé pour le moment.")}</p><div class="card-bottom"><span class="tag">${esc(x.category||"Cours")}</span><button class="open" onclick="openLesson(${Number(x.day)})">${done?"Ouvrir":"Remplir"} →</button></div>`;
+  grid.appendChild(card);
+ });
+ const add=document.createElement("button");add.className="day-card empty-card";add.innerHTML='<span class="plus">＋</span><strong>Nouvelle fiche</strong><span>Ajouter un autre jour</span>';add.onclick=newLesson;grid.appendChild(add);
+ const done=lessons.filter(x=>x.body&&x.body.trim()).length;
+ document.getElementById("statDone").textContent=done;
+ document.getElementById("statTotal").textContent=lessons.length;
+ document.getElementById("statProgress").textContent=Math.round(done/lessons.length*100)+" %";
+}
+function showHome(){document.getElementById("homeView").classList.remove("hidden");document.getElementById("lessonView").classList.add("hidden");document.getElementById("editorView").classList.add("hidden");document.getElementById("navHome").classList.add("active");renderGrid();}
+function openLesson(day){
+ const x=lessons.find(a=>Number(a.day)===Number(day));if(!x)return;
+ if(!x.body){editLesson(day);return;}
+ currentDay=day;document.getElementById("homeView").classList.add("hidden");document.getElementById("editorView").classList.add("hidden");document.getElementById("lessonView").classList.remove("hidden");
+ document.getElementById("lessonEyebrow").textContent="JOUR "+x.day;document.getElementById("lessonTitle").textContent=x.title;document.getElementById("lessonMeta").textContent=x.category;
+ const toggle=document.getElementById("summaryToggle");toggle.textContent="Résumé : désactivé";toggle.setAttribute("aria-pressed","false");
+ document.getElementById("lessonContent").dataset.mode="full";
+ document.getElementById("lessonContent").innerHTML=markdownLite(x.body);
+}
+function toggleSummary(){
+ const x=lessons.find(a=>Number(a.day)===Number(currentDay));if(!x)return;
+ const content=document.getElementById("lessonContent");
+ const toggle=document.getElementById("summaryToggle");
+ const isSummary=content.dataset.mode==="summary";
+ if(isSummary){
+   content.innerHTML=markdownLite(x.body);
+   content.dataset.mode="full";
+   toggle.textContent="Résumé : désactivé";
+   toggle.setAttribute("aria-pressed","false");
+ }else{
+   content.innerHTML=markdownLite(makeShortSummary(x.body));
+   content.dataset.mode="summary";
+   toggle.textContent="Résumé : activé";
+   toggle.setAttribute("aria-pressed","true");
+ }
+}
+function makeShortSummary(body){
+ // Résumé très condensé du cours du jour 1 ; pour les autres jours, extrait les idées structurantes.
+ if(Number(currentDay)===1) return `# Jour 1 — L'essentiel
+- **Droit :** ensemble de règles qui organisent la vie en société et encadrent les relations entre personnes et avec l'État.
+- **Caractéristiques :** le droit est présent dans la vie quotidienne, complexe, variable selon les lieux et évolutif dans le temps.
+- **Élaboration :** les lois sont adoptées par le pouvoir législatif ; les autorités exécutives prennent des règlements dans les limites de leurs compétences.
+- **Branches :** droit international (public/privé) et droit interne (public/privé).
+- **Droit privé :** relations entre personnes privées, en principe à égalité juridique.
+- **Droit public :** organisation de l'État et action des autorités publiques.
+- **Belgique :** la Constitution organise les pouvoirs et garantit des droits fondamentaux ; le Roi agit dans un cadre constitutionnel.
+- **Sécurité privée :** secteur réglementé, distinct des missions de police ; les autorisations et contrôles reposent sur la loi.
+- **Contrôles et sanctions :** des vérifications d'honorabilité peuvent être prévues ; les manquements peuvent entraîner des sanctions administratives et/ou pénales.`;
+ const headings=body.split(/\n/).filter(s=>/^#{1,3} /.test(s));
+ const bullets=body.split(/\n/).filter(s=>/^[-*] /.test(s));
+ return "# Résumé — "+(headings.slice(0,1)[0]||"Fiche de cours").replace(/^#+ /,"")+"\n"+headings.slice(1,7).map(s=>"- "+s.replace(/^#+ /,"")).join("\n")+"\n"+bullets.slice(0,6).join("\n");
+}
+function markdownLite(src){
+ return src.split(/\n/).map(line=>{
+  let t=esc(line).replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>");
+  if(line.startsWith("### "))return "<h4>"+esc(line.slice(4))+"</h4>";
+  if(line.startsWith("## "))return "<h3>"+esc(line.slice(3))+"</h3>";
+  if(line.startsWith("# "))return "<h3>"+esc(line.slice(2))+"</h3>";
+  if(line.startsWith("- "))return "<li>"+t.slice(2)+"</li>";
+  if(!line.trim())return "";
+  return "<p>"+t+"</p>";
+ }).join("").replace(/(?:<li>.*?<\/li>)+/gs,m=>"<ul>"+m+"</ul>");
+}
+function newLesson(){editLesson(null);}
+function editCurrent(){editLesson(currentDay);}
+function editLesson(day){
+ editingDay=day;const x=day?lessons.find(a=>Number(a.day)===Number(day)):null;
+ document.getElementById("homeView").classList.add("hidden");document.getElementById("lessonView").classList.add("hidden");document.getElementById("editorView").classList.remove("hidden");
+ document.getElementById("editorHeading").textContent=x?"Modifier la fiche du jour "+x.day:"Ajouter une fiche";
+ document.getElementById("editDay").value=x?x.day:(Math.max(0,...lessons.map(a=>Number(a.day)||0))+1);
+ document.getElementById("editTitle").value=x&&x.title!=="À compléter"?x.title:"";
+ document.getElementById("editCategory").value=x&&x.category!=="À venir"?x.category:"";
+ document.getElementById("editSummary").value=x&&x.summary!=="Emplacement réservé pour ton prochain cours."?x.summary:"";
+ document.getElementById("editBody").value=x?x.body:"";
+ document.getElementById("deleteBtn").style.display=x&&x.day!==1?"inline-block":"none";
+}
+function saveLesson(){
+ const day=Number(document.getElementById("editDay").value);if(!Number.isInteger(day)||day<1){alert("Indique un numéro de jour valide.");return;}
+ const data={day,title:document.getElementById("editTitle").value.trim()||"Jour "+day,category:document.getElementById("editCategory").value.trim()||"Cours",summary:document.getElementById("editSummary").value.trim(),body:document.getElementById("editBody").value.trim()};
+ const existing=lessons.findIndex(x=>Number(x.day)===day);
+ if(editingDay!==null&&Number(editingDay)!==day){const old=lessons.findIndex(x=>Number(x.day)===Number(editingDay));if(old>=0)lessons.splice(old,1);}
+ if(existing>=0 && Number(editingDay)!==day){if(!confirm("Ce jour existe déjà. Remplacer sa fiche ?"))return;lessons[existing]=data;}
+ else if(existing>=0)lessons[existing]=data;else lessons.push(data);
+ lessons.sort((a,b)=>a.day-b.day);persist();showHome();
+}
+function deleteCurrent(){
+ if(editingDay===null||Number(editingDay)===1)return;
+ if(!confirm("Supprimer cette fiche ?"))return;
+ lessons=lessons.filter(x=>Number(x.day)!==Number(editingDay));persist();showHome();
+}
+function exportData(){
+ const blob=new Blob([JSON.stringify(lessons,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="sauvegarde-carnet-droit.json";a.click();URL.revokeObjectURL(url);
+}
+load();renderGrid();
+</script>
+</body>
+</html>
