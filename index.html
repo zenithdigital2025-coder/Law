@@ -360,15 +360,31 @@ function soundToggle() {
   playSoftNote({ freq: 1320, type: 'sine', duration: 0.1, volume: 0.018, delay: 0.03, attack: 0.03, release: 0.3, filterFreq: 2400 });
 }
 
+/* ============================================================
+   VIBRATION — clics, bonnes réponses, mauvaises réponses
+   ============================================================ */
 function vibrate(pattern) {
   if (navigator.vibrate) { try { navigator.vibrate(pattern); } catch(e) {} }
 }
-function vibClick() { vibrate(6); }
-function vibSuccess() { vibrate([12, 40, 15]); }
-function vibError() { vibrate([25, 25, 25]); }
-function vibComplete() { vibrate([20, 30, 20, 30, 60]); }
-function vibToggle() { vibrate(8); }
 
+/* Petit "tap" discret sur chaque clic */
+function vibClick() { vibrate(8); }
+
+/* Petite vibration courte pour une bonne réponse */
+function vibSuccess() { vibrate(15); }
+
+/* Grosse vibration marquée pour une mauvaise réponse */
+function vibError() { vibrate([50, 30, 60]); }
+
+/* Vibration de célébration pour un quiz réussi */
+function vibComplete() { vibrate([20, 30, 20, 30, 80]); }
+
+/* Petite vibration pour les toggles */
+function vibToggle() { vibrate(10); }
+
+/* ============================================================
+   TOAST & CONFETTIS
+   ============================================================ */
 let toastTimer = null;
 function showToast(msg, icon = '✓') {
   const toast = document.getElementById('toast');
@@ -625,13 +641,12 @@ let currentDay = null;
 let editingDay = null;
 const STORAGE = "carnetDroit_v1";
 
-/* État du quiz : une seule fiche à la fois */
 let quizState = {
   day: 1,
   tab: 'qcm',
-  questions: [],           // questions actives (qcm ou fill)
-  answers: {},             // réponses QCM par id
-  fillAnswers: {},         // réponses texte par id_blank
+  questions: [],
+  answers: {},
+  fillAnswers: {},
   score: 0,
   index: 0,
   finished: false,
@@ -704,7 +719,6 @@ function openLesson(day){
  document.getElementById("lessonContent").style.animation='fadeIn .4s ease';
 }
 
-/* Ouvre le quiz pour une fiche unique */
 function openQuiz(day, tab){
   const bank = quizBank[Number(day)];
   if (!bank) { showToast("Pas de quiz pour ce jour.", "⚠️"); return; }
@@ -760,7 +774,6 @@ function switchQuizTab(tab){
   quizState.showHints = false;
   quizState.showSynonyms = false;
   setTabButtons();
-  // Mettre à jour l'eyebrow avec le nouveau type
   document.getElementById("quizOnlyEyebrow").textContent = "JOUR " + quizState.day + " — " + (tab === 'qcm' ? 'QCM' : 'TEXTE À TROU');
   loadQuizQuestions();
   renderQuizStep();
