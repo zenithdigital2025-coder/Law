@@ -12,26 +12,138 @@ button,input,textarea{font:inherit}button{cursor:pointer;border:0}
 aside{padding:28px 18px;background:#0d1528;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:22px}
 .brand{display:flex;gap:12px;align-items:center;padding:0 8px}.logo{width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:grid;place-items:center;font-size:22px;font-weight:800;color:white}.brand strong{display:block;font-size:16px}.brand small{color:var(--muted)}
 .navlabel{font-size:11px;letter-spacing:1.5px;color:#7283a3;padding:0 10px;margin:12px 0 4px}
-.nav button{width:100%;text-align:left;background:transparent;color:var(--muted);padding:11px 12px;border-radius:10px;margin:2px 0}.nav button.active,.nav button:hover{background:var(--panel2);color:white}.nav button span{margin-right:10px}
+.nav button{width:100%;text-align:left;background:transparent;color:var(--muted);padding:11px 12px;border-radius:10px;margin:2px 0;transition:background .25s,color .25s}.nav button.active,.nav button:hover{background:var(--panel2);color:white}.nav button span{margin-right:10px}
 .side-note{margin-top:auto;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;color:var(--muted);font-size:12px}
 main{padding:34px clamp(18px,4vw,54px);max-width:1400px;width:100%;margin:auto}
 .top{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:28px}.eyebrow{color:var(--accent);font-size:12px;text-transform:uppercase;letter-spacing:1.7px;font-weight:700}h1{font-size:clamp(27px,4vw,38px);line-height:1.15;margin:7px 0} .subtitle{color:var(--muted);margin:0}
-.actions{display:flex;gap:9px;flex-wrap:wrap}.btn{padding:10px 15px;border-radius:10px;background:var(--panel2);color:var(--text);border:1px solid var(--line);font-weight:650}.btn.primary{background:linear-gradient(135deg,#668cff,#8d79f5);border:0;color:white}.btn:hover{filter:brightness(1.12)}
-.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:25px 0}.stat{background:linear-gradient(145deg,var(--panel),#111a2d);border:1px solid var(--line);border-radius:15px;padding:17px}.stat small{color:var(--muted)}.stat strong{display:block;font-size:25px;margin-top:4px}
-.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:28px 0 14px;flex-wrap:wrap}.toolbar h2{margin:0;font-size:19px}.search{background:var(--panel);border:1px solid var(--line);border-radius:10px;color:var(--text);padding:10px 13px;min-width:220px;outline:none}
+.actions{display:flex;gap:9px;flex-wrap:wrap}.btn{padding:10px 15px;border-radius:10px;background:var(--panel2);color:var(--text);border:1px solid var(--line);font-weight:650;transition:.25s}.btn.primary{background:linear-gradient(135deg,#668cff,#8d79f5);border:0;color:white}.btn:hover{filter:brightness(1.12);transform:translateY(-1px)}.btn:active{transform:scale(.97)}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:25px 0}.stat{background:linear-gradient(145deg,var(--panel),#111a2d);border:1px solid var(--line);border-radius:15px;padding:17px;transition:transform .3s,border-color .3s}.stat:hover{transform:translateY(-2px);border-color:var(--accent)}.stat small{color:var(--muted)}.stat strong{display:block;font-size:25px;margin-top:4px}
+.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:28px 0 14px;flex-wrap:wrap}.toolbar h2{margin:0;font-size:19px}.search{background:var(--panel);border:1px solid var(--line);border-radius:10px;color:var(--text);padding:10px 13px;min-width:220px;outline:none;transition:border-color .25s,box-shadow .25s}.search:focus{border-color:var(--accent);box-shadow:0 0 0 3px #7c9cff33}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(245px,1fr));gap:15px}
-.day-card{background:linear-gradient(155deg,#17233b,#111a2d);border:1px solid var(--line);border-radius:16px;padding:18px;min-height:190px;display:flex;flex-direction:column;transition:.18s}
-.day-card:hover{transform:translateY(-3px);border-color:#647fcb}.day-card .topline{display:flex;justify-content:space-between;align-items:center}.daynum{font-size:11px;color:#b7c7e7;background:#253555;border-radius:20px;padding:5px 9px}.status{font-size:11px;color:var(--green)}.status.empty{color:var(--orange)}
-.day-card h3{margin:15px 0 5px;font-size:18px}.day-card p{color:var(--muted);font-size:13px;margin:0 0 15px}.card-bottom{margin-top:auto;display:flex;justify-content:space-between;align-items:center}.tag{font-size:11px;color:#b9c8e7;background:#202e4a;padding:5px 8px;border-radius:7px}.open{background:transparent;color:#a9bdff;font-weight:700;padding:7px}
-.empty-card{border:1px dashed #465779;background:#111a2d80;align-items:center;justify-content:center;text-align:center;color:var(--muted)}.empty-card .plus{font-size:30px;color:var(--accent);line-height:1}
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:clamp(17px,3vw,28px);margin-top:22px}
-.hidden{display:none!important}.back{background:transparent;color:#a9bdff;padding:0;margin-bottom:17px;font-weight:700}
+.day-card{background:linear-gradient(155deg,#17233b,#111a2d);border:1px solid var(--line);border-radius:16px;padding:18px;min-height:190px;display:flex;flex-direction:column;transition:transform .25s cubic-bezier(.2,.9,.3,1.2),border-color .25s,box-shadow .25s}
+.day-card:hover{transform:translateY(-4px) scale(1.01);border-color:#647fcb;box-shadow:0 8px 30px rgba(100,127,203,.15)}.day-card .topline{display:flex;justify-content:space-between;align-items:center}.daynum{font-size:11px;color:#b7c7e7;background:#253555;border-radius:20px;padding:5px 9px}.status{font-size:11px;color:var(--green)}.status.empty{color:var(--orange)}
+.day-card h3{margin:15px 0 5px;font-size:18px}.day-card p{color:var(--muted);font-size:13px;margin:0 0 15px}.card-bottom{margin-top:auto;display:flex;justify-content:space-between;align-items:center}.tag{font-size:11px;color:#b9c8e7;background:#202e4a;padding:5px 8px;border-radius:7px}.open{background:transparent;color:#a9bdff;font-weight:700;padding:7px;transition:color .2s,transform .2s}.open:hover{color:var(--accent);transform:translateX(3px)}
+.empty-card{border:1px dashed #465779;background:#111a2d80;align-items:center;justify-content:center;text-align:center;color:var(--muted);transition:.25s}.empty-card:hover{border-color:var(--accent);background:#111a2dcc;transform:translateY(-3px)}.empty-card .plus{font-size:30px;color:var(--accent);line-height:1}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:clamp(17px,3vw,28px);margin-top:22px;animation:fadeSlide .35s ease-out}
+@keyframes fadeSlide{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.hidden{display:none!important}.back{background:transparent;color:#a9bdff;padding:0;margin-bottom:17px;font-weight:700;transition:transform .2s}.back:hover{transform:translateX(-4px)}
 .lesson-head{display:flex;justify-content:space-between;gap:15px;align-items:flex-start;flex-wrap:wrap}.lesson-head h2{font-size:27px;margin:4px 0}.lesson-meta{color:var(--muted);font-size:13px}
-.lesson-content h3{font-size:17px;margin:25px 0 9px;color:#b8c9ff}.lesson-content p{color:#d5def0}.lesson-content ul{padding-left:22px;color:#d5def0}.lesson-content li{margin:7px 0}.definition{background:#1a2945;border-left:3px solid var(--accent);padding:13px 15px;border-radius:0 10px 10px 0;margin:12px 0}
-.editor{display:grid;gap:12px}.editor label{display:grid;gap:6px;color:#b8c8e4;font-size:13px}.editor input,.editor textarea{width:100%;background:#0d1629;color:var(--text);border:1px solid var(--line);border-radius:9px;padding:11px;outline:none}.editor textarea{min-height:130px;resize:vertical}.editor textarea.large{min-height:260px}
+.lesson-content{animation:fadeIn .4s ease}.lesson-content h3{font-size:17px;margin:25px 0 9px;color:#b8c9ff}.lesson-content p{color:#d5def0}.lesson-content ul{padding-left:22px;color:#d5def0}.lesson-content li{margin:7px 0}.definition{background:#1a2945;border-left:3px solid var(--accent);padding:13px 15px;border-radius:0 10px 10px 0;margin:12px 0}
+.editor{display:grid;gap:12px}.editor label{display:grid;gap:6px;color:#b8c8e4;font-size:13px}.editor input,.editor textarea{width:100%;background:#0d1629;color:var(--text);border:1px solid var(--line);border-radius:9px;padding:11px;outline:none;transition:border-color .25s,box-shadow .25s}.editor input:focus,.editor textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px #7c9cff22}.editor textarea{min-height:130px;resize:vertical}.editor textarea.large{min-height:260px}
 .notice{color:var(--muted);font-size:12px;margin-top:14px}.footer{color:#7182a2;font-size:12px;text-align:center;margin:35px 0 10px}
+
+.card-quiz{display:flex;gap:6px;margin-top:12px;padding-top:10px;border-top:1px solid #243350}
+.card-quiz button{flex:1;background:#1a2945;border:1px solid #2a3a5a;color:#b8c9ff;font-size:11.5px;font-weight:700;padding:7px 6px;border-radius:8px;transition:.2s}
+.card-quiz button:hover{background:var(--accent);color:white;border-color:var(--accent);transform:translateY(-2px)}.card-quiz button:active{transform:scale(.95)}
+
+.quiz-only-head{display:flex;justify-content:space-between;gap:15px;align-items:flex-start;flex-wrap:wrap;margin-bottom:20px}
+.quiz-only-head h2{font-size:24px;margin:0}
+.quiz-tabs{display:flex;gap:7px;margin-bottom:18px;flex-wrap:wrap}
+.quiz-tab{background:#18233b;border:1px solid #2a3a5a;color:#a9bdff;padding:9px 16px;border-radius:10px;font-size:13.5px;font-weight:700;transition:.2s}
+.quiz-tab:hover{border-color:var(--accent);transform:translateY(-1px)}
+.quiz-tab.active{background:var(--accent);color:white;border-color:var(--accent);box-shadow:0 4px 14px #7c9cff44}
+
+.quiz-progress{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.quiz-progress .counter{font-size:13px;color:var(--muted);font-weight:650}
+.quiz-progress .bar{flex:1;height:8px;background:#0d1629;border-radius:20px;overflow:hidden;min-width:120px;border:1px solid #243350}
+.quiz-progress .bar-inner{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0%;transition:width .4s cubic-bezier(.2,.8,.3,1)}
+
+.quiz-step{background:#0d1629;border:1px solid var(--line);border-radius:14px;padding:clamp(16px,3vw,24px);min-height:200px;display:flex;flex-direction:column;animation:fadeSlide .3s ease-out}
+.quiz-step .step-badge{font-size:11px;color:#b7c7e7;background:#253555;border-radius:20px;padding:4px 10px;font-weight:700;align-self:flex-start;margin-bottom:14px}
+.quiz-step .question{font-size:16px;font-weight:600;margin-bottom:16px;color:#e6eeff;line-height:1.8}
+.quiz-step .question .qnum{display:inline-block;background:#253555;color:#b7c7e7;font-size:11px;padding:3px 8px;border-radius:20px;margin-right:8px;font-weight:700}
+
+.quiz-options{display:grid;gap:9px;margin-bottom:14px}
+.quiz-option{display:flex;align-items:flex-start;gap:11px;background:#121f36;border:1px solid #243350;border-radius:10px;padding:12px 14px;cursor:pointer;transition:.2s;color:#d5def0;font-size:14.5px}
+.quiz-option:hover{background:#1a2945;border-color:#3a4d72;transform:translateX(3px)}
+.quiz-option.correct{border-color:var(--green);background:#133a2e;color:#c8f5e2;animation:pulseOk .4s ease}
+.quiz-option.wrong{border-color:var(--red);background:#3a1520;color:#ffc9ce;animation:shake .4s ease}
+.quiz-option.disabled{cursor:default;opacity:.85}
+.quiz-option .check{width:20px;height:20px;border-radius:50%;border:2px solid #4a5f85;flex-shrink:0;margin-top:0;display:grid;place-items:center;font-size:12px;color:transparent;transition:.2s}
+.quiz-option.correct .check{border-color:var(--green);background:var(--green);color:white}
+.quiz-option.wrong .check{border-color:var(--red);background:var(--red);color:white}
+
+@keyframes pulseOk{0%{transform:scale(1)}50%{transform:scale(1.02)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-5px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(3px)}}
+
+.quiz-feedback{margin-top:4px;margin-bottom:16px;font-size:13.5px;padding:11px 14px;border-radius:9px;display:none;line-height:1.5;animation:fadeIn .3s}
+.quiz-feedback.show{display:block}
+.quiz-feedback.ok{background:#133a2e;color:#a6f0d4;border:1px solid #2a6b52}
+.quiz-feedback.ko{background:#3a1520;color:#ffb3ba;border:1px solid #7a2a36}
+.quiz-feedback.info{background:#1e2c48;color:#c8d5f0;border:1px solid #3a4d72}
+
+.fill-input{background:#121f36;border:1px solid #2a3a5a;border-radius:6px;color:#ffe9a8;padding:3px 9px;font-weight:650;min-width:100px;max-width:180px;text-align:center;outline:none;transition:.2s;font-size:14.5px}
+.fill-input:focus{border-color:var(--accent);box-shadow:0 0 0 2px #7c9cff33}
+.fill-input.correct{border-color:var(--green);background:#133a2e;color:#a6f0d4;animation:pulseOk .4s}
+.fill-input.wrong{border-color:var(--red);background:#3a1520;color:#ffb3ba;animation:shake .4s}
+
+.fill-blank-wrap{position:relative;display:inline-block;margin:0 2px}
+.fill-blank-wrap .fill-hint{
+  position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%) translateY(4px);
+  background:#1e2c48;color:#dce7ff;border:1px solid var(--accent);border-radius:8px;
+  padding:7px 11px;font-size:12.5px;font-weight:600;line-height:1.3;
+  box-shadow:0 6px 18px rgba(0,0,0,.35);opacity:0;pointer-events:none;transition:.25s;z-index:5;
+  max-width:260px;text-align:center;
+}
+.fill-blank-wrap .fill-hint::after{
+  content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%);
+  border:6px solid transparent;border-top-color:var(--accent);
+}
+.fill-blank-wrap.show-hint .fill-hint{opacity:1;transform:translateX(-50%) translateY(0)}
+
+.synonym-panel{
+  margin-top:14px;padding:14px 16px;background:linear-gradient(145deg,#221a3d,#1a1430);
+  border:1px solid #6a4dbb;border-radius:12px;
+  animation:slideDown .25s cubic-bezier(.2,.9,.3,1.2);
+  display:none;
+}
+.synonym-panel.show{display:block}
+@keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.synonym-panel .syn-title{font-size:12.5px;font-weight:700;color:#c4b3ff;margin-bottom:12px;display:flex;align-items:center;gap:6px;text-transform:uppercase;letter-spacing:.5px}
+.synonym-panel .syn-group{margin-bottom:12px}
+.synonym-panel .syn-group:last-child{margin-bottom:0}
+.synonym-panel .syn-group-label{font-size:11.5px;color:#9a8dd4;margin-bottom:7px;font-weight:600}
+.synonym-panel .syn-chips{display:flex;flex-wrap:wrap;gap:8px}
+
+.synonym-chip{
+  background:#3a2f6a;border:1px solid #7a5fd0;color:#e0d5ff;
+  padding:7px 13px;border-radius:20px;font-size:13px;font-weight:600;
+  transition:.2s;cursor:pointer;user-select:none;
+}
+.synonym-chip:hover{background:#5a45a0;border-color:#a88aff;color:white;transform:translateY(-2px);box-shadow:0 3px 8px rgba(124,156,255,.3)}
+.synonym-chip:active{transform:translateY(0) scale(.95)}
+
+.btn-aide{background:#2a2350;border:1px solid #6a5acd;color:#d6ccff;font-weight:700;font-size:13px;padding:8px 14px;border-radius:9px;transition:.2s}
+.btn-aide:hover{background:#3a2f6a;border-color:#8d79f5;transform:translateY(-1px)}
+.btn-aide.active{background:#6a5acd;color:white;border-color:#8d79f5;box-shadow:0 4px 12px #6a5acd44}
+
+.btn-super-aide{background:#3a2560;border:1px solid #b57aff;color:#f0e5ff;font-weight:700;font-size:13px;padding:8px 14px;border-radius:9px;transition:.2s}
+.btn-super-aide:hover{background:#4d3080;border-color:#c99bff;transform:translateY(-1px)}
+.btn-super-aide.active{background:#a86aff;color:white;border-color:#c99bff;box-shadow:0 4px 12px #a86aff44}
+
+.quiz-nav{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:auto;padding-top:18px;flex-wrap:wrap}
+.quiz-nav .btn{font-size:13.5px;padding:9px 16px}
+.quiz-nav .btn:disabled{opacity:.4;cursor:not-allowed;filter:none;transform:none}
+.quiz-nav .nav-right{display:flex;gap:8px;flex-wrap:wrap}
+
+.quiz-score{background:linear-gradient(135deg,#1a2945,#15223a);border:1px solid var(--accent);border-radius:12px;padding:16px 20px;margin-top:16px;display:none;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.quiz-score.show{display:flex;animation:fadeSlide .4s}
+.quiz-score .score-label{color:var(--muted);font-size:13px}
+.quiz-score .score-value{font-size:24px;font-weight:800;color:var(--accent)}
+.quiz-score .score-detail{font-size:13px;color:var(--muted)}
+
+.score-celebration{animation:scorePop .6s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes scorePop{0%{transform:scale(.8);opacity:0}60%{transform:scale(1.05)}100%{transform:scale(1);opacity:1}}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#1a2945;color:var(--text);border:1px solid var(--accent);padding:12px 22px;border-radius:12px;font-weight:600;font-size:14px;box-shadow:0 8px 30px rgba(0,0,0,.4);opacity:0;transition:.35s cubic-bezier(.2,.9,.3,1.2);z-index:100;pointer-events:none;display:flex;align-items:center;gap:8px}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+.confetti{position:fixed;width:10px;height:10px;top:-10px;z-index:99;pointer-events:none;border-radius:2px;animation:confettiFall linear forwards}
+@keyframes confettiFall{to{transform:translateY(105vh) rotate(720deg);opacity:0}}
+
 @media(max-width:760px){.app{grid-template-columns:1fr}aside{padding:13px 16px;border-right:0;border-bottom:1px solid var(--line)}.brand{padding:0}.nav{display:flex;overflow:auto;gap:5px}.navlabel,.side-note{display:none}.nav button{white-space:nowrap;width:auto}.stats{gap:8px}.stat{padding:12px}.stat strong{font-size:21px}main{padding-top:24px}}
-@media print{body{background:white;color:#111}.app{display:block}aside,.actions,.back,.toolbar,.footer,.btn{display:none!important}main{padding:0}.panel,.day-card{background:white;color:#111;border:0}.lesson-content p,.lesson-content li{color:#222}.lesson-content h3{color:#222}}
+@media print{body{background:white;color:#111}.app{display:block}aside,.actions,.back,.toolbar,.footer,.btn,.quiz-controls,.card-quiz,.quiz-nav,.btn-aide,.btn-super-aide,.synonym-panel,.toast{display:none!important}main{padding:0}.panel,.day-card,.quiz-step{background:white;color:#111;border:0}.lesson-content p,.lesson-content li{color:#222}.lesson-content h3{color:#222}}
 </style>
 </head>
 <body>
@@ -57,6 +169,7 @@ main{padding:34px clamp(18px,4vw,54px);max-width:1400px;width:100%;margin:auto}
     <div class="grid" id="dayGrid"></div>
     <p class="notice">Les jours 2 à 10 sont des emplacements vides. Tu peux les remplir quand tu recevras tes prochains cours, ou ajouter d'autres journées.</p>
   </section>
+
   <section id="lessonView" class="hidden">
     <button class="back" onclick="showHome()">← Retour aux fiches</button>
     <div class="panel">
@@ -64,6 +177,30 @@ main{padding:34px clamp(18px,4vw,54px);max-width:1400px;width:100%;margin:auto}
       <div class="lesson-content" id="lessonContent"></div>
     </div>
   </section>
+
+  <section id="quizOnlyView" class="hidden">
+    <button class="back" onclick="showHome()">← Retour aux fiches</button>
+    <div class="panel">
+      <div class="quiz-only-head">
+        <div><div class="eyebrow" id="quizOnlyEyebrow">ENTRAÎNEMENT</div><h2 id="quizOnlyTitle">Quiz</h2></div>
+        <div class="actions">
+          <button class="btn" onclick="restartCurrentQuiz()">↺ Réinitialiser</button>
+        </div>
+      </div>
+      <div class="quiz-tabs">
+        <button class="quiz-tab active" id="tabQcm" onclick="switchQuizTab('qcm')">📝 QCM</button>
+        <button class="quiz-tab" id="tabFill" onclick="switchQuizTab('fill')">✏️ Texte à trou</button>
+      </div>
+
+      <div class="quiz-progress" id="quizProgress">
+        <span class="counter" id="progressCounter">Question 1 / 1</span>
+        <div class="bar"><div class="bar-inner" id="progressBar"></div></div>
+      </div>
+
+      <div id="quizStepContainer"></div>
+    </div>
+  </section>
+
   <section id="editorView" class="hidden">
     <button class="back" onclick="showHome()">← Retour aux fiches</button>
     <div class="panel">
@@ -82,7 +219,186 @@ main{padding:34px clamp(18px,4vw,54px);max-width:1400px;width:100%;margin:auto}
   <div class="footer">Carnet personnel • Enregistrement local dans ton navigateur</div>
 </main>
 </div>
+
+<div class="toast" id="toast"><span id="toastIcon">✓</span><span id="toastMsg"></span></div>
+
 <script>
+/* ============================================================
+   MOTEUR AUDIO ULTRA-DOUX
+   ============================================================ */
+const AudioCtx = window.AudioContext || window.webkitAudioContext;
+let audioCtx = null;
+let masterGain = null;
+let reverbNode = null;
+
+function getAudioCtx() {
+  if (!audioCtx) {
+    audioCtx = new AudioCtx();
+    masterGain = audioCtx.createGain();
+    masterGain.gain.value = 0.85;
+
+    reverbNode = audioCtx.createConvolver();
+    const len = audioCtx.sampleRate * 2.2;
+    const buf = audioCtx.createBuffer(2, len, audioCtx.sampleRate);
+    for (let ch = 0; ch < 2; ch++) {
+      const d = buf.getChannelData(ch);
+      for (let i = 0; i < len; i++) {
+        d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 3);
+      }
+    }
+    reverbNode.buffer = buf;
+    const reverbGain = audioCtx.createGain();
+    reverbGain.gain.value = 0.35;
+    reverbNode.connect(reverbGain);
+    reverbGain.connect(masterGain);
+
+    masterGain.connect(audioCtx.destination);
+  }
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  return audioCtx;
+}
+
+function playSoftNote({ freq, type = 'sine', duration = 0.4, volume = 0.06, delay = 0, attack = 0.08, release = 0.5, filterFreq = 1400, detune = 0, reverb = true }) {
+  const ctx = getAudioCtx();
+  const t0 = ctx.currentTime + delay;
+  const osc = ctx.createOscillator();
+  osc.type = type;
+  osc.frequency.setValueAtTime(freq, t0);
+  osc.detune.setValueAtTime(detune, t0);
+  const filter = ctx.createBiquadFilter();
+  filter.type = 'lowpass';
+  filter.frequency.setValueAtTime(filterFreq, t0);
+  filter.Q.value = 0.4;
+  const gain = ctx.createGain();
+  gain.gain.setValueAtTime(0, t0);
+  gain.gain.linearRampToValueAtTime(volume, t0 + attack);
+  gain.gain.linearRampToValueAtTime(volume * 0.7, t0 + attack + duration * 0.6);
+  gain.gain.exponentialRampToValueAtTime(0.0001, t0 + attack + duration + release);
+  osc.connect(filter); filter.connect(gain); gain.connect(masterGain);
+  if (reverb) gain.connect(reverbNode);
+  osc.start(t0); osc.stop(t0 + attack + duration + release + 0.05);
+}
+
+function playSoftNoise({ duration = 0.35, volume = 0.04, delay = 0, fromFreq = 1200, toFreq = 400, q = 0.8 }) {
+  const ctx = getAudioCtx();
+  const t0 = ctx.currentTime + delay;
+  const bufferSize = ctx.sampleRate * duration;
+  const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+  const data = buffer.getChannelData(0);
+  for (let i = 0; i < bufferSize; i++) {
+    data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / bufferSize, 1.8);
+  }
+  const src = ctx.createBufferSource();
+  src.buffer = buffer;
+  const filter = ctx.createBiquadFilter();
+  filter.type = 'lowpass';
+  filter.frequency.setValueAtTime(fromFreq, t0);
+  filter.frequency.exponentialRampToValueAtTime(Math.max(60, toFreq), t0 + duration);
+  filter.Q.value = q;
+  const g = ctx.createGain();
+  g.gain.setValueAtTime(0, t0);
+  g.gain.linearRampToValueAtTime(volume, t0 + 0.06);
+  g.gain.linearRampToValueAtTime(volume * 0.6, t0 + duration * 0.5);
+  g.gain.exponentialRampToValueAtTime(0.0001, t0 + duration);
+  src.connect(filter); filter.connect(g); g.connect(masterGain);
+  if (reverbNode) g.connect(reverbNode);
+  src.start(t0); src.stop(t0 + duration + 0.05);
+}
+
+function soundClick() {
+  playSoftNote({ freq: 660, type: 'sine', duration: 0.12, volume: 0.04, attack: 0.03, release: 0.3, filterFreq: 1600 });
+  playSoftNote({ freq: 990, type: 'sine', duration: 0.1, volume: 0.02, delay: 0.02, attack: 0.04, release: 0.35, filterFreq: 2200 });
+}
+function soundSwipe() {
+  playSoftNoise({ duration: 0.32, volume: 0.035, fromFreq: 1800, toFreq: 350, q: 1.2 });
+  playSoftNote({ freq: 440, type: 'sine', duration: 0.2, volume: 0.025, attack: 0.06, release: 0.4, filterFreq: 900 });
+}
+function soundSuccess() {
+  playSoftNote({ freq: 261.63, type: 'sine', duration: 0.6, volume: 0.03, attack: 0.1, release: 0.8, filterFreq: 1000 });
+  playSoftNote({ freq: 329.63, type: 'sine', duration: 0.6, volume: 0.025, delay: 0.03, attack: 0.1, release: 0.8, filterFreq: 1000 });
+  const notes = [523.25, 659.25, 783.99, 1046.5];
+  notes.forEach((f, i) => {
+    playSoftNote({ freq: f, type: 'triangle', duration: 0.22, volume: 0.05, delay: i * 0.09, attack: 0.02, release: 0.5, filterFreq: 2600, detune: i * 3 });
+  });
+  playSoftNote({ freq: 2093, type: 'sine', duration: 0.3, volume: 0.015, delay: 0.32, attack: 0.05, release: 0.6, filterFreq: 4500 });
+}
+function soundError() {
+  playSoftNote({ freq: 196, type: 'sine', duration: 0.25, volume: 0.05, attack: 0.03, release: 0.5, filterFreq: 700 });
+  playSoftNote({ freq: 146.83, type: 'sine', duration: 0.3, volume: 0.045, delay: 0.1, attack: 0.04, release: 0.6, filterFreq: 550 });
+  playSoftNoise({ duration: 0.35, volume: 0.018, fromFreq: 500, toFreq: 150, q: 0.6 });
+}
+function soundComplete() {
+  playSoftNote({ freq: 261.63, type: 'sine', duration: 1.2, volume: 0.03, attack: 0.15, release: 1.4, filterFreq: 1100 });
+  playSoftNote({ freq: 329.63, type: 'sine', duration: 1.2, volume: 0.025, delay: 0.06, attack: 0.15, release: 1.4, filterFreq: 1100 });
+  playSoftNote({ freq: 392.00, type: 'sine', duration: 1.2, volume: 0.02, delay: 0.12, attack: 0.15, release: 1.4, filterFreq: 1100 });
+  const melody = [523.25, 659.25, 783.99, 1046.5, 1318.5];
+  melody.forEach((f, i) => {
+    playSoftNote({ freq: f, type: 'triangle', duration: 0.28, volume: 0.05, delay: 0.1 + i * 0.13, attack: 0.02, release: 0.6, filterFreq: 2800, detune: i * 2 });
+  });
+  playSoftNote({ freq: 2637, type: 'sine', duration: 0.5, volume: 0.015, delay: 0.75, attack: 0.08, release: 1.0, filterFreq: 5000 });
+}
+function soundPop() {
+  const ctx = getAudioCtx();
+  const t0 = ctx.currentTime;
+  const osc = ctx.createOscillator();
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(420, t0);
+  osc.frequency.exponentialRampToValueAtTime(880, t0 + 0.08);
+  const filter = ctx.createBiquadFilter();
+  filter.type = 'lowpass';
+  filter.frequency.value = 1600;
+  const g = ctx.createGain();
+  g.gain.setValueAtTime(0, t0);
+  g.gain.linearRampToValueAtTime(0.05, t0 + 0.02);
+  g.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.15);
+  osc.connect(filter); filter.connect(g); g.connect(masterGain);
+  if (reverbNode) g.connect(reverbNode);
+  osc.start(t0); osc.stop(t0 + 0.18);
+}
+function soundToggle() {
+  playSoftNote({ freq: 880, type: 'sine', duration: 0.1, volume: 0.035, attack: 0.02, release: 0.3, filterFreq: 1800 });
+  playSoftNote({ freq: 1320, type: 'sine', duration: 0.1, volume: 0.018, delay: 0.03, attack: 0.03, release: 0.3, filterFreq: 2400 });
+}
+
+function vibrate(pattern) {
+  if (navigator.vibrate) { try { navigator.vibrate(pattern); } catch(e) {} }
+}
+function vibClick() { vibrate(6); }
+function vibSuccess() { vibrate([12, 40, 15]); }
+function vibError() { vibrate([25, 25, 25]); }
+function vibComplete() { vibrate([20, 30, 20, 30, 60]); }
+function vibToggle() { vibrate(8); }
+
+let toastTimer = null;
+function showToast(msg, icon = '✓') {
+  const toast = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  document.getElementById('toastIcon').textContent = icon;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2600);
+}
+
+function launchConfetti(count = 40) {
+  const colors = ['#7c9cff', '#9b83ff', '#55d6a0', '#ffbd69', '#ff7b86', '#a86aff'];
+  for (let i = 0; i < count; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti';
+    el.style.left = Math.random() * 100 + '%';
+    el.style.background = colors[Math.floor(Math.random() * colors.length)];
+    el.style.width = (6 + Math.random() * 8) + 'px';
+    el.style.height = (6 + Math.random() * 8) + 'px';
+    el.style.animationDuration = (1.8 + Math.random() * 1.5) + 's';
+    el.style.animationDelay = (Math.random() * 0.4) + 's';
+    el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 3500);
+  }
+}
+
+/* ============================================================
+   DATA
+   ============================================================ */
 const starter = {
  day:1, title:"Introduction générale au droit", category:"Introduction au droit",
  summary:"Définition du droit, caractéristiques, branches du droit et institutions belges.",
@@ -194,64 +510,537 @@ Le non-respect des règles applicables aux activités de sécurité peut entraî
 - Les activités de sécurité privée sont réglementées et ne se confondent pas avec les missions de police.
 - Les sanctions administratives et pénales sont différentes et doivent avoir une base légale.`
 };
+
+const quizBank = {
+  1: {
+    qcm: [
+      { q: "Quel est l'objectif principal du droit selon le cours ?", options: ["Organiser la vie en société et régir les relations entre individus", "Protéger uniquement les plus forts", "Créer des taxes pour l'État", "Limiter la liberté des citoyens"], correct: 0 },
+      { q: "Le droit positif est…", options: ["Le droit idéal et parfait", "Le droit en vigueur dans une société à un moment donné", "Le droit qui n'existe plus", "Le droit uniquement écrit"], correct: 1 },
+      { q: "Parmi ces propositions, laquelle n'est PAS une caractéristique du droit vue au cours ?", options: ["Le droit est invasif", "Le droit est variable dans l'espace", "Le droit est immuable et ne change jamais", "Le droit est évolutif dans le temps"], correct: 2 },
+      { q: "Qui vote les lois en Belgique ?", options: ["Le Roi seul", "Le pouvoir législatif (les représentants élus à la Chambre)", "Les juges", "Les entreprises privées"], correct: 1 },
+      { q: "Quelle branche du droit concerne les relations entre États et organisations internationales ?", options: ["Droit international privé", "Droit interne public", "Droit international public", "Droit civil"], correct: 2 },
+      { q: "Le droit international privé traite…", options: ["Des traités entre États", "Des situations privées comportant un élément d'extranéité", "De l'organisation de l'OTAN", "Des infractions pénales"], correct: 1 },
+      { q: "Le droit social fait partie…", options: ["Du droit interne privé", "Du droit interne public", "Du droit international public", "Du droit constitutionnel"], correct: 0 },
+      { q: "Quel droit définit les infractions et les peines ?", options: ["Le droit civil", "Le droit fiscal", "Le droit pénal", "Le droit administratif"], correct: 2 },
+      { q: "La Constitution belge…", options: ["Est une simple loi ordinaire", "Fixe les règles fondamentales de l'État et garantit les droits fondamentaux", "Ne concerne que le Roi", "Est rédigée par les juges"], correct: 1 },
+      { q: "La Belgique est une…", options: ["République présidentielle", "Monarchie absolue", "Monarchie constitutionnelle", "Dictature militaire"], correct: 2 },
+      { q: "Les actes officiels du Roi requièrent en principe…", options: ["L'accord de l'OTAN", "Le contreseing ministériel", "Un vote populaire", "L'avis des entreprises"], correct: 1 },
+      { q: "Le droit public régit principalement…", options: ["Les relations entre personnes privées", "L'organisation de l'État et l'exercice de la puissance publique", "Les contrats entre entreprises", "Les divorces"], correct: 1 },
+      { q: "Le droit privé régit principalement…", options: ["Les relations entre personnes privées", "L'organisation des pouvoirs publics", "Les infractions pénales", "Les impôts"], correct: 0 },
+      { q: "Quelle expression rappelle que chacun doit respecter les règles applicables ?", options: ["« La loi du plus fort »", "« Nul n'est censé ignorer la loi »", "« L'argent ne fait pas le bonheur »", "« Qui ne dit mot consent »"], correct: 1 },
+      { q: "Le pouvoir réglementaire du gouvernement doit…", options: ["Être totalement libre", "Reposer sur une base juridique et respecter les compétences attribuées", "Être exercé par les juges", "Ne jamais exister"], correct: 1 },
+      { q: "La police administrative vise principalement à…", options: ["Punir les criminels", "Prévenir les troubles à l'ordre public", "Gérer les entreprises privées", "Voter les lois"], correct: 1 },
+      { q: "Les entreprises de sécurité privée…", options: ["Remplacent la police", "Ne sont soumises à aucune règle", "Exercent des activités encadrées et ne remplacent pas la police", "Sont des services publics"], correct: 2 },
+      { q: "Les sanctions administratives sont prononcées par…", options: ["Une juridiction pénale", "L'autorité administrative compétente", "Le Roi seul", "Les entreprises privées"], correct: 1 },
+      { q: "Les sanctions pénales peuvent inclure…", options: ["Uniquement des amendes administratives", "Une amende ou, si la loi le prévoit, une peine d'emprisonnement", "Un retrait d'autorisation", "Une suspension d'activité"], correct: 1 },
+      { q: "La distinction droit public / droit privé est…", options: ["Toujours absolue", "Parfois nuancée : une même situation peut faire intervenir les deux", "Inutile", "Réservée aux juges"], correct: 1 }
+    ],
+    fill: [
+      { text: "Le droit se définit comme l'ensemble des règles établies pour permettre la vie en {0} et régir les relations entre les individus.",
+        answers: [["société", "societe"]],
+        hints: ["Commence par « s », 7 lettres"],
+        synonyms: [["communauté", "collectivité", "vie commune"]] },
+      { text: "Le droit {0} est le droit en vigueur dans une société et à un moment donné.",
+        answers: [["positif"]],
+        hints: ["Contraire de « négatif »"],
+        synonyms: [["existant", "actuel", "en vigueur"]] },
+      { text: "Les lois sont votées par le pouvoir {0}, notamment les représentants élus à la Chambre.",
+        answers: [["législatif", "legislatif"]],
+        hints: ["Pouvoir qui fait les lois"],
+        synonyms: [["parlementaire", "qui vote les lois", "de la Chambre"]] },
+      { text: "L'expression « Nul n'est censé {0} la loi » rappelle que chacun est tenu de respecter les règles applicables.",
+        answers: [["ignorer"]],
+        hints: ["Synonyme de « ne pas savoir »"],
+        synonyms: [["ne pas connaître", "méconnaître", "ne pas être au courant"]] },
+      { text: "Le droit international {0} concerne les relations entre États et les organisations internationales.",
+        answers: [["public"]],
+        hints: ["Opposé à « privé »"],
+        synonyms: [["collectif", "entre États", "étatique"]] },
+      { text: "Le droit international {0} traite des situations privées comportant un élément d'extranéité.",
+        answers: [["privé", "prive"]],
+        hints: ["Opposé à « public »"],
+        synonyms: [["particulier", "personnel", "des particuliers"]] },
+      { text: "Le droit {0} définit les infractions et les peines.",
+        answers: [["pénal", "penal"]],
+        hints: ["Relatif aux crimes et délits"],
+        synonyms: [["criminel", "répressif", "des infractions"]] },
+      { text: "Le droit {0} concerne les impôts et les taxes.",
+        answers: [["fiscal"]],
+        hints: ["Relatif aux impôts"],
+        synonyms: [["des impôts", "tributaire", "des taxes"]] },
+      { text: "La {0} fixe les règles fondamentales de l'État belge et garantit des droits et libertés fondamentaux.",
+        answers: [["Constitution", "constitution"]],
+        hints: ["Texte fondamental de l'État"],
+        synonyms: [["loi fondamentale", "charte fondamentale", "texte constitutionnel"]] },
+      { text: "La Belgique est une monarchie {0} : les pouvoirs du Roi sont encadrés par la Constitution.",
+        answers: [["constitutionnelle"]],
+        hints: ["Adjectif dérivé de « constitution »"],
+        synonyms: [["encadrée par la Constitution", "parlementaire", "limitée"]] },
+      { text: "Les actes officiels du Roi requièrent en principe le {0} ministériel.",
+        answers: [["contreseing", "contre-seing"]],
+        hints: ["Signature d'un ministre"],
+        synonyms: [["aval", "approbation", "signature du ministre"]] },
+      { text: "Le droit public régit l'organisation de l'État et les relations entre les autorités publiques et les {0}.",
+        answers: [["citoyens"]],
+        hints: ["Habitants d'un pays"],
+        synonyms: [["habitants", "résidents", "administrés"]] },
+      { text: "Le droit privé régit principalement les relations entre personnes privées, placées en principe sur un pied d'{0} juridique.",
+        answers: [["égalité", "egalite"]],
+        hints: ["Absence de hiérarchie"],
+        synonyms: [["parité", "équilibre", "équité"]] },
+      { text: "Le gouvernement et les ministres ne peuvent pas adopter librement n'importe quelle règle : leur pouvoir réglementaire doit reposer sur une {0} juridique.",
+        answers: [["base"]],
+        hints: ["Fondement, socle"],
+        synonyms: [["fondement", "socle", "assise"]] },
+      { text: "La police administrative vise à prévenir les troubles à l'{0} public.",
+        answers: [["ordre"]],
+        hints: ["Contraire du désordre"],
+        synonyms: [["tranquillité", "calme", "paix"]] },
+      { text: "Les entreprises privées de sécurité ne {0} pas la police.",
+        answers: [["remplacent"]],
+        hints: ["Prendre la place de"],
+        synonyms: [["substituent", "suppléent", "se substituent à"]] },
+      { text: "Pour certaines professions sensibles, des conditions d'{0} peuvent être imposées par la loi.",
+        answers: [["honorabilité", "honorabilite"]],
+        hints: ["Qualité d'une personne honorable"],
+        synonyms: [["intégrité", "bonne moralité", "probité"]] },
+      { text: "Les sanctions {0} sont prononcées par l'autorité administrative compétente.",
+        answers: [["administratives"]],
+        hints: ["Relatives à l'administration"],
+        synonyms: [["de l'administration", "réglementaires", "de l'État"]] },
+      { text: "Lorsqu'une infraction est prévue par la loi, une juridiction {0} peut prononcer une peine.",
+        answers: [["pénale", "penale"]],
+        hints: ["Relatif aux peines"],
+        synonyms: [["criminelle", "répressive", "de jugement"]] },
+      { text: "La précision d'une règle peut limiter les {0} possibles, sans supprimer tout travail d'interprétation.",
+        answers: [["interprétations", "interpretations"]],
+        hints: ["Pluriel de « interprétation »"],
+        synonyms: [["lectures", "explications", "compréhensions"]] }
+    ]
+  }
+};
+
 let lessons = [];
 let currentDay = null;
 let editingDay = null;
 const STORAGE = "carnetDroit_v1";
+
+/* État du quiz : une seule fiche à la fois */
+let quizState = {
+  day: 1,
+  tab: 'qcm',
+  questions: [],           // questions actives (qcm ou fill)
+  answers: {},             // réponses QCM par id
+  fillAnswers: {},         // réponses texte par id_blank
+  score: 0,
+  index: 0,
+  finished: false,
+  showHints: false,
+  showSynonyms: false
+};
+
 function load(){
   try{const saved=JSON.parse(localStorage.getItem(STORAGE));if(Array.isArray(saved)&&saved.length){lessons=saved;}else{lessons=[starter];}}
   catch(e){lessons=[starter];}
-  // Prépare automatiquement les dix premiers emplacements, sans écraser les fiches existantes.
   for(let d=1;d<=10;d++) if(!lessons.some(x=>Number(x.day)===d)) lessons.push({day:d,title:"À compléter",category:"À venir",summary:"Emplacement réservé pour ton prochain cours.",body:""});
   lessons.sort((a,b)=>a.day-b.day); persist();
 }
 function persist(){localStorage.setItem(STORAGE,JSON.stringify(lessons));}
 function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+
 function renderGrid(){
  const q=(document.getElementById("search").value||"").toLowerCase();
  const grid=document.getElementById("dayGrid");grid.innerHTML="";
  const filtered=lessons.filter(x=>(x.title+" "+x.category+" "+x.summary+" "+x.day).toLowerCase().includes(q));
- filtered.forEach(x=>{
+ filtered.forEach((x, idx)=>{
   const done=!!(x.body&&x.body.trim());
+  const hasQuiz = !!quizBank[Number(x.day)];
   const card=document.createElement("article");card.className="day-card";
-  card.innerHTML=`<div class="topline"><span class="daynum">JOUR ${x.day}</span><span class="status ${done?"":"empty"}">${done?"● FICHE prête":"○ À compléter"}</span></div><h3>${esc(x.title||"Sans titre")}</h3><p>${esc(x.summary||"Aucun résumé pour le moment.")}</p><div class="card-bottom"><span class="tag">${esc(x.category||"Cours")}</span><button class="open" onclick="openLesson(${Number(x.day)})">${done?"Ouvrir":"Remplir"} →</button></div>`;
+  card.style.animationDelay = (idx * 0.04) + 's';
+  card.style.animation = 'fadeSlide .4s ease-out both';
+  let html = `<div class="topline"><span class="daynum">JOUR ${x.day}</span><span class="status ${done?"":"empty"}">${done?"● FICHE prête":"○ À compléter"}</span></div><h3>${esc(x.title||"Sans titre")}</h3><p>${esc(x.summary||"Aucun résumé pour le moment.")}</p><div class="card-bottom"><span class="tag">${esc(x.category||"Cours")}</span><button class="open" onclick="openLesson(${Number(x.day)})">${done?"Ouvrir":"Remplir"} →</button></div>`;
+  if (hasQuiz) {
+    html += `<div class="card-quiz"><button onclick="event.stopPropagation();openQuiz(${Number(x.day)},'qcm')">📝 QCM</button><button onclick="event.stopPropagation();openQuiz(${Number(x.day)},'fill')">✏️ Texte à trou</button></div>`;
+  }
+  card.innerHTML = html;
   grid.appendChild(card);
  });
- const add=document.createElement("button");add.className="day-card empty-card";add.innerHTML='<span class="plus">＋</span><strong>Nouvelle fiche</strong><span>Ajouter un autre jour</span>';add.onclick=newLesson;grid.appendChild(add);
+ const add=document.createElement("button");add.className="day-card empty-card";add.innerHTML='<span class="plus">＋</span><strong>Nouvelle fiche</strong><span>Ajouter un autre jour</span>';add.onclick=()=>{soundClick();vibClick();newLesson();};grid.appendChild(add);
  const done=lessons.filter(x=>x.body&&x.body.trim()).length;
  document.getElementById("statDone").textContent=done;
  document.getElementById("statTotal").textContent=lessons.length;
  document.getElementById("statProgress").textContent=Math.round(done/lessons.length*100)+" %";
 }
-function showHome(){document.getElementById("homeView").classList.remove("hidden");document.getElementById("lessonView").classList.add("hidden");document.getElementById("editorView").classList.add("hidden");document.getElementById("navHome").classList.add("active");renderGrid();}
+
+function showHome(){
+  soundSwipe(); vibClick();
+  document.getElementById("homeView").classList.remove("hidden");
+  document.getElementById("lessonView").classList.add("hidden");
+  document.getElementById("quizOnlyView").classList.add("hidden");
+  document.getElementById("editorView").classList.add("hidden");
+  document.getElementById("navHome").classList.add("active");
+  renderGrid();
+}
+
 function openLesson(day){
  const x=lessons.find(a=>Number(a.day)===Number(day));if(!x)return;
- if(!x.body){editLesson(day);return;}
- currentDay=day;document.getElementById("homeView").classList.add("hidden");document.getElementById("editorView").classList.add("hidden");document.getElementById("lessonView").classList.remove("hidden");
- document.getElementById("lessonEyebrow").textContent="JOUR "+x.day;document.getElementById("lessonTitle").textContent=x.title;document.getElementById("lessonMeta").textContent=x.category;
- const toggle=document.getElementById("summaryToggle");toggle.textContent="Résumé : désactivé";toggle.setAttribute("aria-pressed","false");
+ if(!x.body){soundClick();vibClick();editLesson(day);return;}
+ soundClick(); vibClick();
+ currentDay=day;
+ document.getElementById("homeView").classList.add("hidden");
+ document.getElementById("editorView").classList.add("hidden");
+ document.getElementById("quizOnlyView").classList.add("hidden");
+ document.getElementById("lessonView").classList.remove("hidden");
+ document.getElementById("lessonEyebrow").textContent="JOUR "+x.day;
+ document.getElementById("lessonTitle").textContent=x.title;
+ document.getElementById("lessonMeta").textContent=x.category;
+ const toggle=document.getElementById("summaryToggle");
+ toggle.textContent="Résumé : désactivé";
+ toggle.setAttribute("aria-pressed","false");
  document.getElementById("lessonContent").dataset.mode="full";
  document.getElementById("lessonContent").innerHTML=markdownLite(x.body);
+ document.getElementById("lessonContent").style.animation='none';
+ void document.getElementById("lessonContent").offsetWidth;
+ document.getElementById("lessonContent").style.animation='fadeIn .4s ease';
 }
+
+/* Ouvre le quiz pour une fiche unique */
+function openQuiz(day, tab){
+  const bank = quizBank[Number(day)];
+  if (!bank) { showToast("Pas de quiz pour ce jour.", "⚠️"); return; }
+  soundSwipe(); vibClick();
+  quizState.day = Number(day);
+  quizState.tab = (tab === 'fill') ? 'fill' : 'qcm';
+  quizState.answers = {};
+  quizState.fillAnswers = {};
+  quizState.score = 0;
+  quizState.index = 0;
+  quizState.finished = false;
+  quizState.showHints = false;
+  quizState.showSynonyms = false;
+
+  document.getElementById("homeView").classList.add("hidden");
+  document.getElementById("lessonView").classList.add("hidden");
+  document.getElementById("editorView").classList.add("hidden");
+  document.getElementById("quizOnlyView").classList.remove("hidden");
+
+  const lesson = lessons.find(l => Number(l.day) === Number(day));
+  const title = lesson && lesson.title ? lesson.title : "Jour " + day;
+  document.getElementById("quizOnlyEyebrow").textContent = "JOUR " + day + " — " + (quizState.tab === 'qcm' ? 'QCM' : 'TEXTE À TROU');
+  document.getElementById("quizOnlyTitle").textContent = "Quiz — " + title;
+
+  loadQuizQuestions();
+  setTabButtons();
+  renderQuizStep();
+}
+
+function loadQuizQuestions(){
+  const bank = quizBank[quizState.day];
+  if (!bank) { quizState.questions = []; return; }
+  if (quizState.tab === 'qcm') {
+    quizState.questions = bank.qcm.map((q, i) => ({...q, id: "qcm_" + quizState.day + "_" + i}));
+  } else {
+    quizState.questions = bank.fill.map((f, i) => ({...f, id: "fill_" + quizState.day + "_" + i}));
+  }
+}
+
+function setTabButtons(){
+  document.getElementById("tabQcm").classList.toggle("active", quizState.tab === 'qcm');
+  document.getElementById("tabFill").classList.toggle("active", quizState.tab === 'fill');
+}
+
+function switchQuizTab(tab){
+  soundToggle(); vibToggle();
+  quizState.tab = tab;
+  quizState.index = 0;
+  quizState.finished = false;
+  quizState.score = 0;
+  quizState.answers = {};
+  quizState.fillAnswers = {};
+  quizState.showHints = false;
+  quizState.showSynonyms = false;
+  setTabButtons();
+  // Mettre à jour l'eyebrow avec le nouveau type
+  document.getElementById("quizOnlyEyebrow").textContent = "JOUR " + quizState.day + " — " + (tab === 'qcm' ? 'QCM' : 'TEXTE À TROU');
+  loadQuizQuestions();
+  renderQuizStep();
+}
+
+function toggleHints(){
+  soundToggle(); vibToggle();
+  quizState.showHints = !quizState.showHints;
+  renderQuizStep();
+}
+function toggleSynonyms(){
+  soundToggle(); vibToggle();
+  quizState.showSynonyms = !quizState.showSynonyms;
+  renderQuizStep();
+}
+
+function applySynonym(itemId, blankIdx, value){
+  const input = document.querySelector(`.fill-input[data-fid="${itemId}"][data-bid="${blankIdx}"]`);
+  if (!input || input.disabled) return;
+  soundPop(); vibClick();
+  input.value = value;
+  quizState.fillAnswers[itemId + "_" + blankIdx] = value;
+  input.classList.remove("correct", "wrong");
+  input.style.transform = 'scale(1.08)';
+  setTimeout(() => input.style.transform = '', 150);
+}
+
+function renderQuizStep(){
+  const container = document.getElementById("quizStepContainer");
+  const progressWrap = document.getElementById("quizProgress");
+  const qs = quizState.questions;
+  const idx = quizState.index;
+
+  if (quizState.finished) {
+    progressWrap.style.display = "none";
+    const total = quizState.tab === 'qcm' ? qs.length : qs.reduce((acc, f) => acc + f.answers.length, 0);
+    const pct = total > 0 ? Math.round(quizState.score / total * 100) : 0;
+    if (pct >= 80) { launchConfetti(50); soundComplete(); vibComplete(); }
+    else if (pct >= 50) { soundSuccess(); vibSuccess(); }
+    else { soundError(); vibError(); }
+    container.innerHTML = `<div class="quiz-step score-celebration" style="text-align:center;align-items:center;justify-content:center;min-height:220px">
+      <div style="font-size:42px;margin-bottom:8px">${pct >= 80 ? '🎓' : pct >= 50 ? '👍' : '💪'}</div>
+      <h3 style="margin:0 0 6px;font-size:22px;color:var(--text)">Quiz terminé !</h3>
+      <p style="color:var(--muted);margin:0 0 14px">${quizState.tab === 'qcm' ? 'QCM' : 'Texte à trou'} · Jour ${quizState.day}</p>
+      <div style="font-size:32px;font-weight:800;color:var(--accent);margin-bottom:4px">${quizState.score} / ${total}</div>
+      <div style="color:var(--muted);font-size:14px">${pct}% de réussite</div>
+      <div class="quiz-nav" style="justify-content:center;margin-top:22px">
+        <button class="btn primary" onclick="restartCurrentQuiz()">↺ Recommencer</button>
+      </div>
+    </div>`;
+    return;
+  }
+
+  if (qs.length === 0) {
+    progressWrap.style.display = "none";
+    container.innerHTML = '<div class="quiz-step"><p style="color:var(--muted);margin:0">Aucune question disponible pour ce quiz.</p></div>';
+    return;
+  }
+
+  progressWrap.style.display = "flex";
+  const total = qs.length;
+  const item = qs[idx];
+  const isQcm = quizState.tab === 'qcm';
+
+  document.getElementById("progressCounter").textContent = "Question " + (idx + 1) + " / " + total;
+  document.getElementById("progressBar").style.width = ((idx + 1) / total * 100) + "%";
+
+  let bodyHtml = "";
+  let synonymPanelHtml = "";
+
+  if (isQcm) {
+    const answered = quizState.answers[item.id] !== undefined;
+    const chosen = quizState.answers[item.id];
+    bodyHtml = `<div class="question"><span class="qnum">Q${idx + 1}</span>${esc(item.q)}</div>
+      <div class="quiz-options">` +
+      item.options.map((opt, oi) => {
+        let cls = "quiz-option";
+        if (answered) {
+          cls += " disabled";
+          if (oi === item.correct) cls += " correct";
+          else if (oi === chosen) cls += " wrong";
+        }
+        return `<div class="${cls}" data-oi="${oi}"><span class="check">✓</span><span>${esc(opt)}</span></div>`;
+      }).join("") +
+      `</div>
+      <div class="quiz-feedback ${answered ? 'show ' + (chosen === item.correct ? 'ok' : 'ko') : ''}">${
+        answered
+          ? (chosen === item.correct ? "✓ Bonne réponse !" : "✗ Incorrect. La bonne réponse est : " + esc(item.options[item.correct]))
+          : ""
+      }</div>`;
+  } else {
+    const answered = quizState.fillAnswers[item.id + "_answered"] === true;
+    let textHtml = esc(item.text);
+    textHtml = textHtml.replace(/\{(\d+)\}/g, (match, num) => {
+      const n = Number(num);
+      const val = quizState.fillAnswers[item.id + "_" + num] || "";
+      let cls = "fill-input";
+      if (answered) {
+        const accepted = (item.answers[n] || []).map(a => a.toLowerCase());
+        const trimmed = (val || "").trim().toLowerCase();
+        cls += accepted.includes(trimmed) ? " correct" : " wrong";
+      }
+      let hint = "";
+      if (item.hints && item.hints[n]) hint = item.hints[n];
+      else {
+        const first = (item.answers[n] || [""])[0];
+        hint = "« " + first.charAt(0) + "… » · " + first.length + " lettres";
+      }
+      const showClass = (quizState.showHints && !answered) ? ' show-hint' : '';
+      return `<span class="fill-blank-wrap${showClass}">
+        <input class="${cls}" data-fid="${item.id}" data-bid="${num}" value="${esc(val)}" placeholder="…" autocomplete="off" ${answered?'disabled':''}>
+        <span class="fill-hint">💡 ${esc(hint)}</span>
+      </span>`;
+    });
+    let fbHtml = "";
+    if (answered) {
+      const allOk = item.answers.every((accepted, i) => {
+        const v = (quizState.fillAnswers[item.id + "_" + i] || "").trim().toLowerCase();
+        return accepted.map(a => a.toLowerCase()).includes(v);
+      });
+      fbHtml = `<div class="quiz-feedback show ${allOk?'ok':'ko'}">${allOk ? "✓ Tout est correct !" : "✗ Certaines réponses sont incorrectes. Réponse(s) attendue(s) : " + item.answers.map(a => a[0]).join(", ")}</div>`;
+    }
+    bodyHtml = `<div class="question"><span class="qnum">Q${idx + 1}</span>${textHtml}</div>${fbHtml}`;
+
+    if (quizState.showSynonyms && !answered) {
+      const nbBlanks = item.answers.length;
+      let groupsHtml = "";
+      let hasAny = false;
+      for (let b = 0; b < nbBlanks; b++) {
+        const syns = (item.synonyms && item.synonyms[b]) ? [...item.synonyms[b]] : [];
+        const goodAnswer = (item.answers[b] || [""])[0];
+        const items = [...syns, goodAnswer];
+        if (items.length === 0) continue;
+        hasAny = true;
+        shuffleArray(items);
+        const label = nbBlanks > 1 ? `Trou ${b + 1} — clique sur le bon mot` : `Clique sur le bon mot`;
+        const chipsHtml = items.map(it => `<button class="synonym-chip" onclick="applySynonym('${item.id}', ${b}, '${esc(it).replace(/'/g, "\\'")}')">${esc(it)}</button>`).join("");
+        groupsHtml += `<div class="syn-group">
+          <div class="syn-group-label">${label}</div>
+          <div class="syn-chips">${chipsHtml}</div>
+        </div>`;
+      }
+      if (!hasAny) groupsHtml = `<div style="font-size:13px;color:#a89ad8">Aucune aide disponible pour cette question.</div>`;
+      synonymPanelHtml = `<div class="synonym-panel show">
+        <div class="syn-title">⭐ Super aide — clique sur un mot pour remplir</div>
+        ${groupsHtml}
+      </div>`;
+    }
+  }
+
+  const isFirst = idx === 0;
+  const isLast = idx === total - 1;
+  const nextLabel = isLast ? "Voir le score →" : "Suivant →";
+  const qcmAnswered = isQcm && quizState.answers[item.id] !== undefined;
+  const fillAnswered = !isQcm && quizState.fillAnswers[item.id + "_answered"] === true;
+  const nextDisabled = isQcm ? !qcmAnswered : !fillAnswered;
+
+  let statusHint = "";
+  if (!isQcm && fillAnswered) {
+    statusHint = `<div class="quiz-feedback show info" style="margin-top:0">✓ Réponse validée. Clique sur <strong>Suivant →</strong> pour continuer.</div>`;
+  }
+
+  container.innerHTML = `<div class="quiz-step">
+    <span class="step-badge">${isQcm ? 'QCM' : 'TEXTE À TROU'} · ${idx + 1}/${total}</span>
+    ${bodyHtml}
+    ${synonymPanelHtml}
+    ${statusHint}
+    <div class="quiz-nav">
+      <button class="btn" onclick="quizPrev()" ${isFirst ? 'disabled' : ''}>← Précédent</button>
+      <div class="nav-right">
+        ${!isQcm ? `<button class="btn-aide${quizState.showHints ? ' active' : ''}" onclick="toggleHints()" title="Afficher/masquer les indices">💡 Aide</button>` : ''}
+        ${!isQcm ? `<button class="btn-super-aide${quizState.showSynonyms ? ' active' : ''}" onclick="toggleSynonyms()" title="Afficher les mots possibles">⭐ Super aide</button>` : ''}
+        ${!isQcm && !fillAnswered ? `<button class="btn primary" onclick="validateFill()">Valider</button>` : ''}
+        <button class="btn primary" onclick="quizNext()" ${nextDisabled ? 'disabled' : ''}>${nextLabel}</button>
+      </div>
+    </div>
+  </div>`;
+
+  if (isQcm && !qcmAnswered) {
+    container.querySelectorAll(".quiz-option").forEach(opt => {
+      opt.addEventListener("click", () => {
+        const oi = Number(opt.dataset.oi);
+        quizState.answers[item.id] = oi;
+        if (oi === item.correct) { quizState.score++; soundSuccess(); vibSuccess(); }
+        else { soundError(); vibError(); }
+        renderQuizStep();
+      });
+    });
+  } else if (!isQcm && !fillAnswered) {
+    container.querySelectorAll(".fill-input").forEach(input => {
+      input.addEventListener("input", () => {
+        quizState.fillAnswers[input.dataset.fid + "_" + input.dataset.bid] = input.value;
+        input.classList.remove("correct", "wrong");
+      });
+      input.addEventListener("keydown", (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); validateFill(); }
+      });
+    });
+  }
+}
+
+function validateFill(){
+  const item = quizState.questions[quizState.index];
+  if (!item) return;
+  if (quizState.fillAnswers[item.id + "_answered"] === true) return;
+  let allCorrect = true;
+  item.answers.forEach((accepted, i) => {
+    const v = (quizState.fillAnswers[item.id + "_" + i] || "").trim().toLowerCase();
+    if (accepted.map(a => a.toLowerCase()).includes(v)) quizState.score++;
+    else allCorrect = false;
+  });
+  quizState.fillAnswers[item.id + "_answered"] = true;
+  quizState.showSynonyms = false;
+  if (allCorrect) { soundSuccess(); vibSuccess(); }
+  else { soundError(); vibError(); }
+  renderQuizStep();
+}
+
+function quizNext(){
+  soundClick(); vibClick();
+  const qs = quizState.questions;
+  const item = qs[quizState.index];
+  if (!item) return;
+  const isQcm = quizState.tab === 'qcm';
+  const fillAnswered = !isQcm && quizState.fillAnswers[item.id + "_answered"] === true;
+  const qcmAnswered = isQcm && quizState.answers[item.id] !== undefined;
+  if (!isQcm && !fillAnswered) return;
+  if (isQcm && !qcmAnswered) return;
+
+  if (quizState.index < qs.length - 1) {
+    quizState.index++;
+    quizState.showSynonyms = false;
+    renderQuizStep();
+  } else {
+    quizState.finished = true;
+    renderQuizStep();
+  }
+}
+
+function quizPrev(){
+  soundClick(); vibClick();
+  if (quizState.index > 0) {
+    quizState.index--;
+    quizState.showSynonyms = false;
+    renderQuizStep();
+  }
+}
+
+function restartCurrentQuiz(){
+  soundClick(); vibClick();
+  quizState.answers = {};
+  quizState.fillAnswers = {};
+  quizState.score = 0;
+  quizState.index = 0;
+  quizState.finished = false;
+  quizState.showHints = false;
+  quizState.showSynonyms = false;
+  renderQuizStep();
+}
+
+function shuffleArray(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
 function toggleSummary(){
+  soundToggle(); vibToggle();
  const x=lessons.find(a=>Number(a.day)===Number(currentDay));if(!x)return;
  const content=document.getElementById("lessonContent");
  const toggle=document.getElementById("summaryToggle");
  const isSummary=content.dataset.mode==="summary";
- if(isSummary){
-   content.innerHTML=markdownLite(x.body);
-   content.dataset.mode="full";
-   toggle.textContent="Résumé : désactivé";
-   toggle.setAttribute("aria-pressed","false");
- }else{
-   content.innerHTML=markdownLite(makeShortSummary(x.body));
-   content.dataset.mode="summary";
-   toggle.textContent="Résumé : activé";
-   toggle.setAttribute("aria-pressed","true");
- }
+ if(isSummary){ content.innerHTML=markdownLite(x.body); content.dataset.mode="full"; toggle.textContent="Résumé : désactivé"; toggle.setAttribute("aria-pressed","false"); }
+ else{ content.innerHTML=markdownLite(makeShortSummary(x.body)); content.dataset.mode="summary"; toggle.textContent="Résumé : activé"; toggle.setAttribute("aria-pressed","true"); }
 }
+
 function makeShortSummary(body){
- // Résumé très condensé du cours du jour 1 ; pour les autres jours, extrait les idées structurantes.
  if(Number(currentDay)===1) return `# Jour 1 — L'essentiel
 - **Droit :** ensemble de règles qui organisent la vie en société et encadrent les relations entre personnes et avec l'État.
 - **Caractéristiques :** le droit est présent dans la vie quotidienne, complexe, variable selon les lieux et évolutif dans le temps.
@@ -266,6 +1055,7 @@ function makeShortSummary(body){
  const bullets=body.split(/\n/).filter(s=>/^[-*] /.test(s));
  return "# Résumé — "+(headings.slice(0,1)[0]||"Fiche de cours").replace(/^#+ /,"")+"\n"+headings.slice(1,7).map(s=>"- "+s.replace(/^#+ /,"")).join("\n")+"\n"+bullets.slice(0,6).join("\n");
 }
+
 function markdownLite(src){
  return src.split(/\n/).map(line=>{
   let t=esc(line).replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>");
@@ -277,11 +1067,16 @@ function markdownLite(src){
   return "<p>"+t+"</p>";
  }).join("").replace(/(?:<li>.*?<\/li>)+/gs,m=>"<ul>"+m+"</ul>");
 }
-function newLesson(){editLesson(null);}
-function editCurrent(){editLesson(currentDay);}
+
+function newLesson(){ soundClick(); vibClick(); editLesson(null); }
+function editCurrent(){ soundClick(); vibClick(); editLesson(currentDay); }
+
 function editLesson(day){
  editingDay=day;const x=day?lessons.find(a=>Number(a.day)===Number(day)):null;
- document.getElementById("homeView").classList.add("hidden");document.getElementById("lessonView").classList.add("hidden");document.getElementById("editorView").classList.remove("hidden");
+ document.getElementById("homeView").classList.add("hidden");
+ document.getElementById("lessonView").classList.add("hidden");
+ document.getElementById("quizOnlyView").classList.add("hidden");
+ document.getElementById("editorView").classList.remove("hidden");
  document.getElementById("editorHeading").textContent=x?"Modifier la fiche du jour "+x.day:"Ajouter une fiche";
  document.getElementById("editDay").value=x?x.day:(Math.max(0,...lessons.map(a=>Number(a.day)||0))+1);
  document.getElementById("editTitle").value=x&&x.title!=="À compléter"?x.title:"";
@@ -290,24 +1085,34 @@ function editLesson(day){
  document.getElementById("editBody").value=x?x.body:"";
  document.getElementById("deleteBtn").style.display=x&&x.day!==1?"inline-block":"none";
 }
+
 function saveLesson(){
- const day=Number(document.getElementById("editDay").value);if(!Number.isInteger(day)||day<1){alert("Indique un numéro de jour valide.");return;}
+ soundClick(); vibClick();
+ const day=Number(document.getElementById("editDay").value);if(!Number.isInteger(day)||day<1){showToast("Indique un numéro de jour valide.", "⚠️");return;}
  const data={day,title:document.getElementById("editTitle").value.trim()||"Jour "+day,category:document.getElementById("editCategory").value.trim()||"Cours",summary:document.getElementById("editSummary").value.trim(),body:document.getElementById("editBody").value.trim()};
  const existing=lessons.findIndex(x=>Number(x.day)===day);
  if(editingDay!==null&&Number(editingDay)!==day){const old=lessons.findIndex(x=>Number(x.day)===Number(editingDay));if(old>=0)lessons.splice(old,1);}
  if(existing>=0 && Number(editingDay)!==day){if(!confirm("Ce jour existe déjà. Remplacer sa fiche ?"))return;lessons[existing]=data;}
  else if(existing>=0)lessons[existing]=data;else lessons.push(data);
- lessons.sort((a,b)=>a.day-b.day);persist();showHome();
+ lessons.sort((a,b)=>a.day-b.day);persist();showToast("Fiche enregistrée !", "💾");showHome();
 }
+
 function deleteCurrent(){
  if(editingDay===null||Number(editingDay)===1)return;
  if(!confirm("Supprimer cette fiche ?"))return;
- lessons=lessons.filter(x=>Number(x.day)!==Number(editingDay));persist();showHome();
+ soundError(); vibError();
+ lessons=lessons.filter(x=>Number(x.day)!==Number(editingDay));persist();showToast("Fiche supprimée.", "🗑️");showHome();
 }
+
 function exportData(){
+ soundClick(); vibClick();
  const blob=new Blob([JSON.stringify(lessons,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="sauvegarde-carnet-droit.json";a.click();URL.revokeObjectURL(url);
+ showToast("Sauvegarde exportée !", "📥");
 }
-load();renderGrid();
+
+load();
+renderGrid();
+document.addEventListener('click', () => { getAudioCtx(); }, { once: true });
 </script>
 </body>
 </html>
