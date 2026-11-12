@@ -29,7 +29,7 @@ main{padding:34px clamp(18px,4vw,54px);max-width:1400px;width:100%;margin:auto}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 .hidden{display:none!important}.back{background:transparent;color:#a9bdff;padding:0;margin-bottom:17px;font-weight:700;transition:transform .2s}.back:hover{transform:translateX(-4px)}
 .lesson-head{display:flex;justify-content:space-between;gap:15px;align-items:flex-start;flex-wrap:wrap}.lesson-head h2{font-size:27px;margin:4px 0}.lesson-meta{color:var(--muted);font-size:13px}
-.lesson-content{animation:fadeIn .4s ease}.lesson-content h3{font-size:17px;margin:25px 0 9px;color:#b8c9ff}.lesson-content p{color:#d5def0}.lesson-content ul{padding-left:22px;color:#d5def0}.lesson-content li{margin:7px 0}.definition{background:#1a2945;border-left:3px solid var(--accent);padding:13px 15px;border-radius:0 10px 10px 0;margin:12px 0}
+.lesson-content{animation:fadeIn .4s ease}.lesson-content h3{font-size:17px;margin:25px 0 9px;color:#b8c9ff}.lesson-content h4{font-size:15px;margin:18px 0 7px;color:#c8d5f0}.lesson-content p{color:#d5def0}.lesson-content ul{padding-left:22px;color:#d5def0}.lesson-content li{margin:7px 0}.lesson-content blockquote{background:#1a2945;border-left:3px solid var(--accent);padding:13px 15px;border-radius:0 10px 10px 0;margin:12px 0;color:#d5def0}
 .editor{display:grid;gap:12px}.editor label{display:grid;gap:6px;color:#b8c8e4;font-size:13px}.editor input,.editor textarea{width:100%;background:#0d1629;color:var(--text);border:1px solid var(--line);border-radius:9px;padding:11px;outline:none;transition:border-color .25s,box-shadow .25s}.editor input:focus,.editor textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px #7c9cff22}.editor textarea{min-height:130px;resize:vertical}.editor textarea.large{min-height:260px}
 .notice{color:var(--muted);font-size:12px;margin-top:14px}.footer{color:#7182a2;font-size:12px;text-align:center;margin:35px 0 10px}
 
@@ -142,8 +142,45 @@ main{padding:34px clamp(18px,4vw,54px);max-width:1400px;width:100%;margin:auto}
 .confetti{position:fixed;width:10px;height:10px;top:-10px;z-index:99;pointer-events:none;border-radius:2px;animation:confettiFall linear forwards}
 @keyframes confettiFall{to{transform:translateY(105vh) rotate(720deg);opacity:0}}
 
-@media(max-width:760px){.app{grid-template-columns:1fr}aside{padding:13px 16px;border-right:0;border-bottom:1px solid var(--line)}.brand{padding:0}.nav{display:flex;overflow:auto;gap:5px}.navlabel,.side-note{display:none}.nav button{white-space:nowrap;width:auto}.stats{gap:8px}.stat{padding:12px}.stat strong{font-size:21px}main{padding-top:24px}}
-@media print{body{background:white;color:#111}.app{display:block}aside,.actions,.back,.toolbar,.footer,.btn,.quiz-controls,.card-quiz,.quiz-nav,.btn-aide,.btn-super-aide,.synonym-panel,.toast{display:none!important}main{padding:0}.panel,.day-card,.quiz-step{background:white;color:#111;border:0}.lesson-content p,.lesson-content li{color:#222}.lesson-content h3{color:#222}}
+/* PYRAMIDE */
+.pyramid-overlay{position:fixed;inset:0;background:rgba(5,10,22,.88);backdrop-filter:blur(6px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px;animation:fadeIn .3s}
+.pyramid-overlay.show{display:flex}
+.pyramid-modal{background:linear-gradient(160deg,#121a2d,#0d1629);border:1px solid var(--line);border-radius:20px;max-width:900px;width:100%;max-height:92vh;overflow-y:auto;padding:clamp(18px,3vw,30px);box-shadow:0 20px 60px rgba(0,0,0,.6);position:relative;animation:scorePop .4s cubic-bezier(.2,.9,.3,1.2)}
+.pyramid-modal h2{margin:0 0 6px;font-size:22px;text-align:center}
+.pyramid-modal .pyr-sub{text-align:center;color:var(--muted);font-size:13px;margin-bottom:22px}
+.pyr-close{position:absolute;top:14px;right:14px;background:#1a2945;border:1px solid var(--line);color:var(--text);width:36px;height:36px;border-radius:50%;font-size:16px;line-height:1;transition:.2s;z-index:5}
+.pyr-close:hover{background:var(--red);border-color:var(--red);color:white;transform:rotate(90deg)}
+
+.pyr-stack{display:flex;flex-direction:column;align-items:center;gap:10px;margin:10px 0 18px}
+.pyr-level{width:100%;display:flex;justify-content:center;transition:.25s}
+.pyr-level button{
+  width:100%;border-radius:14px;padding:14px 20px;font-weight:800;font-size:15px;
+  color:white;transition:.25s cubic-bezier(.2,.9,.3,1.2);position:relative;
+  display:flex;flex-direction:column;align-items:center;gap:3px;text-align:center;
+  box-shadow:0 6px 20px rgba(0,0,0,.3);border:2px solid transparent;
+}
+.pyr-level button small{font-weight:500;font-size:11.5px;opacity:.9}
+.pyr-level button:hover{transform:translateY(-3px) scale(1.015);filter:brightness(1.12)}
+.pyr-level button.active{border-color:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.25),0 10px 30px rgba(0,0,0,.4);transform:translateY(-3px) scale(1.02)}
+.pyr-level.lvl-1 button{background:linear-gradient(135deg,#ff7b86,#c94a68);width:50%}
+.pyr-level.lvl-2 button{background:linear-gradient(135deg,#ffbd69,#e08e3c);width:65%}
+.pyr-level.lvl-3 button{background:linear-gradient(135deg,#55d6a0,#2fa878);width:78%}
+.pyr-level.lvl-4 button{background:linear-gradient(135deg,#7c9cff,#5a6fd6);width:89%}
+.pyr-level.lvl-5 button{background:linear-gradient(135deg,#9b83ff,#7350e0);width:100%}
+
+.pyr-info{background:#0d1629;border:1px solid var(--line);border-radius:14px;padding:18px 20px;min-height:120px;animation:fadeSlide .35s ease-out}
+.pyr-info h3{margin:0 0 8px;font-size:17px;color:var(--accent)}
+.pyr-info .pyr-tag{display:inline-block;font-size:11px;background:#253555;color:#b7c7e7;border-radius:20px;padding:4px 10px;margin-bottom:10px;font-weight:700}
+.pyr-info p{color:#d5def0;margin:6px 0;font-size:14px}
+.pyr-info ul{padding-left:20px;color:#d5def0;margin:8px 0}
+.pyr-info li{margin:5px 0;font-size:14px}
+.pyr-info strong{color:#ffe9a8}
+.pyr-hint{text-align:center;color:var(--muted);font-size:12.5px;margin-top:14px;font-style:italic}
+
+.pyr-btn-wrap{margin:18px 0 22px;display:flex;justify-content:center}
+
+@media(max-width:760px){.app{grid-template-columns:1fr}aside{padding:13px 16px;border-right:0;border-bottom:1px solid var(--line)}.brand{padding:0}.nav{display:flex;overflow:auto;gap:5px}.navlabel,.side-note{display:none}.nav button{white-space:nowrap;width:auto}.stats{gap:8px}.stat{padding:12px}.stat strong{font-size:21px}main{padding-top:24px}.pyr-level.lvl-1 button{width:75%}.pyr-level.lvl-2 button{width:85%}.pyr-level.lvl-3 button{width:92%}.pyr-level.lvl-4 button{width:96%}}
+@media print{body{background:white;color:#111}.app{display:block}aside,.actions,.back,.toolbar,.footer,.btn,.quiz-controls,.card-quiz,.quiz-nav,.btn-aide,.btn-super-aide,.synonym-panel,.toast,.pyr-btn-wrap{display:none!important}main{padding:0}.panel,.day-card,.quiz-step{background:white;color:#111;border:0}.lesson-content p,.lesson-content li{color:#222}.lesson-content h3{color:#222}}
 </style>
 </head>
 <body>
@@ -161,13 +198,13 @@ main{padding:34px clamp(18px,4vw,54px);max-width:1400px;width:100%;margin:auto}
   <section id="homeView">
     <div class="top"><div><div class="eyebrow">Espace de révision</div><h1>Ton parcours de droit</h1><p class="subtitle">Organise tes cours jour après jour et révise à ton rythme.</p></div><div class="actions"><button class="btn" onclick="exportData()">↓ Sauvegarder</button><button class="btn primary" onclick="newLesson()">＋ Ajouter un jour</button></div></div>
     <div class="stats">
-      <div class="stat"><small>Fiches complétées</small><strong id="statDone">1</strong></div>
+      <div class="stat"><small>Fiches complétées</small><strong id="statDone">0</strong></div>
       <div class="stat"><small>Jours prévus</small><strong id="statTotal">10</strong></div>
-      <div class="stat"><small>Progression</small><strong id="statProgress">10 %</strong></div>
+      <div class="stat"><small>Progression</small><strong id="statProgress">0 %</strong></div>
     </div>
     <div class="toolbar"><h2 id="gridTitle">Tes fiches de cours</h2><input class="search" id="search" placeholder="Rechercher un cours…" oninput="renderGrid()"></div>
     <div class="grid" id="dayGrid"></div>
-    <p class="notice">Les jours 2 à 10 sont des emplacements vides. Tu peux les remplir quand tu recevras tes prochains cours, ou ajouter d'autres journées.</p>
+    <p class="notice">Les jours 3 à 10 sont des emplacements vides. Tu peux les remplir quand tu recevras tes prochains cours, ou ajouter d'autres journées.</p>
   </section>
 
   <section id="lessonView" class="hidden">
@@ -191,12 +228,10 @@ main{padding:34px clamp(18px,4vw,54px);max-width:1400px;width:100%;margin:auto}
         <button class="quiz-tab active" id="tabQcm" onclick="switchQuizTab('qcm')">📝 QCM</button>
         <button class="quiz-tab" id="tabFill" onclick="switchQuizTab('fill')">✏️ Texte à trou</button>
       </div>
-
       <div class="quiz-progress" id="quizProgress">
         <span class="counter" id="progressCounter">Question 1 / 1</span>
         <div class="bar"><div class="bar-inner" id="progressBar"></div></div>
       </div>
-
       <div id="quizStepContainer"></div>
     </div>
   </section>
@@ -206,11 +241,11 @@ main{padding:34px clamp(18px,4vw,54px);max-width:1400px;width:100%;margin:auto}
     <div class="panel">
       <div class="eyebrow">PERSONNALISATION</div><h2 id="editorHeading">Ajouter une fiche</h2>
       <div class="editor">
-        <label>Jour / numéro<input id="editDay" type="number" min="1" value="2"></label>
+        <label>Jour / numéro<input id="editDay" type="number" min="1" value="3"></label>
         <label>Titre du cours<input id="editTitle" placeholder="Ex. Les sources du droit"></label>
         <label>Matière ou catégorie<input id="editCategory" placeholder="Ex. Introduction au droit"></label>
         <label>Résumé court<textarea id="editSummary" placeholder="Quelques lignes pour retrouver rapidement le contenu…"></textarea></label>
-        <label>Contenu de la fiche<textarea class="large" id="editBody" placeholder="Écris ton cours ici. Tu peux utiliser des titres, des listes et des exemples en texte brut."></textarea></label>
+        <label>Contenu de la fiche<textarea class="large" id="editBody" placeholder="Écris ton cours ici."></textarea></label>
         <div class="actions"><button class="btn primary" onclick="saveLesson()">Enregistrer la fiche</button><button class="btn" onclick="showHome()">Annuler</button><button class="btn" id="deleteBtn" onclick="deleteCurrent()" style="display:none;color:#ff9ba3">Supprimer</button></div>
       </div>
       <p class="notice">Astuce : sépare les notions avec des titres et des listes pour faciliter la révision.</p>
@@ -222,199 +257,151 @@ main{padding:34px clamp(18px,4vw,54px);max-width:1400px;width:100%;margin:auto}
 
 <div class="toast" id="toast"><span id="toastIcon">✓</span><span id="toastMsg"></span></div>
 
+<!-- MODALE PYRAMIDE -->
+<div class="pyramid-overlay" id="pyramidOverlay" onclick="if(event.target===this)closePyramid()">
+  <div class="pyramid-modal">
+    <button class="pyr-close" onclick="closePyramid()" title="Fermer">✕</button>
+    <h2>🏛️ La pyramide des pouvoirs</h2>
+    <p class="pyr-sub">Clique sur un niveau pour découvrir son rôle et ses composantes</p>
+    <div class="pyr-stack" id="pyrStack">
+      <div class="pyr-level lvl-5"><button data-level="5" onclick="showPyrInfo(5)">👑 Le Roi<small>Monarchie constitutionnelle · Promulgation</small></button></div>
+      <div class="pyr-level lvl-4"><button data-level="4" onclick="showPyrInfo(4)">⚖️ Pouvoir judiciaire<small>Cours & tribunaux · Tranche les litiges</small></button></div>
+      <div class="pyr-level lvl-3"><button data-level="3" onclick="showPyrInfo(3)">🏛️ Pouvoir exécutif<small>Gouvernement · Exécute les lois</small></button></div>
+      <div class="pyr-level lvl-2"><button data-level="2" onclick="showPyrInfo(2)">📜 Pouvoir législatif<small>Parlement bicaméral · Vote les lois</small></button></div>
+      <div class="pyr-level lvl-1"><button data-level="1" onclick="showPyrInfo(1)">🗳️ Le peuple<small>Démocratie représentative · Élit les représentants</small></button></div>
+    </div>
+    <div class="pyr-info" id="pyrInfo">
+      <p style="color:var(--muted);margin:0;text-align:center">👆 Clique sur un niveau de la pyramide pour voir les détails.</p>
+    </div>
+    <p class="pyr-hint">La pyramide illustre la séparation des pouvoirs : chaque niveau a un rôle distinct et indépendant.</p>
+  </div>
+</div>
+
 <script>
-/* ============================================================
-   MOTEUR AUDIO ULTRA-DOUX
-   ============================================================ */
+/* ===== AUDIO ===== */
 const AudioCtx = window.AudioContext || window.webkitAudioContext;
-let audioCtx = null;
-let masterGain = null;
-let reverbNode = null;
-
-function getAudioCtx() {
-  if (!audioCtx) {
+let audioCtx = null, masterGain = null, reverbNode = null;
+function getAudioCtx(){
+  if(!audioCtx){
     audioCtx = new AudioCtx();
-    masterGain = audioCtx.createGain();
-    masterGain.gain.value = 0.85;
-
+    masterGain = audioCtx.createGain(); masterGain.gain.value = .85;
     reverbNode = audioCtx.createConvolver();
-    const len = audioCtx.sampleRate * 2.2;
-    const buf = audioCtx.createBuffer(2, len, audioCtx.sampleRate);
-    for (let ch = 0; ch < 2; ch++) {
-      const d = buf.getChannelData(ch);
-      for (let i = 0; i < len; i++) {
-        d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 3);
-      }
-    }
-    reverbNode.buffer = buf;
-    const reverbGain = audioCtx.createGain();
-    reverbGain.gain.value = 0.35;
-    reverbNode.connect(reverbGain);
-    reverbGain.connect(masterGain);
-
+    const len = audioCtx.sampleRate*2.2; const buf = audioCtx.createBuffer(2,len,audioCtx.sampleRate);
+    for(let ch=0;ch<2;ch++){const d=buf.getChannelData(ch);for(let i=0;i<len;i++){d[i]=(Math.random()*2-1)*Math.pow(1-i/len,3);}}
+    reverbNode.buffer=buf;
+    const rg=audioCtx.createGain(); rg.gain.value=.35; reverbNode.connect(rg); rg.connect(masterGain);
     masterGain.connect(audioCtx.destination);
   }
-  if (audioCtx.state === 'suspended') audioCtx.resume();
+  if(audioCtx.state==='suspended') audioCtx.resume();
   return audioCtx;
 }
-
-function playSoftNote({ freq, type = 'sine', duration = 0.4, volume = 0.06, delay = 0, attack = 0.08, release = 0.5, filterFreq = 1400, detune = 0, reverb = true }) {
-  const ctx = getAudioCtx();
-  const t0 = ctx.currentTime + delay;
-  const osc = ctx.createOscillator();
-  osc.type = type;
-  osc.frequency.setValueAtTime(freq, t0);
-  osc.detune.setValueAtTime(detune, t0);
-  const filter = ctx.createBiquadFilter();
-  filter.type = 'lowpass';
-  filter.frequency.setValueAtTime(filterFreq, t0);
-  filter.Q.value = 0.4;
-  const gain = ctx.createGain();
-  gain.gain.setValueAtTime(0, t0);
-  gain.gain.linearRampToValueAtTime(volume, t0 + attack);
-  gain.gain.linearRampToValueAtTime(volume * 0.7, t0 + attack + duration * 0.6);
-  gain.gain.exponentialRampToValueAtTime(0.0001, t0 + attack + duration + release);
-  osc.connect(filter); filter.connect(gain); gain.connect(masterGain);
-  if (reverb) gain.connect(reverbNode);
-  osc.start(t0); osc.stop(t0 + attack + duration + release + 0.05);
+function playSoftNote({freq,type='sine',duration=.4,volume=.06,delay=0,attack=.08,release=.5,filterFreq=1400,detune=0,reverb=true}){
+  const ctx=getAudioCtx();const t0=ctx.currentTime+delay;
+  const osc=ctx.createOscillator();osc.type=type;osc.frequency.setValueAtTime(freq,t0);osc.detune.setValueAtTime(detune,t0);
+  const filter=ctx.createBiquadFilter();filter.type='lowpass';filter.frequency.setValueAtTime(filterFreq,t0);filter.Q.value=.4;
+  const gain=ctx.createGain();gain.gain.setValueAtTime(0,t0);gain.gain.linearRampToValueAtTime(volume,t0+attack);
+  gain.gain.linearRampToValueAtTime(volume*.7,t0+attack+duration*.6);gain.gain.exponentialRampToValueAtTime(.0001,t0+attack+duration+release);
+  osc.connect(filter);filter.connect(gain);gain.connect(masterGain);if(reverb)gain.connect(reverbNode);
+  osc.start(t0);osc.stop(t0+attack+duration+release+.05);
 }
-
-function playSoftNoise({ duration = 0.35, volume = 0.04, delay = 0, fromFreq = 1200, toFreq = 400, q = 0.8 }) {
-  const ctx = getAudioCtx();
-  const t0 = ctx.currentTime + delay;
-  const bufferSize = ctx.sampleRate * duration;
-  const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-  const data = buffer.getChannelData(0);
-  for (let i = 0; i < bufferSize; i++) {
-    data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / bufferSize, 1.8);
-  }
-  const src = ctx.createBufferSource();
-  src.buffer = buffer;
-  const filter = ctx.createBiquadFilter();
-  filter.type = 'lowpass';
-  filter.frequency.setValueAtTime(fromFreq, t0);
-  filter.frequency.exponentialRampToValueAtTime(Math.max(60, toFreq), t0 + duration);
-  filter.Q.value = q;
-  const g = ctx.createGain();
-  g.gain.setValueAtTime(0, t0);
-  g.gain.linearRampToValueAtTime(volume, t0 + 0.06);
-  g.gain.linearRampToValueAtTime(volume * 0.6, t0 + duration * 0.5);
-  g.gain.exponentialRampToValueAtTime(0.0001, t0 + duration);
-  src.connect(filter); filter.connect(g); g.connect(masterGain);
-  if (reverbNode) g.connect(reverbNode);
-  src.start(t0); src.stop(t0 + duration + 0.05);
+function playSoftNoise({duration=.35,volume=.04,delay=0,fromFreq=1200,toFreq=400,q=.8}){
+  const ctx=getAudioCtx();const t0=ctx.currentTime+delay;
+  const bs=ctx.sampleRate*duration;const buf=ctx.createBuffer(1,bs,ctx.sampleRate);const d=buf.getChannelData(0);
+  for(let i=0;i<bs;i++){d[i]=(Math.random()*2-1)*Math.pow(1-i/bs,1.8);}
+  const src=ctx.createBufferSource();src.buffer=buf;
+  const filter=ctx.createBiquadFilter();filter.type='lowpass';filter.frequency.setValueAtTime(fromFreq,t0);
+  filter.frequency.exponentialRampToValueAtTime(Math.max(60,toFreq),t0+duration);filter.Q.value=q;
+  const g=ctx.createGain();g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(volume,t0+.06);
+  g.gain.linearRampToValueAtTime(volume*.6,t0+duration*.5);g.gain.exponentialRampToValueAtTime(.0001,t0+duration);
+  src.connect(filter);filter.connect(g);g.connect(masterGain);if(reverbNode)g.connect(reverbNode);
+  src.start(t0);src.stop(t0+duration+.05);
 }
-
-function soundClick() {
-  playSoftNote({ freq: 660, type: 'sine', duration: 0.12, volume: 0.04, attack: 0.03, release: 0.3, filterFreq: 1600 });
-  playSoftNote({ freq: 990, type: 'sine', duration: 0.1, volume: 0.02, delay: 0.02, attack: 0.04, release: 0.35, filterFreq: 2200 });
+function soundClick(){playSoftNote({freq:660,type:'sine',duration:.12,volume:.04,attack:.03,release:.3,filterFreq:1600});playSoftNote({freq:990,type:'sine',duration:.1,volume:.02,delay:.02,attack:.04,release:.35,filterFreq:2200});}
+function soundSwipe(){playSoftNoise({duration:.32,volume:.035,fromFreq:1800,toFreq:350,q:1.2});playSoftNote({freq:440,type:'sine',duration:.2,volume:.025,attack:.06,release:.4,filterFreq:900});}
+function soundSuccess(){
+  playSoftNote({freq:261.63,type:'sine',duration:.6,volume:.03,attack:.1,release:.8,filterFreq:1000});
+  playSoftNote({freq:329.63,type:'sine',duration:.6,volume:.025,delay:.03,attack:.1,release:.8,filterFreq:1000});
+  [523.25,659.25,783.99,1046.5].forEach((f,i)=>{playSoftNote({freq:f,type:'triangle',duration:.22,volume:.05,delay:i*.09,attack:.02,release:.5,filterFreq:2600,detune:i*3});});
+  playSoftNote({freq:2093,type:'sine',duration:.3,volume:.015,delay:.32,attack:.05,release:.6,filterFreq:4500});
 }
-function soundSwipe() {
-  playSoftNoise({ duration: 0.32, volume: 0.035, fromFreq: 1800, toFreq: 350, q: 1.2 });
-  playSoftNote({ freq: 440, type: 'sine', duration: 0.2, volume: 0.025, attack: 0.06, release: 0.4, filterFreq: 900 });
+function soundError(){
+  playSoftNote({freq:196,type:'sine',duration:.25,volume:.05,attack:.03,release:.5,filterFreq:700});
+  playSoftNote({freq:146.83,type:'sine',duration:.3,volume:.045,delay:.1,attack:.04,release:.6,filterFreq:550});
+  playSoftNoise({duration:.35,volume:.018,fromFreq:500,toFreq:150,q:.6});
 }
-function soundSuccess() {
-  playSoftNote({ freq: 261.63, type: 'sine', duration: 0.6, volume: 0.03, attack: 0.1, release: 0.8, filterFreq: 1000 });
-  playSoftNote({ freq: 329.63, type: 'sine', duration: 0.6, volume: 0.025, delay: 0.03, attack: 0.1, release: 0.8, filterFreq: 1000 });
-  const notes = [523.25, 659.25, 783.99, 1046.5];
-  notes.forEach((f, i) => {
-    playSoftNote({ freq: f, type: 'triangle', duration: 0.22, volume: 0.05, delay: i * 0.09, attack: 0.02, release: 0.5, filterFreq: 2600, detune: i * 3 });
-  });
-  playSoftNote({ freq: 2093, type: 'sine', duration: 0.3, volume: 0.015, delay: 0.32, attack: 0.05, release: 0.6, filterFreq: 4500 });
+function soundComplete(){
+  playSoftNote({freq:261.63,type:'sine',duration:1.2,volume:.03,attack:.15,release:1.4,filterFreq:1100});
+  playSoftNote({freq:329.63,type:'sine',duration:1.2,volume:.025,delay:.06,attack:.15,release:1.4,filterFreq:1100});
+  playSoftNote({freq:392,type:'sine',duration:1.2,volume:.02,delay:.12,attack:.15,release:1.4,filterFreq:1100});
+  [523.25,659.25,783.99,1046.5,1318.5].forEach((f,i)=>{playSoftNote({freq:f,type:'triangle',duration:.28,volume:.05,delay:.1+i*.13,attack:.02,release:.6,filterFreq:2800,detune:i*2});});
+  playSoftNote({freq:2637,type:'sine',duration:.5,volume:.015,delay:.75,attack:.08,release:1,filterFreq:5000});
 }
-function soundError() {
-  playSoftNote({ freq: 196, type: 'sine', duration: 0.25, volume: 0.05, attack: 0.03, release: 0.5, filterFreq: 700 });
-  playSoftNote({ freq: 146.83, type: 'sine', duration: 0.3, volume: 0.045, delay: 0.1, attack: 0.04, release: 0.6, filterFreq: 550 });
-  playSoftNoise({ duration: 0.35, volume: 0.018, fromFreq: 500, toFreq: 150, q: 0.6 });
+function soundPop(){
+  const ctx=getAudioCtx();const t0=ctx.currentTime;
+  const osc=ctx.createOscillator();osc.type='sine';osc.frequency.setValueAtTime(420,t0);osc.frequency.exponentialRampToValueAtTime(880,t0+.08);
+  const filter=ctx.createBiquadFilter();filter.type='lowpass';filter.frequency.value=1600;
+  const g=ctx.createGain();g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(.05,t0+.02);g.gain.exponentialRampToValueAtTime(.0001,t0+.15);
+  osc.connect(filter);filter.connect(g);g.connect(masterGain);if(reverbNode)g.connect(reverbNode);
+  osc.start(t0);osc.stop(t0+.18);
 }
-function soundComplete() {
-  playSoftNote({ freq: 261.63, type: 'sine', duration: 1.2, volume: 0.03, attack: 0.15, release: 1.4, filterFreq: 1100 });
-  playSoftNote({ freq: 329.63, type: 'sine', duration: 1.2, volume: 0.025, delay: 0.06, attack: 0.15, release: 1.4, filterFreq: 1100 });
-  playSoftNote({ freq: 392.00, type: 'sine', duration: 1.2, volume: 0.02, delay: 0.12, attack: 0.15, release: 1.4, filterFreq: 1100 });
-  const melody = [523.25, 659.25, 783.99, 1046.5, 1318.5];
-  melody.forEach((f, i) => {
-    playSoftNote({ freq: f, type: 'triangle', duration: 0.28, volume: 0.05, delay: 0.1 + i * 0.13, attack: 0.02, release: 0.6, filterFreq: 2800, detune: i * 2 });
-  });
-  playSoftNote({ freq: 2637, type: 'sine', duration: 0.5, volume: 0.015, delay: 0.75, attack: 0.08, release: 1.0, filterFreq: 5000 });
+function soundToggle(){playSoftNote({freq:880,type:'sine',duration:.1,volume:.035,attack:.02,release:.3,filterFreq:1800});playSoftNote({freq:1320,type:'sine',duration:.1,volume:.018,delay:.03,attack:.03,release:.3,filterFreq:2400});}
+function soundPyramidOpen(){playSoftNote({freq:392,type:'triangle',duration:.3,volume:.04,attack:.05,release:.5,filterFreq:1200});playSoftNote({freq:523.25,type:'triangle',duration:.35,volume:.035,delay:.08,attack:.05,release:.5,filterFreq:1400});playSoftNote({freq:659.25,type:'sine',duration:.4,volume:.03,delay:.16,attack:.06,release:.6,filterFreq:1600});}
+function soundPyramidClick(){playSoftNote({freq:587.33,type:'sine',duration:.15,volume:.04,attack:.02,release:.3,filterFreq:1800});playSoftNote({freq:880,type:'sine',duration:.12,volume:.02,delay:.04,attack:.03,release:.35,filterFreq:2200});}
+
+/* ===== VIBRATION ===== */
+function vibrate(p){if(navigator.vibrate){try{navigator.vibrate(p);}catch(e){}}}
+function vibClick(){vibrate(8);} function vibSuccess(){vibrate(15);} function vibError(){vibrate([50,30,60]);}
+function vibComplete(){vibrate([20,30,20,30,80]);} function vibToggle(){vibrate(10);} function vibPyramid(){vibrate([10,20,10]);}
+
+/* ===== TOAST / CONFETTI ===== */
+let toastTimer=null;
+function showToast(msg,icon='✓'){
+  const t=document.getElementById('toast');
+  document.getElementById('toastMsg').textContent=msg;
+  document.getElementById('toastIcon').textContent=icon;
+  t.classList.add('show');clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.remove('show'),2600);
 }
-function soundPop() {
-  const ctx = getAudioCtx();
-  const t0 = ctx.currentTime;
-  const osc = ctx.createOscillator();
-  osc.type = 'sine';
-  osc.frequency.setValueAtTime(420, t0);
-  osc.frequency.exponentialRampToValueAtTime(880, t0 + 0.08);
-  const filter = ctx.createBiquadFilter();
-  filter.type = 'lowpass';
-  filter.frequency.value = 1600;
-  const g = ctx.createGain();
-  g.gain.setValueAtTime(0, t0);
-  g.gain.linearRampToValueAtTime(0.05, t0 + 0.02);
-  g.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.15);
-  osc.connect(filter); filter.connect(g); g.connect(masterGain);
-  if (reverbNode) g.connect(reverbNode);
-  osc.start(t0); osc.stop(t0 + 0.18);
-}
-function soundToggle() {
-  playSoftNote({ freq: 880, type: 'sine', duration: 0.1, volume: 0.035, attack: 0.02, release: 0.3, filterFreq: 1800 });
-  playSoftNote({ freq: 1320, type: 'sine', duration: 0.1, volume: 0.018, delay: 0.03, attack: 0.03, release: 0.3, filterFreq: 2400 });
-}
-
-/* ============================================================
-   VIBRATION — clics, bonnes réponses, mauvaises réponses
-   ============================================================ */
-function vibrate(pattern) {
-  if (navigator.vibrate) { try { navigator.vibrate(pattern); } catch(e) {} }
-}
-
-/* Petit "tap" discret sur chaque clic */
-function vibClick() { vibrate(8); }
-
-/* Petite vibration courte pour une bonne réponse */
-function vibSuccess() { vibrate(15); }
-
-/* Grosse vibration marquée pour une mauvaise réponse */
-function vibError() { vibrate([50, 30, 60]); }
-
-/* Vibration de célébration pour un quiz réussi */
-function vibComplete() { vibrate([20, 30, 20, 30, 80]); }
-
-/* Petite vibration pour les toggles */
-function vibToggle() { vibrate(10); }
-
-/* ============================================================
-   TOAST & CONFETTIS
-   ============================================================ */
-let toastTimer = null;
-function showToast(msg, icon = '✓') {
-  const toast = document.getElementById('toast');
-  document.getElementById('toastMsg').textContent = msg;
-  document.getElementById('toastIcon').textContent = icon;
-  toast.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => toast.classList.remove('show'), 2600);
-}
-
-function launchConfetti(count = 40) {
-  const colors = ['#7c9cff', '#9b83ff', '#55d6a0', '#ffbd69', '#ff7b86', '#a86aff'];
-  for (let i = 0; i < count; i++) {
-    const el = document.createElement('div');
-    el.className = 'confetti';
-    el.style.left = Math.random() * 100 + '%';
-    el.style.background = colors[Math.floor(Math.random() * colors.length)];
-    el.style.width = (6 + Math.random() * 8) + 'px';
-    el.style.height = (6 + Math.random() * 8) + 'px';
-    el.style.animationDuration = (1.8 + Math.random() * 1.5) + 's';
-    el.style.animationDelay = (Math.random() * 0.4) + 's';
-    el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
-    document.body.appendChild(el);
-    setTimeout(() => el.remove(), 3500);
+function launchConfetti(count=40){
+  const colors=['#7c9cff','#9b83ff','#55d6a0','#ffbd69','#ff7b86','#a86aff'];
+  for(let i=0;i<count;i++){
+    const el=document.createElement('div');el.className='confetti';
+    el.style.left=Math.random()*100+'%';el.style.background=colors[Math.floor(Math.random()*colors.length)];
+    el.style.width=(6+Math.random()*8)+'px';el.style.height=(6+Math.random()*8)+'px';
+    el.style.animationDuration=(1.8+Math.random()*1.5)+'s';el.style.animationDelay=(Math.random()*.4)+'s';
+    el.style.borderRadius=Math.random()>.5?'50%':'2px';
+    document.body.appendChild(el);setTimeout(()=>el.remove(),3500);
   }
 }
 
-/* ============================================================
-   DATA
-   ============================================================ */
+/* ===== PYRAMIDE DATA ===== */
+const pyramidData = {
+  5:{title:"👑 Le Roi",tag:"Monarchie constitutionnelle",content:`<p>La Belgique est une <strong>monarchie constitutionnelle</strong> : le Roi fait partie intégrante du pouvoir législatif, mais ses pouvoirs sont encadrés par la Constitution.</p><ul><li><strong>Promulgation :</strong> une fois la loi votée par le Parlement, le Roi doit la signer pour qu'elle entre en vigueur.</li><li><strong>Contreseing ministériel :</strong> les actes officiels du Roi requièrent en principe la signature d'un ministre.</li><li><strong>Cas historique :</strong> le Roi Baudouin a refusé de signer la loi sur l'avortement. Le gouvernement l'a placé en « incapacité de régner » pendant 24 heures pour que la loi soit signée à sa place.</li></ul><p><strong>À retenir :</strong> le Roi règne mais ne gouverne pas seul.</p>`},
+  4:{title:"⚖️ Pouvoir judiciaire",tag:"Cours & tribunaux",content:`<p>Le pouvoir judiciaire <strong>tranche les litiges</strong> en appliquant les lois et les peines.</p><ul><li><strong>Composition :</strong> cours et tribunaux, juges, Procureur du Roi.</li><li><strong>Indépendance :</strong> le pouvoir exécutif n'a aucune emprise sur lui (il ne choisit pas les juges, ne fixe pas leurs salaires).</li><li><strong>Cour vs Tribunal :</strong> le tribunal juge en première instance ; la cour (ex. Cour d'appel) réexamine le dossier en degré supérieur.</li><li><strong>Procureur du Roi :</strong> représente la société dans les affaires pénales, propose des sanctions, mais c'est le juge qui décide.</li></ul><p><strong>Double degré de juridiction :</strong> une affaire jugée en première instance peut être réexaminée par une juridiction supérieure.</p>`},
+  3:{title:"🏛️ Pouvoir exécutif",tag:"Gouvernement fédéral",content:`<p>Le pouvoir exécutif <strong>exécute et applique les lois</strong> votées par le législatif.</p><ul><li><strong>Composition :</strong> le Gouvernement fédéral (15 ministres : 7 francophones, 7 néerlandophones + le Premier ministre), les secrétaires d'État, le Roi.</li><li><strong>Rôle :</strong> mettre en pratique au quotidien les lois votées.</li><li><strong>Administration (SPF) :</strong> les ministres s'appuient sur des milliers de fonctionnaires (SPF Intérieur, SPF Finances…) pour appliquer les politiques sur le terrain.</li><li><strong>Limite :</strong> le pouvoir exécutif ne peut pas aller à l'encontre des lois votées par le législatif.</li></ul><p><strong>Entités fédérées :</strong> chaque région et communauté possède son propre gouvernement, qui adopte des arrêtés.</p>`},
+  2:{title:"📜 Pouvoir législatif",tag:"Parlement bicaméral",content:`<p>Le pouvoir législatif <strong>adopte les lois</strong>. Il est considéré comme le plus légitime car il émane directement du peuple.</p><ul><li><strong>Composition :</strong> le Parlement bicaméral (Chambre des représentants + Sénat) et le Roi.</li><li><strong>Chambre des représentants :</strong> élue par la population, discute des projets de loi, mène les débats parlementaires et vote les articles de loi.</li><li><strong>Exemple :</strong> la loi du 2 octobre 2017 sur la fonction de gardiennage.</li><li><strong>Entités fédérées :</strong> chaque région et communauté possède son propre Parlement, qui adopte des <strong>décrets</strong>.</li></ul><p><strong>À retenir :</strong> c'est le pouvoir qui fixe les règles du jeu juridique.</p>`},
+  1:{title:"🗳️ Le peuple",tag:"Démocratie représentative",content:`<p>À la base de la pyramide, le <strong>peuple</strong> est la source de la légitimité démocratique.</p><ul><li><strong>Démocratie représentative :</strong> en raison du nombre de citoyens, nous ne sommes plus en démocratie directe (comme dans la Grèce antique). Le peuple élit des représentants.</li><li><strong>Élections :</strong> les citoyens votent pour des listes présentées par des partis politiques (classés de gauche à droite selon leurs sensibilités sociales ou libérales).</li><li><strong>Vote obligatoire :</strong> en Belgique, le vote est obligatoire (contrairement à la France), ce qui garantit une participation active.</li><li><strong>Mode de scrutin :</strong> on peut voter pour un parti (case de tête) ou pour des individus (vote de préférence).</li></ul><p><strong>À retenir :</strong> le peuple élit le législatif, qui contrôle l'exécutif et fait les lois appliquées par le judiciaire.</p>`}
+};
+
+function openPyramid(){
+  soundPyramidOpen();vibPyramid();
+  document.getElementById('pyramidOverlay').classList.add('show');
+  document.querySelectorAll('.pyr-level button').forEach(b=>b.classList.remove('active'));
+  document.getElementById('pyrInfo').innerHTML='<p style="color:var(--muted);margin:0;text-align:center">👆 Clique sur un niveau de la pyramide pour voir les détails.</p>';
+}
+function closePyramid(){soundSwipe();vibClick();document.getElementById('pyramidOverlay').classList.remove('show');}
+function showPyrInfo(level){
+  soundPyramidClick();vibPyramid();
+  document.querySelectorAll('.pyr-level button').forEach(b=>b.classList.remove('active'));
+  const btn=document.querySelector(`.pyr-level button[data-level="${level}"]`);
+  if(btn)btn.classList.add('active');
+  const data=pyramidData[level];if(!data)return;
+  const info=document.getElementById('pyrInfo');
+  info.innerHTML=`<h3>${data.title}</h3><span class="pyr-tag">${data.tag}</span>${data.content}`;
+  info.style.animation='none';void info.offsetWidth;info.style.animation='fadeSlide .35s ease-out';
+}
+
+/* ===== DATA ===== */
 const starter = {
  day:1, title:"Introduction générale au droit", category:"Introduction au droit",
  summary:"Définition du droit, caractéristiques, branches du droit et institutions belges.",
@@ -433,98 +420,211 @@ Le droit positif est le droit en vigueur dans une société et à un moment donn
 Il prend de plus en plus de place dans nos vies. Il existe de moins en moins de sphères privées totalement dénuées de règles juridiques.
 
 ### Le droit est de plus en plus complet et complexe
-La multiplication des textes de loi et des réglementations rend la matière difficile d'accès pour les non-spécialistes. Exemple donné dans le cours : la première loi belge sur la sécurité privée date de 1990 et comptait 24 articles ; la loi de remplacement de 2017 en compte près de 285.
+La multiplication des textes de loi et des réglementations rend la matière difficile d'accès pour les non-spécialistes. Exemple : la première loi belge sur la sécurité privée (1990) comptait 24 articles ; celle de 2017 en compte près de 285.
 
 ### Le droit est variable dans l'espace
-Les règles changent selon les pays. Elles peuvent aussi varier à l'intérieur d'un État fédéral, par exemple entre la Flandre et la Wallonie.
+Les règles changent selon les pays. Elles peuvent varier à l'intérieur d'un État fédéral, par exemple entre la Flandre et la Wallonie.
 
 ### Le droit est évolutif dans le temps
-Le droit s'adapte aux changements de la société, par exemple avec l'évolution des règles relatives au mariage ou au transport de fonds.
+Le droit s'adapte aux changements de la société (mariage, transport de fonds, etc.).
 
 ## 3. Évolution, variabilité et interprétation des lois
 ### Qui fait la loi ?
-Les lois sont votées par le pouvoir législatif, notamment les représentants élus à la Chambre. Le Roi intervient dans le processus législatif par la sanction et la promulgation.
+Les lois sont votées par le pouvoir législatif, notamment les représentants élus à la Chambre. Le Roi intervient par la sanction et la promulgation.
 
 ### Sécurité juridique et ignorance de la loi
-L'expression « Nul n'est censé ignorer la loi » rappelle que chacun est tenu de respecter les règles applicables. En pratique, les citoyens et les juristes doivent se tenir informés de leur évolution.
+« Nul n'est censé ignorer la loi » : chacun est tenu de respecter les règles applicables.
 
 ### L'interprétation
-Les juges interprètent et appliquent les textes aux situations concrètes. La précision d'une règle peut limiter les interprétations possibles, sans supprimer tout travail d'interprétation.
+Les juges interprètent et appliquent les textes aux situations concrètes.
 
 ## 4. Les différentes branches et catégories du droit
 ### Droit international public
-Il concerne les relations entre États et les organisations internationales. Exemples : traités internationaux, Union européenne et OTAN.
+Relations entre États et organisations internationales (traités, UE, OTAN).
 
 ### Droit international privé
-Il traite des situations privées comportant un élément d'extranéité, par exemple un mariage ou un divorce impliquant plusieurs pays. Il aide notamment à déterminer la loi applicable et la juridiction compétente.
+Situations privées comportant un élément d'extranéité (mariage, divorce international).
 
 ### Droit interne privé
-Il concerne les relations entre personnes privées.
+Relations entre personnes privées.
 - Droit civil : contrats, famille, divorce, baux.
 - Droit des affaires : activités des entreprises.
 - Droit social : droit du travail et sécurité sociale.
 
 ### Droit interne public
-Il concerne l'organisation de l'État et l'exercice de la puissance publique.
-- Droit pénal : définit les infractions et les peines.
+Organisation de l'État et exercice de la puissance publique.
+- Droit pénal : infractions et peines.
 - Droit fiscal : impôts et taxes.
-- Droit constitutionnel : organisation des pouvoirs et droits fondamentaux.
-- Droit judiciaire : organisation des juridictions et règles de procédure.
-- Droit administratif : fonctionnement des administrations et contrôle de leurs décisions.
+- Droit constitutionnel : pouvoirs et droits fondamentaux.
+- Droit judiciaire : juridictions et procédure.
+- Droit administratif : administrations et contrôle.
 
 ## 5. Structures et institutions belges
 ### La Constitution
-Elle fixe les règles fondamentales de l'État belge, organise les pouvoirs publics et garantit des droits et libertés fondamentaux.
+Fixe les règles fondamentales, organise les pouvoirs et garantit les droits et libertés.
 
 ### La monarchie constitutionnelle
-La Belgique est une monarchie constitutionnelle : les pouvoirs du Roi sont encadrés par la Constitution. Le Roi ne gouverne pas seul ; ses actes officiels requièrent en principe le contreseing ministériel.
+Les pouvoirs du Roi sont encadrés par la Constitution. Ses actes officiels requièrent en principe le contreseing ministériel.
 
 ### Administration et sécurité privée
-Certaines professions réglementées, comme le gardiennage, sont soumises à des conditions légales. Le cours évoque notamment les vérifications liées à l'honorabilité et à la sécurité publique.
+Certaines professions réglementées (gardiennage) sont soumises à des conditions légales.
 
 ## À retenir
 - Le droit organise la vie en société.
 - Le droit positif est le droit applicable à un moment et dans un lieu donnés.
 - Le droit varie selon les lieux et évolue dans le temps.
-- On distingue notamment droit international / droit interne, puis droit privé / droit public.
+- On distingue droit international / droit interne, puis droit privé / droit public.
 - La Constitution organise les pouvoirs et protège les droits fondamentaux.
 
 ## 6. Les subtilités du droit privé et du droit public
 ### La distinction entre droit public et droit privé
-- Le droit public régit l'organisation de l'État, des services publics et les relations entre les autorités publiques et les citoyens. Dans ces relations, l'autorité publique peut disposer de prérogatives particulières prévues par la loi.
-- Le droit privé régit principalement les relations entre personnes privées, placées en principe sur un pied d'égalité juridique.
-- Cette distinction n'est pas toujours absolue : une même situation peut faire intervenir des règles de droit public et de droit privé.
+- Le droit public régit l'organisation de l'État, des services publics et les relations entre autorités publiques et citoyens.
+- Le droit privé régit les relations entre personnes privées, en principe à égalité juridique.
+- La distinction n'est pas toujours absolue : une même situation peut faire intervenir les deux.
 
 ## 7. L'exercice du pouvoir réglementaire et la sécurité privée
 ### L'habilitation légale
-Le gouvernement et les ministres ne peuvent pas adopter librement n'importe quelle règle. Leur pouvoir réglementaire doit reposer sur une base juridique et respecter les compétences que la Constitution et les lois leur attribuent. Par exemple, des arrêtés royaux peuvent préciser les conditions d'exercice des activités de gardiennage sur la base d'une loi.
+Le pouvoir réglementaire doit reposer sur une base juridique et respecter les compétences attribuées.
 
 ### La police administrative
-La police administrative vise principalement à prévenir les troubles à l'ordre public, notamment en matière de sécurité, de tranquillité et de salubrité publiques. Elle relève des autorités publiques compétentes.
+Vise à prévenir les troubles à l'ordre public (sécurité, tranquillité, salubrité).
 
 ### La place du secteur privé
-Des entreprises privées peuvent exercer certaines activités encadrées de sécurité, comme le gardiennage, le transport de valeurs ou la sécurité d'événements. Elles ne remplacent pas la police et doivent respecter la législation applicable, sous le contrôle des autorités compétentes, notamment du SPF Intérieur.
+Des entreprises privées peuvent exercer des activités encadrées de sécurité. Elles ne remplacent pas la police et sont contrôlées par les autorités (SPF Intérieur).
 
 ## 8. L'honorabilité et les enquêtes de sécurité
 Pour certaines professions sensibles, des conditions d'accès et des vérifications peuvent être imposées par la loi.
 
-- **Vérification des antécédents :** selon le régime légal applicable, l'examen peut aller au-delà de la simple consultation du casier judiciaire. Les contrôles doivent toutefois respecter les compétences légales et les règles relatives aux données personnelles.
-- **Évaluation des risques :** les autorités vérifient si les conditions légales d'honorabilité et de fiabilité sont remplies avant d'accorder, le cas échéant, une autorisation, un agrément ou une carte d'identification professionnelle.
+- **Vérification des antécédents :** peut aller au-delà du casier judiciaire, dans le respect des règles sur les données personnelles.
+- **Évaluation des risques :** les autorités vérifient si les conditions légales d'honorabilité sont remplies avant d'accorder une autorisation.
 
 ## 9. Les sanctions administratives et pénales
-Le non-respect des règles applicables aux activités de sécurité peut entraîner différentes conséquences.
-
-- **Sanctions pénales :** lorsqu'une infraction est prévue par la loi, une juridiction pénale peut prononcer une peine, par exemple une amende ou, si la loi le prévoit, une peine d'emprisonnement.
-- **Sanctions administratives :** l'autorité administrative compétente peut prendre les mesures prévues par la législation, par exemple une suspension ou un retrait d'autorisation, ou une amende administrative. Les conditions et les procédures dépendent du texte applicable.
+- **Sanctions pénales :** prononcées par une juridiction pénale (amende, emprisonnement si prévu par la loi).
+- **Sanctions administratives :** prononcées par l'autorité administrative (suspension, retrait d'autorisation, amende administrative).
 
 ## À retenir
-- Le droit organise la vie en société.
-- Le droit positif est le droit applicable à un moment et dans un lieu donnés.
-- Le droit varie selon les lieux et évolue dans le temps.
-- On distingue notamment droit international / droit interne, puis droit privé / droit public.
-- Le droit public encadre l'action des autorités ; le droit privé régit principalement les relations entre personnes privées.
+- Le droit public encadre l'action des autorités ; le droit privé régit les relations entre personnes privées.
 - Les activités de sécurité privée sont réglementées et ne se confondent pas avec les missions de police.
 - Les sanctions administratives et pénales sont différentes et doivent avoir une base légale.`
+};
+
+const lesson2 = {
+  day:2, title:"Le fédéralisme belge et la pyramide des pouvoirs", category:"Institutions belges",
+  summary:"État fédéral, communautés et régions, séparation des pouvoirs, tribunaux et pyramide interactive.",
+  body:`## 1. Introduction au fédéralisme belge et aux entités fédérées
+La Belgique est un **État fédéral**. Le pouvoir est réparti entre l'État fédéral et des entités fédérées.
+
+### Les deux catégories d'entités fédérées (6 au total)
+**Les Communautés (3) :**
+- Communauté française
+- Communauté flamande
+- Communauté germanophone
+- *Matières gérées :* liées à la personne, la culture, l'enseignement et l'emploi des langues.
+- *Particularité :* chaque communauté gère son enseignement de manière autonome (les calendriers scolaires diffèrent entre la Flandre et la Wallonie).
+
+**Les Régions (3) :**
+- Région wallonne
+- Région flamande
+- Région de Bruxelles-Capitale
+- *Matières gérées :* liées au sol, au territoire et à l'économie (urbanisme, environnement, travaux publics).
+
+> **À retenir (principe du fédéralisme) :** chaque communauté et chaque région dispose d'un territoire et de compétences propres. Il n'y a pas de hiérarchie entre l'État fédéral, les régions et les communautés ; elles exercent leurs compétences de manière indépendante dans leurs domaines attitrés.
+
+## 2. Les trois pouvoirs de l'État fédéral
+L'État fédéral belge repose sur la **séparation des pouvoirs** (inspirée de Montesquieu).
+
+### A. Le pouvoir législatif (il adopte les lois)
+**Composition :**
+- Le Parlement, bicaméral (Chambre des représentants + Sénat).
+- Le Roi (la Belgique est une monarchie constitutionnelle, le Roi fait partie intégrante du pouvoir législatif).
+
+**Rôle de la Chambre des représentants :** composée de représentants élus par la population (démocratie représentative). Elle discute des projets de loi, mène les débats parlementaires et vote les articles de loi.
+
+**Rôle du Roi (la promulgation) :** une fois votée, la loi doit être signée par le Roi pour entrer en vigueur. C'est la promulgation.
+
+*Exception historique :* le Roi Baudouin a refusé de signer la loi sur l'avortement pour des raisons de conscience et de religion. Pour ne pas bloquer le pays, le gouvernement l'a placé en « incapacité de régner » pendant 24 heures afin que le gouvernement signe à sa place.
+
+### B. Le pouvoir exécutif (il exécute et applique les lois)
+**Composition :**
+- Le Gouvernement fédéral (15 ministres : 7 francophones et 7 néerlandophones, ainsi que le Premier ministre).
+- Les secrétaires d'État (qui assistent les ministres dans des portefeuilles spécifiques, ex. asile et migration).
+- Le Roi.
+
+**Rôle :** mettre en pratique au quotidien les lois votées par le pouvoir législatif.
+
+**L'Administration (SPF) :** les ministres s'appuient sur des milliers de fonctionnaires regroupés au sein des SPF (SPF Intérieur, SPF Finances) pour faire appliquer concrètement les politiques sur le terrain.
+
+### C. Le pouvoir judiciaire (il tranche les litiges)
+**Composition :** les cours et tribunaux, les juges, ainsi que le Procureur du Roi.
+
+**Rôle :** il tranche les litiges en appliquant les lois et les peines.
+
+**Différence entre Cour et Tribunal :** les tribunaux traitent les affaires en première instance, tandis que les cours (comme la Cour d'appel) constituent des degrés supérieurs pour réexaminer un dossier si une partie conteste la décision initiale.
+
+**Le Procureur du Roi :** il représente la société dans les affaires pénales, propose des sanctions au nom de la collectivité, mais c'est toujours le juge qui prend la décision finale.
+
+## 3. Le processus démocratique et les élections
+**Démocratie représentative :** en raison du nombre de citoyens, nous ne sommes plus dans une démocratie directe (comme en Grèce ancienne). Le peuple élit des représentants à travers des élections.
+
+**Le vote :** les citoyens votent pour des listes présentées par des partis politiques (classés de gauche à droite sur l'échiquier politique selon leurs sensibilités sociales ou libérales). On peut voter pour un parti (case de tête) ou pour des individus (préférence).
+
+**L'obligation de vote :** en Belgique, le vote est obligatoire (contrairement à d'autres pays comme la France), ce qui garantit une participation active de la population aux choix institutionnels.
+
+## 4. La pyramide des pouvoirs et l'État fédéral
+L'organisation institutionnelle distingue l'État fédéral et les entités fédérées (régions et communautés). Les pouvoirs sont séparés pour garantir une indépendance mutuelle :
+
+- **Le pouvoir législatif :** celui qui adopte les lois (ex. la loi du 2 octobre 2017 sur la fonction de gardiennage). Il est considéré comme le plus légitime car il émane directement du peuple.
+- **Le pouvoir exécutif :** composé du gouvernement (les ministres), il est chargé d'exécuter et de mettre en œuvre ce que le pouvoir législatif a décidé (par exemple, fixer la couleur des cartes d'identité des agents). Il ne peut pas aller à l'encontre des lois votées.
+- **Le pouvoir judiciaire :** entièrement indépendant, il applique la loi en toute neutralité. Le pouvoir exécutif n'a aucune emprise sur lui (il ne choisit pas les juges et ne fixe pas leurs salaires, ce rôle revient au législatif).
+
+### Les entités fédérées (régions et communautés)
+Chaque entité fédérée possède sa propre structure avec :
+- Un Parlement (pouvoir législatif local qui adopte des décrets).
+- Un Gouvernement (pouvoir exécutif local qui adopte des arrêtés).
+
+## 5. Les principes généraux de compétence des tribunaux
+Avant de saisir un tribunal, il faut s'assurer qu'il est compétent selon trois règles fondamentales :
+
+### A. La compétence d'attribution
+Elle détermine quel type de tribunal est habilité à juger l'affaire en fonction de la nature du litige (civil, pénal, travail, entreprises) et de sa valeur financière. Un litige commercial relève du tribunal des entreprises, tandis qu'un vol relève du tribunal correctionnel ou de police.
+
+### B. La compétence territoriale (géographique)
+Elle détermine dans quelle ville ou région le procès doit se dérouler.
+- **En matière civile :** la règle de base est que l'on saisit le tribunal du domicile du défendeur (la personne que l'on attaque en justice). Exemple : si vous devez réclamer de l'argent à quelqu'un qui habite à Tournai, vous allez généralement devant le juge de cette région.
+- **En matière pénale :** la règle privilégie le lieu de commission de l'infraction (l'endroit où les faits se sont produits).
+
+### C. Le double degré de juridiction
+C'est un principe fondamental qui garantit qu'une affaire jugée en première instance peut toujours être contestée et réexaminée par une juridiction supérieure (la cour d'appel). L'objectif est d'offrir une justice plus sûre et équilibrée.
+
+## 6. Les différents tribunaux (de la base au sommet)
+
+### 1. Le Juge de Paix (Justice de Paix)
+- **Nature :** juridiction civile de proximité.
+- **Compétence :** petits litiges de la vie quotidienne de moins de 5 000 €. Traite aussi de manière exclusive, sans limite de montant : les troubles de voisinage (un arbre dont les feuilles bouchent vos gouttières), les litiges relatifs aux baux de résidence principale (propriétaire/locataire), la protection des personnes vulnérables (mesures d'accompagnement, protection des malades mentaux).
+- **Particularité :** juge unique qui siège au plus près des citoyens.
+
+### 2. Le Tribunal de Police
+- **Nature :** juridiction pénale et civile de proximité.
+- **Compétence pénale :** infractions les moins graves (contraventions, infractions au code de la route, non-port de la ceinture, alcool au volant) ainsi que des infractions involontaires spécifiques comme les atteintes involontaires à l'intégrité physique ou l'homicide routier (suite à un accident).
+- **Compétence civile :** indemnise les préjudices corporels ou matériels subis lors d'accidents de la route, quels que soient les montants.
+
+### 3. Le Tribunal du Travail
+- **Nature :** juridiction spécialisée.
+- **Compétence :** conflits individuels entre travailleurs et employeurs (licenciement, salaire, harcèlement, accidents du travail) ainsi que les litiges avec les organismes de sécurité sociale (ONSS, chômage, INAMI).
+- **Composition :** un juge professionnel (magistrat) et des juges consulaires/sociaux (issus des organisations syndicales et patronales) pour apporter un éclairage pratique du terrain.
+
+### 4. Le Tribunal des Entreprises (anciennement Tribunal de Commerce)
+- **Nature :** juridiction spécialisée pour les acteurs économiques.
+- **Compétence :** litiges entre entreprises, procédures de faillite (cessation de paiement et ébranlement du crédit), difficultés financières pour tenter de sauver les sociétés.
+- **Composition :** juges professionnels et juges consulaires (professionnels issus du monde économique et de l'entreprise).
+
+## À retenir
+- La Belgique est un État fédéral composé de 3 communautés et 3 régions.
+- Les pouvoirs législatif, exécutif et judiciaire sont séparés et indépendants.
+- Le pouvoir législatif vote les lois, l'exécutif les applique, le judiciaire tranche les litiges.
+- La pyramide des pouvoirs place le peuple à la base, puis le législatif, l'exécutif, le judiciaire et le Roi au sommet.
+- Les tribunaux ont des compétences d'attribution et territoriales précises.
+- Le double degré de juridiction permet de contester une décision en appel.`
 };
 
 const quizBank = {
@@ -552,117 +652,107 @@ const quizBank = {
       { q: "La distinction droit public / droit privé est…", options: ["Toujours absolue", "Parfois nuancée : une même situation peut faire intervenir les deux", "Inutile", "Réservée aux juges"], correct: 1 }
     ],
     fill: [
-      { text: "Le droit se définit comme l'ensemble des règles établies pour permettre la vie en {0} et régir les relations entre les individus.",
-        answers: [["société", "societe"]],
-        hints: ["Commence par « s », 7 lettres"],
-        synonyms: [["communauté", "collectivité", "vie commune"]] },
-      { text: "Le droit {0} est le droit en vigueur dans une société et à un moment donné.",
-        answers: [["positif"]],
-        hints: ["Contraire de « négatif »"],
-        synonyms: [["existant", "actuel", "en vigueur"]] },
-      { text: "Les lois sont votées par le pouvoir {0}, notamment les représentants élus à la Chambre.",
-        answers: [["législatif", "legislatif"]],
-        hints: ["Pouvoir qui fait les lois"],
-        synonyms: [["parlementaire", "qui vote les lois", "de la Chambre"]] },
-      { text: "L'expression « Nul n'est censé {0} la loi » rappelle que chacun est tenu de respecter les règles applicables.",
-        answers: [["ignorer"]],
-        hints: ["Synonyme de « ne pas savoir »"],
-        synonyms: [["ne pas connaître", "méconnaître", "ne pas être au courant"]] },
-      { text: "Le droit international {0} concerne les relations entre États et les organisations internationales.",
-        answers: [["public"]],
-        hints: ["Opposé à « privé »"],
-        synonyms: [["collectif", "entre États", "étatique"]] },
-      { text: "Le droit international {0} traite des situations privées comportant un élément d'extranéité.",
-        answers: [["privé", "prive"]],
-        hints: ["Opposé à « public »"],
-        synonyms: [["particulier", "personnel", "des particuliers"]] },
-      { text: "Le droit {0} définit les infractions et les peines.",
-        answers: [["pénal", "penal"]],
-        hints: ["Relatif aux crimes et délits"],
-        synonyms: [["criminel", "répressif", "des infractions"]] },
-      { text: "Le droit {0} concerne les impôts et les taxes.",
-        answers: [["fiscal"]],
-        hints: ["Relatif aux impôts"],
-        synonyms: [["des impôts", "tributaire", "des taxes"]] },
-      { text: "La {0} fixe les règles fondamentales de l'État belge et garantit des droits et libertés fondamentaux.",
-        answers: [["Constitution", "constitution"]],
-        hints: ["Texte fondamental de l'État"],
-        synonyms: [["loi fondamentale", "charte fondamentale", "texte constitutionnel"]] },
-      { text: "La Belgique est une monarchie {0} : les pouvoirs du Roi sont encadrés par la Constitution.",
-        answers: [["constitutionnelle"]],
-        hints: ["Adjectif dérivé de « constitution »"],
-        synonyms: [["encadrée par la Constitution", "parlementaire", "limitée"]] },
-      { text: "Les actes officiels du Roi requièrent en principe le {0} ministériel.",
-        answers: [["contreseing", "contre-seing"]],
-        hints: ["Signature d'un ministre"],
-        synonyms: [["aval", "approbation", "signature du ministre"]] },
-      { text: "Le droit public régit l'organisation de l'État et les relations entre les autorités publiques et les {0}.",
-        answers: [["citoyens"]],
-        hints: ["Habitants d'un pays"],
-        synonyms: [["habitants", "résidents", "administrés"]] },
-      { text: "Le droit privé régit principalement les relations entre personnes privées, placées en principe sur un pied d'{0} juridique.",
-        answers: [["égalité", "egalite"]],
-        hints: ["Absence de hiérarchie"],
-        synonyms: [["parité", "équilibre", "équité"]] },
-      { text: "Le gouvernement et les ministres ne peuvent pas adopter librement n'importe quelle règle : leur pouvoir réglementaire doit reposer sur une {0} juridique.",
-        answers: [["base"]],
-        hints: ["Fondement, socle"],
-        synonyms: [["fondement", "socle", "assise"]] },
-      { text: "La police administrative vise à prévenir les troubles à l'{0} public.",
-        answers: [["ordre"]],
-        hints: ["Contraire du désordre"],
-        synonyms: [["tranquillité", "calme", "paix"]] },
-      { text: "Les entreprises privées de sécurité ne {0} pas la police.",
-        answers: [["remplacent"]],
-        hints: ["Prendre la place de"],
-        synonyms: [["substituent", "suppléent", "se substituent à"]] },
-      { text: "Pour certaines professions sensibles, des conditions d'{0} peuvent être imposées par la loi.",
-        answers: [["honorabilité", "honorabilite"]],
-        hints: ["Qualité d'une personne honorable"],
-        synonyms: [["intégrité", "bonne moralité", "probité"]] },
-      { text: "Les sanctions {0} sont prononcées par l'autorité administrative compétente.",
-        answers: [["administratives"]],
-        hints: ["Relatives à l'administration"],
-        synonyms: [["de l'administration", "réglementaires", "de l'État"]] },
-      { text: "Lorsqu'une infraction est prévue par la loi, une juridiction {0} peut prononcer une peine.",
-        answers: [["pénale", "penale"]],
-        hints: ["Relatif aux peines"],
-        synonyms: [["criminelle", "répressive", "de jugement"]] },
-      { text: "La précision d'une règle peut limiter les {0} possibles, sans supprimer tout travail d'interprétation.",
-        answers: [["interprétations", "interpretations"]],
-        hints: ["Pluriel de « interprétation »"],
-        synonyms: [["lectures", "explications", "compréhensions"]] }
+      { text: "Le droit se définit comme l'ensemble des règles établies pour permettre la vie en {0} et régir les relations entre les individus.", answers: [["société", "societe"]], hints: ["Commence par « s », 7 lettres"], synonyms: [["communauté", "collectivité", "vie commune"]] },
+      { text: "Le droit {0} est le droit en vigueur dans une société et à un moment donné.", answers: [["positif"]], hints: ["Contraire de « négatif »"], synonyms: [["existant", "actuel", "en vigueur"]] },
+      { text: "Les lois sont votées par le pouvoir {0}, notamment les représentants élus à la Chambre.", answers: [["législatif", "legislatif"]], hints: ["Pouvoir qui fait les lois"], synonyms: [["parlementaire", "qui vote les lois", "de la Chambre"]] },
+      { text: "L'expression « Nul n'est censé {0} la loi » rappelle que chacun est tenu de respecter les règles applicables.", answers: [["ignorer"]], hints: ["Synonyme de « ne pas savoir »"], synonyms: [["ne pas connaître", "méconnaître", "ne pas être au courant"]] },
+      { text: "Le droit international {0} concerne les relations entre États et les organisations internationales.", answers: [["public"]], hints: ["Opposé à « privé »"], synonyms: [["collectif", "entre États", "étatique"]] },
+      { text: "Le droit international {0} traite des situations privées comportant un élément d'extranéité.", answers: [["privé", "prive"]], hints: ["Opposé à « public »"], synonyms: [["particulier", "personnel", "des particuliers"]] },
+      { text: "Le droit {0} définit les infractions et les peines.", answers: [["pénal", "penal"]], hints: ["Relatif aux crimes et délits"], synonyms: [["criminel", "répressif", "des infractions"]] },
+      { text: "Le droit {0} concerne les impôts et les taxes.", answers: [["fiscal"]], hints: ["Relatif aux impôts"], synonyms: [["des impôts", "tributaire", "des taxes"]] },
+      { text: "La {0} fixe les règles fondamentales de l'État belge et garantit des droits et libertés fondamentaux.", answers: [["Constitution", "constitution"]], hints: ["Texte fondamental de l'État"], synonyms: [["loi fondamentale", "charte fondamentale", "texte constitutionnel"]] },
+      { text: "La Belgique est une monarchie {0} : les pouvoirs du Roi sont encadrés par la Constitution.", answers: [["constitutionnelle"]], hints: ["Adjectif dérivé de « constitution »"], synonyms: [["encadrée par la Constitution", "parlementaire", "limitée"]] },
+      { text: "Les actes officiels du Roi requièrent en principe le {0} ministériel.", answers: [["contreseing", "contre-seing"]], hints: ["Signature d'un ministre"], synonyms: [["aval", "approbation", "signature du ministre"]] },
+      { text: "Le droit public régit l'organisation de l'État et les relations entre les autorités publiques et les {0}.", answers: [["citoyens"]], hints: ["Habitants d'un pays"], synonyms: [["habitants", "résidents", "administrés"]] },
+      { text: "Le droit privé régit principalement les relations entre personnes privées, placées en principe sur un pied d'{0} juridique.", answers: [["égalité", "egalite"]], hints: ["Absence de hiérarchie"], synonyms: [["parité", "équilibre", "équité"]] },
+      { text: "Le gouvernement et les ministres ne peuvent pas adopter librement n'importe quelle règle : leur pouvoir réglementaire doit reposer sur une {0} juridique.", answers: [["base"]], hints: ["Fondement, socle"], synonyms: [["fondement", "socle", "assise"]] },
+      { text: "La police administrative vise à prévenir les troubles à l'{0} public.", answers: [["ordre"]], hints: ["Contraire du désordre"], synonyms: [["tranquillité", "calme", "paix"]] },
+      { text: "Les entreprises privées de sécurité ne {0} pas la police.", answers: [["remplacent"]], hints: ["Prendre la place de"], synonyms: [["substituent", "suppléent", "se substituent à"]] },
+      { text: "Pour certaines professions sensibles, des conditions d'{0} peuvent être imposées par la loi.", answers: [["honorabilité", "honorabilite"]], hints: ["Qualité d'une personne honorable"], synonyms: [["intégrité", "bonne moralité", "probité"]] },
+      { text: "Les sanctions {0} sont prononcées par l'autorité administrative compétente.", answers: [["administratives"]], hints: ["Relatives à l'administration"], synonyms: [["de l'administration", "réglementaires", "de l'État"]] },
+      { text: "Lorsqu'une infraction est prévue par la loi, une juridiction {0} peut prononcer une peine.", answers: [["pénale", "penale"]], hints: ["Relatif aux peines"], synonyms: [["criminelle", "répressive", "de jugement"]] },
+      { text: "La précision d'une règle peut limiter les {0} possibles, sans supprimer tout travail d'interprétation.", answers: [["interprétations", "interpretations"]], hints: ["Pluriel de « interprétation »"], synonyms: [["lectures", "explications", "compréhensions"]] }
+    ]
+  },
+  2: {
+    qcm: [
+      { q: "La Belgique est un État…", options: ["Unitaire", "Fédéral", "Confédéral", "Régional uniquement"], correct: 1 },
+      { q: "Combien y a-t-il d'entités fédérées en Belgique ?", options: ["3", "4", "6", "10"], correct: 2 },
+      { q: "Quelles sont les deux catégories d'entités fédérées ?", options: ["Provinces et communes", "Communautés et régions", "Cantons et districts", "Départements et arrondissements"], correct: 1 },
+      { q: "Quelle matière est gérée par les Communautés ?", options: ["L'urbanisme", "L'enseignement", "Les travaux publics", "L'environnement"], correct: 1 },
+      { q: "Quelle matière est gérée par les Régions ?", options: ["La culture", "L'emploi des langues", "L'urbanisme", "L'enseignement"], correct: 2 },
+      { q: "Le pouvoir législatif belge est composé de…", options: ["La Chambre et le Sénat", "Le Roi seul", "Les tribunaux", "Le gouvernement"], correct: 0 },
+      { q: "Qui signe la loi pour qu'elle entre en vigueur ?", options: ["Le Premier ministre", "Le Roi (promulgation)", "Le Président de la Chambre", "Le Procureur du Roi"], correct: 1 },
+      { q: "Que s'est-il passé avec le Roi Baudouin et la loi sur l'avortement ?", options: ["Il a signé immédiatement", "Il a été destitué", "Il a été placé en incapacité de régner 24h", "Il a voté contre"], correct: 2 },
+      { q: "Le pouvoir exécutif fédéral comprend…", options: ["15 ministres (7 francophones, 7 néerlandophones + Premier ministre)", "Uniquement le Roi", "Les juges", "Les députés"], correct: 0 },
+      { q: "Le pouvoir judiciaire est composé de…", options: ["La Chambre et le Sénat", "Les cours, tribunaux, juges et Procureur du Roi", "Le gouvernement", "Les communautés"], correct: 1 },
+      { q: "Quel est le rôle du Procureur du Roi ?", options: ["Voter les lois", "Représenter la société dans les affaires pénales", "Signer les lois", "Gérer les régions"], correct: 1 },
+      { q: "En Belgique, le vote est…", options: ["Facultatif", "Obligatoire", "Réservé aux hommes", "Réservé aux propriétaires"], correct: 1 },
+      { q: "Le Juge de Paix traite les litiges de moins de…", options: ["1 000 €", "5 000 €", "10 000 €", "50 000 €"], correct: 1 },
+      { q: "Le Tribunal de Police juge…", options: ["Les faillites", "Les infractions les moins graves (code de la route, etc.)", "Les conflits de travail", "Les litiges entre entreprises"], correct: 1 },
+      { q: "Le Tribunal du Travail est composé de…", options: ["Uniquement de juges professionnels", "Un juge professionnel et des juges consulaires (syndicats/patronat)", "De jurés populaires", "De policiers"], correct: 1 },
+      { q: "Le Tribunal des Entreprises traite…", options: ["Les divorces", "Les litiges entre entreprises et les faillites", "Les troubles de voisinage", "Les infractions routières"], correct: 1 },
+      { q: "La compétence territoriale en matière civile privilégie…", options: ["Le lieu de l'infraction", "Le domicile du défendeur", "Le domicile du demandeur", "Le lieu du contrat"], correct: 1 },
+      { q: "Le double degré de juridiction permet…", options: ["De juger sans preuve", "De contester une décision en appel", "D'éviter le tribunal", "De supprimer les lois"], correct: 1 },
+      { q: "Que signifie « Nul n'est censé ignorer la loi » ?", options: ["On peut ignorer la loi", "Chacun est tenu de respecter les règles applicables", "Seuls les juges connaissent la loi", "La loi est secrète"], correct: 1 },
+      { q: "Les Communautés gèrent l'enseignement de manière…", options: ["Centralisée par l'État fédéral", "Autonome (calendriers différents Flandre/Wallonie)", "Identique partout", "Réservée au Roi"], correct: 1 }
+    ],
+    fill: [
+      { text: "La Belgique est un État {0} : le pouvoir est réparti entre l'État fédéral et des entités fédérées.", answers: [["fédéral", "federal"]], hints: ["Adjectif dérivé de « fédéralisme »"], synonyms: [["fédéré", "décentralisé", "composé"]] },
+      { text: "Les Communautés gèrent les matières liées à la {0}, la culture, l'enseignement et l'emploi des langues.", answers: [["personne"]], hints: ["L'individu en tant qu'être humain"], synonyms: [["individu", "citoyen", "être humain"]] },
+      { text: "Les Régions gèrent les matières liées au {0}, au territoire et à l'économie (urbanisme, environnement, travaux publics).", answers: [["sol"]], hints: ["La surface terrestre"], synonyms: [["territoire", "terre", "espace"]] },
+      { text: "Le pouvoir législatif {0} les lois.", answers: [["adopte"]], hints: ["Synonyme de « vote »"], synonyms: [["vote", "approuve", "édicte"]] },
+      { text: "Le pouvoir exécutif {0} et applique les lois.", answers: [["exécute", "execute"]], hints: ["Synonyme de « met en œuvre »"], synonyms: [["applique", "met en œuvre", "réalise"]] },
+      { text: "Le pouvoir judiciaire {0} les litiges.", answers: [["tranche"]], hints: ["Synonyme de « règle, décide »"], synonyms: [["juge", "règle", "décide"]] },
+      { text: "La Belgique est une monarchie {0} : les pouvoirs du Roi sont encadrés par la Constitution.", answers: [["constitutionnelle"]], hints: ["Adjectif dérivé de « constitution »"], synonyms: [["parlementaire", "limitée", "encadrée"]] },
+      { text: "Les actes officiels du Roi requièrent en principe le {0} ministériel.", answers: [["contreseing", "contre-seing"]], hints: ["Signature d'un ministre"], synonyms: [["aval", "approbation", "signature du ministre"]] },
+      { text: "La {0} des représentants est composée d'élus qui votent les lois.", answers: [["Chambre"]], hints: ["Une des deux chambres du Parlement"], synonyms: [["assemblée", "parlement", "hémicycle"]] },
+      { text: "Le {0} du Roi est le représentant de la société dans les affaires pénales.", answers: [["Procureur"]], hints: ["Magistrat qui poursuit les infractions"], synonyms: [["ministère public", "parquet", "magistrat"]] },
+      { text: "En Belgique, le vote est {0} : chaque citoyen doit participer aux élections.", answers: [["obligatoire"]], hints: ["Contraire de « facultatif »"], synonyms: [["impératif", "forcé", "requis"]] },
+      { text: "Le Juge de Paix traite les petits litiges de moins de 5 000 {0}.", answers: [["euros", "€"]], hints: ["La monnaie utilisée en Belgique"], synonyms: [["€", "EUR", "monnaie"]] },
+      { text: "Le Tribunal de {0} juge les infractions routières les moins graves.", answers: [["police"]], hints: ["Force de l'ordre"], synonyms: [["ordre public", "forces de l'ordre", "autorité"]] },
+      { text: "Le Tribunal du {0} règle les conflits entre travailleurs et employeurs.", answers: [["travail"]], hints: ["Activité professionnelle"], synonyms: [["emploi", "activité professionnelle", "métier"]] },
+      { text: "Le Tribunal des {0} traite les litiges entre sociétés et les faillites.", answers: [["entreprises"]], hints: ["Les acteurs économiques"], synonyms: [["sociétés", "compagnies", "firmes"]] },
+      { text: "La compétence {0} détermine quel type de tribunal est habilité selon la nature du litige.", answers: [["d'attribution", "attribution"]], hints: ["Répartition des compétences par matière"], synonyms: [["spécialisation", "matérielle", "par matière"]] },
+      { text: "La compétence {0} détermine dans quelle ville ou région le procès se déroule.", answers: [["territoriale"]], hints: ["Relative au territoire, à la géographie"], synonyms: [["géographique", "locale", "de lieu"]] },
+      { text: "Le {0} degré de juridiction permet de contester une décision en appel.", answers: [["double"]], hints: ["Deux fois, deux niveaux"], synonyms: [["second", "deuxième", "supérieur"]] },
+      { text: "Les entités fédérées possèdent leur propre {0} qui adopte des décrets.", answers: [["Parlement"]], hints: ["Assemblée législative locale"], synonyms: [["assemblée", "chambre", "conseil"]] },
+      { text: "Chaque entité fédérée possède un {0} local qui adopte des arrêtés.", answers: [["Gouvernement"]], hints: ["Pouvoir exécutif local"], synonyms: [["exécutif", "ministère", "cabinet"]] }
     ]
   }
 };
 
+/* ===== STATE ===== */
 let lessons = [];
 let currentDay = null;
 let editingDay = null;
 const STORAGE = "carnetDroit_v1";
 
-let quizState = {
-  day: 1,
-  tab: 'qcm',
-  questions: [],
-  answers: {},
-  fillAnswers: {},
-  score: 0,
-  index: 0,
-  finished: false,
-  showHints: false,
-  showSynonyms: false
-};
+let quizState = {day:1,tab:'qcm',questions:[],answers:{},fillAnswers:{},score:0,index:0,finished:false,showHints:false,showSynonyms:false};
 
+/* ===== LOAD ===== */
 function load(){
-  try{const saved=JSON.parse(localStorage.getItem(STORAGE));if(Array.isArray(saved)&&saved.length){lessons=saved;}else{lessons=[starter];}}
-  catch(e){lessons=[starter];}
+  try{
+    const saved=JSON.parse(localStorage.getItem(STORAGE));
+    if(Array.isArray(saved)&&saved.length){
+      lessons=saved;
+      // S'assurer que la leçon 2 existe (migration depuis l'ancienne sauvegarde)
+      if(!lessons.some(x=>Number(x.day)===2) || !lessons.find(x=>Number(x.day)===2).body){
+        const idx2=lessons.findIndex(x=>Number(x.day)===2);
+        if(idx2>=0) lessons[idx2]=lesson2; else lessons.push(lesson2);
+      }
+    } else {
+      lessons=[starter,lesson2];
+    }
+  }catch(e){lessons=[starter,lesson2];}
   for(let d=1;d<=10;d++) if(!lessons.some(x=>Number(x.day)===d)) lessons.push({day:d,title:"À compléter",category:"À venir",summary:"Emplacement réservé pour ton prochain cours.",body:""});
-  lessons.sort((a,b)=>a.day-b.day); persist();
+  lessons.sort((a,b)=>a.day-b.day);
+  persist();
 }
 function persist(){localStorage.setItem(STORAGE,JSON.stringify(lessons));}
 function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
 
+/* ===== RENDER GRID ===== */
 function renderGrid(){
  const q=(document.getElementById("search").value||"").toLowerCase();
  const grid=document.getElementById("dayGrid");grid.innerHTML="";
@@ -687,6 +777,7 @@ function renderGrid(){
  document.getElementById("statProgress").textContent=Math.round(done/lessons.length*100)+" %";
 }
 
+/* ===== NAV ===== */
 function showHome(){
   soundSwipe(); vibClick();
   document.getElementById("homeView").classList.remove("hidden");
@@ -712,26 +803,33 @@ function openLesson(day){
  const toggle=document.getElementById("summaryToggle");
  toggle.textContent="Résumé : désactivé";
  toggle.setAttribute("aria-pressed","false");
- document.getElementById("lessonContent").dataset.mode="full";
- document.getElementById("lessonContent").innerHTML=markdownLite(x.body);
- document.getElementById("lessonContent").style.animation='none';
- void document.getElementById("lessonContent").offsetWidth;
- document.getElementById("lessonContent").style.animation='fadeIn .4s ease';
+ const content=document.getElementById("lessonContent");
+ content.dataset.mode="full";
+ content.innerHTML=markdownLite(x.body);
+
+ // Bouton pyramide pour le jour 2
+ if (Number(x.day) === 2) {
+   const wrap = document.createElement('div');
+   wrap.className = 'pyr-btn-wrap';
+   wrap.innerHTML = '<button class="btn primary" style="padding:14px 28px;font-size:16px;background:linear-gradient(135deg,#9b83ff,#7c5cf0)" onclick="openPyramid()">🏛️ Voir la pyramide des pouvoirs</button>';
+   content.prepend(wrap);
+ }
+
+ content.style.animation='none';
+ void content.offsetWidth;
+ content.style.animation='fadeIn .4s ease';
 }
 
+/* ===== QUIZ ===== */
 function openQuiz(day, tab){
   const bank = quizBank[Number(day)];
   if (!bank) { showToast("Pas de quiz pour ce jour.", "⚠️"); return; }
   soundSwipe(); vibClick();
   quizState.day = Number(day);
   quizState.tab = (tab === 'fill') ? 'fill' : 'qcm';
-  quizState.answers = {};
-  quizState.fillAnswers = {};
-  quizState.score = 0;
-  quizState.index = 0;
-  quizState.finished = false;
-  quizState.showHints = false;
-  quizState.showSynonyms = false;
+  quizState.answers = {}; quizState.fillAnswers = {};
+  quizState.score = 0; quizState.index = 0; quizState.finished = false;
+  quizState.showHints = false; quizState.showSynonyms = false;
 
   document.getElementById("homeView").classList.add("hidden");
   document.getElementById("lessonView").classList.add("hidden");
@@ -766,29 +864,17 @@ function setTabButtons(){
 function switchQuizTab(tab){
   soundToggle(); vibToggle();
   quizState.tab = tab;
-  quizState.index = 0;
-  quizState.finished = false;
-  quizState.score = 0;
-  quizState.answers = {};
-  quizState.fillAnswers = {};
-  quizState.showHints = false;
-  quizState.showSynonyms = false;
+  quizState.index = 0; quizState.finished = false; quizState.score = 0;
+  quizState.answers = {}; quizState.fillAnswers = {};
+  quizState.showHints = false; quizState.showSynonyms = false;
   setTabButtons();
   document.getElementById("quizOnlyEyebrow").textContent = "JOUR " + quizState.day + " — " + (tab === 'qcm' ? 'QCM' : 'TEXTE À TROU');
   loadQuizQuestions();
   renderQuizStep();
 }
 
-function toggleHints(){
-  soundToggle(); vibToggle();
-  quizState.showHints = !quizState.showHints;
-  renderQuizStep();
-}
-function toggleSynonyms(){
-  soundToggle(); vibToggle();
-  quizState.showSynonyms = !quizState.showSynonyms;
-  renderQuizStep();
-}
+function toggleHints(){ soundToggle(); vibToggle(); quizState.showHints = !quizState.showHints; renderQuizStep(); }
+function toggleSynonyms(){ soundToggle(); vibToggle(); quizState.showSynonyms = !quizState.showSynonyms; renderQuizStep(); }
 
 function applySynonym(itemId, blankIdx, value){
   const input = document.querySelector(`.fill-input[data-fid="${itemId}"][data-bid="${blankIdx}"]`);
@@ -1024,13 +1110,9 @@ function quizPrev(){
 
 function restartCurrentQuiz(){
   soundClick(); vibClick();
-  quizState.answers = {};
-  quizState.fillAnswers = {};
-  quizState.score = 0;
-  quizState.index = 0;
-  quizState.finished = false;
-  quizState.showHints = false;
-  quizState.showSynonyms = false;
+  quizState.answers = {}; quizState.fillAnswers = {};
+  quizState.score = 0; quizState.index = 0; quizState.finished = false;
+  quizState.showHints = false; quizState.showSynonyms = false;
   renderQuizStep();
 }
 
@@ -1043,44 +1125,81 @@ function shuffleArray(arr) {
   return a;
 }
 
+/* ===== SUMMARY ===== */
 function toggleSummary(){
   soundToggle(); vibToggle();
  const x=lessons.find(a=>Number(a.day)===Number(currentDay));if(!x)return;
  const content=document.getElementById("lessonContent");
  const toggle=document.getElementById("summaryToggle");
  const isSummary=content.dataset.mode==="summary";
- if(isSummary){ content.innerHTML=markdownLite(x.body); content.dataset.mode="full"; toggle.textContent="Résumé : désactivé"; toggle.setAttribute("aria-pressed","false"); }
- else{ content.innerHTML=markdownLite(makeShortSummary(x.body)); content.dataset.mode="summary"; toggle.textContent="Résumé : activé"; toggle.setAttribute("aria-pressed","true"); }
+ if(isSummary){
+   content.innerHTML=markdownLite(x.body);
+   content.dataset.mode="full";
+   toggle.textContent="Résumé : désactivé";
+   toggle.setAttribute("aria-pressed","false");
+   if (Number(x.day) === 2) {
+     const wrap = document.createElement('div');
+     wrap.className = 'pyr-btn-wrap';
+     wrap.innerHTML = '<button class="btn primary" style="padding:14px 28px;font-size:16px;background:linear-gradient(135deg,#9b83ff,#7c5cf0)" onclick="openPyramid()">🏛️ Voir la pyramide des pouvoirs</button>';
+     content.prepend(wrap);
+   }
+ } else {
+   content.innerHTML=markdownLite(makeShortSummary(x.body));
+   content.dataset.mode="summary";
+   toggle.textContent="Résumé : activé";
+   toggle.setAttribute("aria-pressed","true");
+   if (Number(x.day) === 2) {
+     const wrap = document.createElement('div');
+     wrap.className = 'pyr-btn-wrap';
+     wrap.innerHTML = '<button class="btn primary" style="padding:14px 28px;font-size:16px;background:linear-gradient(135deg,#9b83ff,#7c5cf0)" onclick="openPyramid()">🏛️ Voir la pyramide des pouvoirs</button>';
+     content.prepend(wrap);
+   }
+ }
 }
 
 function makeShortSummary(body){
  if(Number(currentDay)===1) return `# Jour 1 — L'essentiel
 - **Droit :** ensemble de règles qui organisent la vie en société et encadrent les relations entre personnes et avec l'État.
-- **Caractéristiques :** le droit est présent dans la vie quotidienne, complexe, variable selon les lieux et évolutif dans le temps.
-- **Élaboration :** les lois sont adoptées par le pouvoir législatif ; les autorités exécutives prennent des règlements dans les limites de leurs compétences.
+- **Caractéristiques :** le droit est invasif, complexe, variable selon les lieux et évolutif dans le temps.
+- **Élaboration :** les lois sont adoptées par le pouvoir législatif ; l'exécutif prend des règlements dans les limites de ses compétences.
 - **Branches :** droit international (public/privé) et droit interne (public/privé).
 - **Droit privé :** relations entre personnes privées, en principe à égalité juridique.
 - **Droit public :** organisation de l'État et action des autorités publiques.
 - **Belgique :** la Constitution organise les pouvoirs et garantit des droits fondamentaux ; le Roi agit dans un cadre constitutionnel.
-- **Sécurité privée :** secteur réglementé, distinct des missions de police ; les autorisations et contrôles reposent sur la loi.
-- **Contrôles et sanctions :** des vérifications d'honorabilité peuvent être prévues ; les manquements peuvent entraîner des sanctions administratives et/ou pénales.`;
+- **Sécurité privée :** secteur réglementé, distinct des missions de police ; autorisations et contrôles reposent sur la loi.
+- **Contrôles et sanctions :** vérifications d'honorabilité ; manquements → sanctions administratives et/ou pénales.`;
+ if(Number(currentDay)===2) return `# Jour 2 — L'essentiel
+- **État fédéral :** la Belgique répartit le pouvoir entre l'État fédéral et des entités fédérées.
+- **6 entités fédérées :** 3 Communautés (française, flamande, germanophone) + 3 Régions (wallonne, flamande, Bruxelles-Capitale).
+- **Communautés :** matières liées à la personne (culture, enseignement, langues).
+- **Régions :** matières liées au sol (urbanisme, environnement, travaux publics).
+- **Séparation des pouvoirs :** législatif (vote les lois), exécutif (les applique), judiciaire (tranche les litiges).
+- **Législatif :** Parlement bicaméral + Roi (promulgation).
+- **Exécutif :** Gouvernement fédéral (15 ministres) + secrétaires d'État + Roi + administrations (SPF).
+- **Judiciaire :** cours et tribunaux, juges, Procureur du Roi ; indépendant de l'exécutif.
+- **Élections :** démocratie représentative, vote obligatoire en Belgique.
+- **Tribunaux :** Juge de Paix (< 5 000 €), Tribunal de Police (infractions routières), Tribunal du Travail (conflits employeurs/travailleurs), Tribunal des Entreprises (litiges commerciaux, faillites).
+- **Compétences :** d'attribution (type de tribunal), territoriale (lieu), et double degré de juridiction (appel).`;
  const headings=body.split(/\n/).filter(s=>/^#{1,3} /.test(s));
  const bullets=body.split(/\n/).filter(s=>/^[-*] /.test(s));
  return "# Résumé — "+(headings.slice(0,1)[0]||"Fiche de cours").replace(/^#+ /,"")+"\n"+headings.slice(1,7).map(s=>"- "+s.replace(/^#+ /,"")).join("\n")+"\n"+bullets.slice(0,6).join("\n");
 }
 
+/* ===== MARKDOWN LITE ===== */
 function markdownLite(src){
  return src.split(/\n/).map(line=>{
   let t=esc(line).replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>");
   if(line.startsWith("### "))return "<h4>"+esc(line.slice(4))+"</h4>";
   if(line.startsWith("## "))return "<h3>"+esc(line.slice(3))+"</h3>";
   if(line.startsWith("# "))return "<h3>"+esc(line.slice(2))+"</h3>";
+  if(line.startsWith("> "))return "<blockquote>"+t.slice(2)+"</blockquote>";
   if(line.startsWith("- "))return "<li>"+t.slice(2)+"</li>";
   if(!line.trim())return "";
   return "<p>"+t+"</p>";
  }).join("").replace(/(?:<li>.*?<\/li>)+/gs,m=>"<ul>"+m+"</ul>");
 }
 
+/* ===== EDITOR ===== */
 function newLesson(){ soundClick(); vibClick(); editLesson(null); }
 function editCurrent(){ soundClick(); vibClick(); editLesson(currentDay); }
 
@@ -1096,7 +1215,7 @@ function editLesson(day){
  document.getElementById("editCategory").value=x&&x.category!=="À venir"?x.category:"";
  document.getElementById("editSummary").value=x&&x.summary!=="Emplacement réservé pour ton prochain cours."?x.summary:"";
  document.getElementById("editBody").value=x?x.body:"";
- document.getElementById("deleteBtn").style.display=x&&x.day!==1?"inline-block":"none";
+ document.getElementById("deleteBtn").style.display=x&&x.day!==1&&x.day!==2?"inline-block":"none";
 }
 
 function saveLesson(){
@@ -1111,7 +1230,7 @@ function saveLesson(){
 }
 
 function deleteCurrent(){
- if(editingDay===null||Number(editingDay)===1)return;
+ if(editingDay===null||Number(editingDay)===1||Number(editingDay)===2)return;
  if(!confirm("Supprimer cette fiche ?"))return;
  soundError(); vibError();
  lessons=lessons.filter(x=>Number(x.day)!==Number(editingDay));persist();showToast("Fiche supprimée.", "🗑️");showHome();
@@ -1123,6 +1242,7 @@ function exportData(){
  showToast("Sauvegarde exportée !", "📥");
 }
 
+/* ===== INIT ===== */
 load();
 renderGrid();
 document.addEventListener('click', () => { getAudioCtx(); }, { once: true });
