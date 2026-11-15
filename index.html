@@ -179,8 +179,94 @@ main{padding:34px clamp(18px,4vw,54px);max-width:1400px;width:100%;margin:auto}
 
 .pyr-btn-wrap{margin:18px 0 22px;display:flex;justify-content:center}
 
-@media(max-width:760px){.app{grid-template-columns:1fr}aside{padding:13px 16px;border-right:0;border-bottom:1px solid var(--line)}.brand{padding:0}.nav{display:flex;overflow:auto;gap:5px}.navlabel,.side-note{display:none}.nav button{white-space:nowrap;width:auto}.stats{gap:8px}.stat{padding:12px}.stat strong{font-size:21px}main{padding-top:24px}.pyr-level.lvl-1 button{width:75%}.pyr-level.lvl-2 button{width:85%}.pyr-level.lvl-3 button{width:92%}.pyr-level.lvl-4 button{width:96%}}
-@media print{body{background:white;color:#111}.app{display:block}aside,.actions,.back,.toolbar,.footer,.btn,.quiz-controls,.card-quiz,.quiz-nav,.btn-aide,.btn-super-aide,.synonym-panel,.toast,.pyr-btn-wrap{display:none!important}main{padding:0}.panel,.day-card,.quiz-step{background:white;color:#111;border:0}.lesson-content p,.lesson-content li{color:#222}.lesson-content h3{color:#222}}
+/* ===== EXPLICATION SIMPLE (JE COMPRENDS RIEN) ===== */
+.explain-overlay{position:fixed;inset:0;background:rgba(5,10,22,.92);backdrop-filter:blur(8px);z-index:250;display:none;align-items:flex-start;justify-content:center;padding:20px;animation:fadeIn .3s;overflow-y:auto}
+.explain-overlay.show{display:flex}
+.explain-modal{
+  background:linear-gradient(160deg,#131e36,#0d1629);
+  border:2px solid #ffbd69;border-radius:22px;
+  max-width:860px;width:100%;margin:auto;
+  padding:clamp(20px,3.5vw,38px);
+  box-shadow:0 20px 70px rgba(255,189,105,.18),0 20px 60px rgba(0,0,0,.6);
+  position:relative;animation:scorePop .45s cubic-bezier(.2,.9,.3,1.2);
+}
+.explain-close{
+  position:absolute;top:14px;right:14px;background:#1a2945;border:1px solid var(--line);
+  color:var(--text);width:40px;height:40px;border-radius:50%;font-size:18px;line-height:1;transition:.2s;z-index:5;
+}
+.explain-close:hover{background:var(--red);border-color:var(--red);color:white;transform:rotate(90deg)}
+.explain-title{
+  display:flex;align-items:center;gap:12px;margin:0 0 6px;
+  font-size:clamp(22px,3vw,28px);color:#ffe9a8;line-height:1.2;
+}
+.explain-title .emoji{font-size:34px;filter:drop-shadow(0 4px 10px rgba(255,189,105,.4))}
+.explain-intro{
+  color:#c8d5f0;font-size:15px;margin:0 0 24px;padding:14px 18px;
+  background:#1a2945;border-radius:12px;border-left:4px solid #ffbd69;line-height:1.6;
+}
+.explain-section{
+  background:#0f1a30;border:1px solid #2a3a5a;border-radius:14px;
+  padding:18px 22px;margin-bottom:16px;transition:.2s;
+}
+.explain-section:hover{border-color:#5a6f9f;transform:translateX(2px)}
+.explain-section h4{
+  margin:0 0 12px;font-size:18px;color:#a9bdff;
+  display:flex;align-items:center;gap:10px;line-height:1.3;
+}
+.explain-section h4 .num{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:30px;height:30px;border-radius:50%;
+  background:linear-gradient(135deg,#ffbd69,#e08e3c);color:#1a1000;
+  font-weight:800;font-size:14px;flex-shrink:0;
+}
+.explain-section p{color:#d5def0;margin:8px 0;font-size:14.5px;line-height:1.65}
+.explain-section ul{color:#d5def0;margin:8px 0;padding-left:22px}
+.explain-section li{margin:6px 0;font-size:14.5px;line-height:1.55}
+.explain-section strong{color:#ffe9a8}
+.explain-example{
+  background:linear-gradient(135deg,#133a2e,#0f2a22);
+  border:1px solid #2a6b52;border-radius:10px;
+  padding:11px 14px;margin:10px 0;font-size:14px;color:#c8f5e2;
+  display:flex;gap:10px;align-items:flex-start;line-height:1.55;
+}
+.explain-example .ex-icon{font-size:18px;flex-shrink:0;line-height:1.4}
+.explain-example strong{color:#a6f0d4}
+.explain-compare{
+  background:linear-gradient(135deg,#2a2350,#1e1a3d);
+  border:1px solid #6a5acd;border-radius:10px;
+  padding:11px 14px;margin:10px 0;font-size:14px;color:#e0d5ff;
+  display:flex;gap:10px;align-items:flex-start;line-height:1.55;
+}
+.explain-compare .ex-icon{font-size:18px;flex-shrink:0;line-height:1.4}
+.explain-compare strong{color:#f0e5ff}
+
+/* Illustrations SVG dans les sections */
+.explain-illus{
+  display:flex;justify-content:center;align-items:center;
+  margin:14px 0;padding:14px;
+  background:radial-gradient(circle at center,#1a2945 0,transparent 70%);
+  border-radius:14px;
+}
+.explain-illus svg{max-width:100%;height:auto;filter:drop-shadow(0 6px 16px rgba(0,0,0,.3))}
+
+.explain-bottom{
+  text-align:center;margin-top:24px;padding-top:20px;border-top:1px dashed #3a4d72;
+}
+.explain-bottom p{color:var(--muted);font-size:13px;margin:0 0 14px}
+.explain-bottom .btn{padding:12px 24px;font-size:14px}
+
+.btn-comprends-rien{
+  background:linear-gradient(135deg,#ffbd69,#e08e3c);
+  border:0;color:#1a1000;font-weight:800;font-size:14px;
+  padding:11px 18px;border-radius:11px;transition:.25s;
+  display:inline-flex;align-items:center;gap:8px;
+  box-shadow:0 4px 14px rgba(255,189,105,.35);
+}
+.btn-comprends-rien:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(255,189,105,.45);filter:brightness(1.06)}
+.btn-comprends-rien:active{transform:scale(.97)}
+
+@media(max-width:760px){.app{grid-template-columns:1fr}aside{padding:13px 16px;border-right:0;border-bottom:1px solid var(--line)}.brand{padding:0}.nav{display:flex;overflow:auto;gap:5px}.navlabel,.side-note{display:none}.nav button{white-space:nowrap;width:auto}.stats{gap:8px}.stat{padding:12px}.stat strong{font-size:21px}main{padding-top:24px}.pyr-level.lvl-1 button{width:75%}.pyr-level.lvl-2 button{width:85%}.pyr-level.lvl-3 button{width:92%}.pyr-level.lvl-4 button{width:96%}.explain-section{padding:14px 16px}.explain-section h4{font-size:16px}}
+@media print{body{background:white;color:#111}.app{display:block}aside,.actions,.back,.toolbar,.footer,.btn,.quiz-controls,.card-quiz,.quiz-nav,.btn-aide,.btn-super-aide,.synonym-panel,.toast,.pyr-btn-wrap,.btn-comprends-rien,.explain-overlay{display:none!important}main{padding:0}.panel,.day-card,.quiz-step{background:white;color:#111;border:0}.lesson-content p,.lesson-content li{color:#222}.lesson-content h3{color:#222}}
 </style>
 </head>
 <body>
@@ -210,7 +296,7 @@ main{padding:34px clamp(18px,4vw,54px);max-width:1400px;width:100%;margin:auto}
   <section id="lessonView" class="hidden">
     <button class="back" onclick="showHome()">← Retour aux fiches</button>
     <div class="panel">
-      <div class="lesson-head"><div><div class="eyebrow" id="lessonEyebrow">JOUR 1</div><h2 id="lessonTitle"></h2><div class="lesson-meta" id="lessonMeta"></div></div><div class="actions"><button class="btn" id="summaryToggle" onclick="toggleSummary()" aria-pressed="false">Résumé : désactivé</button><button class="btn" onclick="editCurrent()">✎ Modifier</button><button class="btn" onclick="window.print()">Imprimer</button></div></div>
+      <div class="lesson-head"><div><div class="eyebrow" id="lessonEyebrow">JOUR 1</div><h2 id="lessonTitle"></h2><div class="lesson-meta" id="lessonMeta"></div></div><div class="actions"><button class="btn-comprends-rien" id="btnComprendsRien" onclick="openExplain()">🤯 Je comprends rien</button><button class="btn" id="summaryToggle" onclick="toggleSummary()" aria-pressed="false">Résumé : désactivé</button><button class="btn" onclick="editCurrent()">✎ Modifier</button><button class="btn" onclick="window.print()">Imprimer</button></div></div>
       <div class="lesson-content" id="lessonContent"></div>
     </div>
   </section>
@@ -274,6 +360,20 @@ main{padding:34px clamp(18px,4vw,54px);max-width:1400px;width:100%;margin:auto}
       <p style="color:var(--muted);margin:0;text-align:center">👆 Clique sur un niveau de la pyramide pour voir les détails.</p>
     </div>
     <p class="pyr-hint">La pyramide illustre la séparation des pouvoirs : chaque niveau a un rôle distinct et indépendant.</p>
+  </div>
+</div>
+
+<!-- MODALE EXPLICATION SIMPLE -->
+<div class="explain-overlay" id="explainOverlay" onclick="if(event.target===this)closeExplain()">
+  <div class="explain-modal">
+    <button class="explain-close" onclick="closeExplain()" title="Fermer">✕</button>
+    <h2 class="explain-title"><span class="emoji">🤯</span> Je comprends rien… mais alors vraiment rien !</h2>
+    <p class="explain-intro" id="explainIntro">Pas de panique ! Voici la fiche expliquée <strong>comme si tu avais 7 ans</strong> : chaque idée est simplifiée à l'extrême, avec des exemples de tous les jours et des comparaisons faciles. Lis tranquillement, un point à la fois.</p>
+    <div id="explainContent"></div>
+    <div class="explain-bottom">
+      <p>💡 <em>Relis cette version simplifiée, puis retourne voir la fiche complète : tu verras, ça ira beaucoup mieux !</em></p>
+      <button class="btn primary" onclick="closeExplain()">👍 OK, j'ai compris !</button>
+    </div>
   </div>
 </div>
 
@@ -347,6 +447,7 @@ function soundPop(){
 function soundToggle(){playSoftNote({freq:880,type:'sine',duration:.1,volume:.035,attack:.02,release:.3,filterFreq:1800});playSoftNote({freq:1320,type:'sine',duration:.1,volume:.018,delay:.03,attack:.03,release:.3,filterFreq:2400});}
 function soundPyramidOpen(){playSoftNote({freq:392,type:'triangle',duration:.3,volume:.04,attack:.05,release:.5,filterFreq:1200});playSoftNote({freq:523.25,type:'triangle',duration:.35,volume:.035,delay:.08,attack:.05,release:.5,filterFreq:1400});playSoftNote({freq:659.25,type:'sine',duration:.4,volume:.03,delay:.16,attack:.06,release:.6,filterFreq:1600});}
 function soundPyramidClick(){playSoftNote({freq:587.33,type:'sine',duration:.15,volume:.04,attack:.02,release:.3,filterFreq:1800});playSoftNote({freq:880,type:'sine',duration:.12,volume:.02,delay:.04,attack:.03,release:.35,filterFreq:2200});}
+function soundExplainOpen(){playSoftNote({freq:523.25,type:'triangle',duration:.4,volume:.04,attack:.05,release:.6,filterFreq:1400});playSoftNote({freq:659.25,type:'triangle',duration:.45,volume:.035,delay:.1,attack:.06,release:.6,filterFreq:1600});playSoftNote({freq:783.99,type:'sine',duration:.5,volume:.03,delay:.2,attack:.07,release:.7,filterFreq:1800});}
 
 /* ===== VIBRATION ===== */
 function vibrate(p){if(navigator.vibrate){try{navigator.vibrate(p);}catch(e){}}}
@@ -372,6 +473,366 @@ function launchConfetti(count=40){
     el.style.borderRadius=Math.random()>.5?'50%':'2px';
     document.body.appendChild(el);setTimeout(()=>el.remove(),3500);
   }
+}
+
+/* ===== SVG ILLUSTRATIONS (dessins simples) ===== */
+const svgIllus = {
+  balance: `<svg viewBox="0 0 200 140" width="200" height="140" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="100" cy="20" r="6" fill="#ffbd69"/>
+    <rect x="98" y="26" width="4" height="70" fill="#ffbd69"/>
+    <polygon points="60,96 140,96 150,108 50,108" fill="#7c9cff"/>
+    <circle cx="50" cy="108" r="4" fill="#9b83ff"/>
+    <circle cx="150" cy="108" r="4" fill="#9b83ff"/>
+    <path d="M40 55 L60 96 M160 55 L140 96" stroke="#ffbd69" stroke-width="3" fill="none"/>
+    <line x1="40" y1="55" x2="160" y2="55" stroke="#ffbd69" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="40" cy="55" r="8" fill="#ffbd69"/>
+    <circle cx="160" cy="55" r="8" fill="#ffbd69"/>
+    <text x="100" y="132" text-anchor="middle" fill="#9aabc8" font-size="10" font-family="sans-serif">la justice pèse le pour et le contre</text>
+  </svg>`,
+  famille: `<svg viewBox="0 0 220 140" width="220" height="140" xmlns="http://www.w3.org/2000/svg">
+    <rect x="20" y="60" width="180" height="60" rx="6" fill="#1a2945" stroke="#293754" stroke-width="2"/>
+    <polygon points="20,60 110,20 200,60" fill="#7c9cff"/>
+    <rect x="95" y="85" width="30" height="35" fill="#ffbd69"/>
+    <rect x="40" y="80" width="20" height="20" fill="#9b83ff"/>
+    <rect x="160" y="80" width="20" height="20" fill="#55d6a0"/>
+    <circle cx="50" cy="90" r="3" fill="#edf3ff"/>
+    <circle cx="170" cy="90" r="3" fill="#edf3ff"/>
+    <text x="110" y="135" text-anchor="middle" fill="#9aabc8" font-size="10" font-family="sans-serif">les règles de la maison</text>
+  </svg>`,
+  ecole: `<svg viewBox="0 0 220 140" width="220" height="140" xmlns="http://www.w3.org/2000/svg">
+    <rect x="40" y="50" width="140" height="70" rx="4" fill="#1a2945" stroke="#293754" stroke-width="2"/>
+    <polygon points="30,50 110,10 190,50" fill="#55d6a0"/>
+    <rect x="55" y="65" width="25" height="25" fill="#7c9cff"/>
+    <rect x="95" y="65" width="25" height="25" fill="#9b83ff"/>
+    <rect x="135" y="65" width="25" height="25" fill="#ffbd69"/>
+    <rect x="90" y="95" width="40" height="25" fill="#ff7b86"/>
+    <circle cx="105" cy="108" r="2" fill="#1a2945"/>
+    <text x="110" y="135" text-anchor="middle" fill="#9aabc8" font-size="10" font-family="sans-serif">l'école des règles</text>
+  </svg>`,
+  roi: `<svg viewBox="0 0 160 140" width="160" height="140" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="40,50 50,25 70,45 80,15 90,45 110,25 120,50" fill="#ffbd69" stroke="#e08e3c" stroke-width="2"/>
+    <circle cx="50" cy="28" r="4" fill="#ff7b86"/>
+    <circle cx="80" cy="18" r="4" fill="#55d6a0"/>
+    <circle cx="110" cy="28" r="4" fill="#7c9cff"/>
+    <rect x="40" y="50" width="80" height="12" fill="#ffbd69" stroke="#e08e3c" stroke-width="2"/>
+    <circle cx="80" cy="85" r="20" fill="#ffe9a8"/>
+    <circle cx="72" cy="80" r="3" fill="#1a1000"/>
+    <circle cx="88" cy="80" r="3" fill="#1a1000"/>
+    <path d="M72 92 Q80 98 88 92" stroke="#1a1000" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <text x="80" y="130" text-anchor="middle" fill="#9aabc8" font-size="10" font-family="sans-serif">le roi signe les lois</text>
+  </svg>`,
+  vote: `<svg viewBox="0 0 200 140" width="200" height="140" xmlns="http://www.w3.org/2000/svg">
+    <rect x="60" y="40" width="80" height="50" rx="4" fill="#1a2945" stroke="#7c9cff" stroke-width="2"/>
+    <rect x="70" y="30" width="60" height="15" rx="2" fill="#293754"/>
+    <rect x="85" y="20" width="30" height="15" rx="1" fill="#ffe9a8"/>
+    <circle cx="100" cy="27" r="3" fill="#ff7b86"/>
+    <path d="M65 55 L75 75 L95 50" stroke="#55d6a0" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="100" y="120" text-anchor="middle" fill="#9aabc8" font-size="10" font-family="sans-serif">voter = choisir</text>
+  </svg>`,
+  puzzle: `<svg viewBox="0 0 200 140" width="200" height="140" xmlns="http://www.w3.org/2000/svg">
+    <rect x="30" y="40" width="40" height="40" rx="4" fill="#7c9cff"/>
+    <rect x="80" y="40" width="40" height="40" rx="4" fill="#9b83ff"/>
+    <rect x="130" y="40" width="40" height="40" rx="4" fill="#55d6a0"/>
+    <rect x="30" y="90" width="40" height="40" rx="4" fill="#ffbd69"/>
+    <rect x="80" y="90" width="40" height="40" rx="4" fill="#ff7b86"/>
+    <circle cx="100" cy="60" r="4" fill="#0d1629"/>
+    <circle cx="100" cy="110" r="4" fill="#0d1629"/>
+    <text x="100" y="145" text-anchor="middle" fill="#9aabc8" font-size="10" font-family="sans-serif">les pièces du puzzle</text>
+  </svg>`,
+  puzzle2: `<svg viewBox="0 0 200 140" width="200" height="140" xmlns="http://www.w3.org/2000/svg">
+    <rect x="30" y="40" width="40" height="40" rx="4" fill="#7c9cff"/>
+    <rect x="80" y="40" width="40" height="40" rx="4" fill="#9b83ff"/>
+    <rect x="130" y="40" width="40" height="40" rx="4" fill="#55d6a0"/>
+    <rect x="30" y="90" width="40" height="40" rx="4" fill="#ffbd69"/>
+    <rect x="80" y="90" width="40" height="40" rx="4" fill="#ff7b86"/>
+    <circle cx="100" cy="60" r="4" fill="#0d1629"/>
+    <circle cx="100" cy="110" r="4" fill="#0d1629"/>
+    <text x="100" y="145" text-anchor="middle" fill="#9aabc8" font-size="10" font-family="sans-serif">les 6 morceaux du pays</text>
+  </svg>`,
+  pouvoirs: `<svg viewBox="0 0 220 140" width="220" height="140" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="110" cy="70" r="40" fill="none" stroke="#7c9cff" stroke-width="2" stroke-dasharray="4 4"/>
+    <circle cx="110" cy="35" r="14" fill="#ffbd69"/>
+    <text x="110" y="40" text-anchor="middle" fill="#1a1000" font-weight="bold" font-size="12">1</text>
+    <circle cx="145" cy="85" r="14" fill="#7c9cff"/>
+    <text x="145" y="90" text-anchor="middle" fill="#fff" font-weight="bold" font-size="12">2</text>
+    <circle cx="75" cy="85" r="14" fill="#55d6a0"/>
+    <text x="75" y="90" text-anchor="middle" fill="#fff" font-weight="bold" font-size="12">3</text>
+    <text x="110" y="25" text-anchor="middle" fill="#ffbd69" font-size="9" font-family="sans-serif">LÉGISLATIF</text>
+    <text x="170" y="90" text-anchor="middle" fill="#7c9cff" font-size="9" font-family="sans-serif">EXÉCUTIF</text>
+    <text x="50" y="90" text-anchor="middle" fill="#55d6a0" font-size="9" font-family="sans-serif">JUDICIAIRE</text>
+    <text x="110" y="132" text-anchor="middle" fill="#9aabc8" font-size="10" font-family="sans-serif">3 pouvoirs qui se partagent le travail</text>
+  </svg>`,
+  tribunal: `<svg viewBox="0 0 220 140" width="220" height="140" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="30,50 110,15 190,50" fill="#7c9cff"/>
+    <rect x="40" y="50" width="140" height="8" fill="#5a6fd6"/>
+    <rect x="50" y="58" width="10" height="55" fill="#293754"/>
+    <rect x="105" y="58" width="10" height="55" fill="#293754"/>
+    <rect x="160" y="58" width="10" height="55" fill="#293754"/>
+    <rect x="30" y="113" width="160" height="8" fill="#5a6fd6"/>
+    <circle cx="110" cy="35" r="8" fill="#ffbd69"/>
+    <text x="110" y="135" text-anchor="middle" fill="#9aabc8" font-size="10" font-family="sans-serif">le tribunal tranche</text>
+  </svg>`,
+  tribunal2: `<svg viewBox="0 0 220 140" width="220" height="140" xmlns="http://www.w3.org/2000/svg">
+    <rect x="30" y="80" width="50" height="30" rx="4" fill="#ffbd69"/>
+    <text x="55" y="100" text-anchor="middle" fill="#1a1000" font-weight="bold" font-size="10">PAIX</text>
+    <rect x="90" y="80" width="50" height="30" rx="4" fill="#7c9cff"/>
+    <text x="115" y="100" text-anchor="middle" fill="#fff" font-weight="bold" font-size="10">POLICE</text>
+    <rect x="150" y="80" width="40" height="30" rx="4" fill="#55d6a0"/>
+    <text x="170" y="100" text-anchor="middle" fill="#fff" font-weight="bold" font-size="9">TRAVAIL</text>
+    <text x="110" y="135" text-anchor="middle" fill="#9aabc8" font-size="10" font-family="sans-serif">chacun sa spécialité</text>
+  </svg>`,
+  echelle: `<svg viewBox="0 0 200 140" width="200" height="140" xmlns="http://www.w3.org/2000/svg">
+    <rect x="40" y="100" width="120" height="6" fill="#293754"/>
+    <rect x="60" y="80" width="80" height="6" fill="#293754"/>
+    <rect x="80" y="60" width="40" height="6" fill="#293754"/>
+    <rect x="90" y="40" width="20" height="6" fill="#293754"/>
+    <circle cx="100" cy="30" r="10" fill="#ffbd69"/>
+    <text x="100" y="132" text-anchor="middle" fill="#9aabc8" font-size="10" font-family="sans-serif">l'appel = 2e chance</text>
+  </svg>`
+};
+
+/* ===== EXPLICATIONS SIMPLES (JE COMPRENDS RIEN) ===== */
+/* ⚠️ Ce bloc est déclaré AVANT openExplain pour éviter tout conflit */
+const explainBank = {
+  1: {
+    intro: "Aujourd'hui on parle du droit en général. Accroche-toi, on va tout simplifier avec des exemples très très simples.",
+    sections: [
+      {
+        title: "C'est quoi le droit ?",
+        num: 1,
+        illus: 'balance',
+        paragraphs: [
+          "Le droit, c'est un <strong>ensemble de règles</strong> pour que tout le monde puisse vivre ensemble sans se taper dessus.",
+          "Ces règles disent ce qu'on peut faire, ce qu'on ne peut pas faire, et ce qui se passe si on ne respecte pas."
+        ],
+        examples: [
+          { icon: "🚦", text: "<strong>Exemple :</strong> le feu rouge, c'est une règle. Tout le monde s'arrête, comme ça les voitures ne se rentrent pas dedans." },
+          { icon: "⚽", text: "<strong>Comparaison :</strong> le droit, c'est comme les règles du jeu quand tu joues au foot. Sans règles, ce serait le chaos total !" }
+        ]
+      },
+      {
+        title: "Les 4 caractéristiques du droit",
+        num: 2,
+        illus: 'puzzle',
+        paragraphs: ["Le droit a 4 grandes particularités qu'il faut retenir :"],
+        list: [
+          "<strong>Il est invasif :</strong> il est partout, même dans des trucs tout bêtes. Par exemple, il y a des règles sur ce que tu mets dans ton assiette, sur comment tu construis ta maison, sur ce que tu dis en public…",
+          "<strong>Il est compliqué :</strong> il y a énormément de lois, et elles sont parfois écrites dans un langage dur à comprendre. C'est pour ça qu'on a besoin d'avocats et de juges pour nous aider.",
+          "<strong>Il change selon l'endroit :</strong> une règle ici, ce n'est pas la même ailleurs. En France on peut rouler à 130 km/h sur l'autoroute, en Belgique à 120 km/h. Ce n'est pas pareil non plus entre la Flandre et la Wallonie pour certaines choses.",
+          "<strong>Il change avec le temps :</strong> les règles évoluent. Avant, on ne pouvait pas se marier entre personnes du même sexe. Maintenant, si. Parce que la société a changé, le droit a suivi."
+        ],
+        examples: [
+          { icon: "🚗", text: "<strong>Exemple :</strong> la ceinture de sécurité. Il y a 50 ans, personne ne la mettait. Maintenant, c'est obligatoire parce qu'on a compris que ça sauve des vies." }
+        ]
+      },
+      {
+        title: "Les grandes familles du droit",
+        num: 3,
+        illus: 'famille',
+        paragraphs: ["Imagine que le droit, c'est un gros classeur avec plein de tiroirs. Chaque tiroir a son sujet."],
+        list: [
+          "<strong>Droit international public :</strong> les règles entre les pays, comme quand la Belgique parle avec la France ou avec l'Europe.",
+          "<strong>Droit international privé :</strong> quand une histoire privée dépasse les frontières. Par exemple, un Belge qui divorce d'une Française : quelles règles on applique ?",
+          "<strong>Droit privé :</strong> les règles entre les personnes « normales » : toi et ton voisin, toi et ton patron, toi et ton vendeur.",
+          "<strong>Droit public :</strong> les règles qui concernent l'État, les administrations, la police, les impôts. C'est quand l'État s'en mêle !"
+        ],
+        examples: [
+          { icon: "🏠", text: "<strong>Exemple de droit privé :</strong> tu signes un contrat pour louer un appartement, c'est du droit privé." },
+          { icon: "🚓", text: "<strong>Exemple de droit public :</strong> tu reçois une amende pour excès de vitesse, c'est du droit public (l'État te fait payer)." }
+        ]
+      },
+      {
+        title: "La Belgique et sa Constitution",
+        num: 4,
+        illus: 'roi',
+        paragraphs: [
+          "La <strong>Constitution</strong>, c'est LE livre le plus important de la Belgique. C'est comme la règle du jeu suprême : elle dit comment le pays doit fonctionner et quels sont tes droits de base.",
+          "La Belgique est une <strong>monarchie constitutionnelle</strong> : il y a un roi, mais il n'a pas tout le pouvoir. Il doit respecter la Constitution, comme tout le monde."
+        ],
+        examples: [
+          { icon: "👑", text: "<strong>Exemple :</strong> quand une loi est votée, le Roi doit la signer. C'est comme le tampon officiel « approuvé ». Mais si le Roi refuse, ce n'est pas la fin du monde : le gouvernement peut signer à sa place (c'est déjà arrivé pour la loi sur l'avortement avec le Roi Baudouin)." }
+        ]
+      },
+      {
+        title: "Les sanctions : gare aux bêtises !",
+        num: 5,
+        illus: 'echelle',
+        paragraphs: [
+          "Quand on ne respecte pas le droit, il y a des <strong>sanctions</strong>. C'est la punition.",
+          "Il y a deux grandes sortes de sanctions :"
+        ],
+        list: [
+          "<strong>Sanctions pénales :</strong> tu as fait une vraie bêtise grave (voler, frapper quelqu'un, rouler trop vite). C'est le juge pénal qui décide : une amende, ou parfois de la prison.",
+          "<strong>Sanctions administratives :</strong> c'est l'administration (la mairie, le ministère…) qui te punit sans passer par un juge. Par exemple, on te retire ton permis de conduire, ou on ferme ton magasin."
+        ],
+        examples: [
+          { icon: "📝", text: "<strong>Exemple :</strong> tu conduis trop vite → le tribunal de police peut te donner une amende (sanction pénale). Et en plus, l'administration peut te retirer ton permis (sanction administrative)." }
+        ]
+      },
+      {
+        title: "À retenir absolument",
+        num: 6,
+        illus: 'ecole',
+        paragraphs: [
+          "Le droit, c'est des règles pour vivre ensemble. Il est partout, il change selon les pays et avec le temps. En Belgique, la Constitution est la règle suprême. Et si on ne respecte pas, il y a des punitions : soit des juges (pénal), soit l'administration (administratif)."
+        ],
+        examples: [
+          { icon: "🧠", text: "<strong>Astuce mémoire :</strong> pense à un match de foot. Le terrain = le pays. Les règles du jeu = le droit. L'arbitre = le juge. Le carton rouge = la sanction. Simple, non ?" }
+        ]
+      }
+    ]
+  },
+  2: {
+    intro: "Aujourd'hui on parle de comment la Belgique est organisée, avec ses pouvoirs et ses tribunaux. On va prendre des images très simples.",
+    sections: [
+      {
+        title: "La Belgique, un pays en plusieurs morceaux",
+        num: 1,
+        illus: 'puzzle2',
+        paragraphs: [
+          "La Belgique n'est pas un pays tout simple : c'est un <strong>État fédéral</strong>. Ça veut dire que le pays est découpé en plusieurs parties, et que chacune a un peu de pouvoir.",
+          "Il y a 6 morceaux au total : 3 <strong>Communautés</strong> et 3 <strong>Régions</strong>."
+        ],
+        list: [
+          "<strong>Les Communautés :</strong> elles s'occupent des choses liées à la personne : la culture, l'école, la langue. Par exemple, l'école en Flandre et l'école en Wallonie ne sont pas exactement pareilles (jours de congé différents, par exemple).",
+          "<strong>Les Régions :</strong> elles s'occupent des choses liées au sol et à l'économie : les routes, l'urbanisme, l'environnement."
+        ],
+        examples: [
+          { icon: "🏫", text: "<strong>Comparaison :</strong> c'est comme si dans une grande maison, il y avait plusieurs pièces. Dans la pièce « école », c'est la Communauté qui décide de la déco. Dans la pièce « route », c'est la Région qui décide." }
+        ]
+      },
+      {
+        title: "Les 3 grands pouvoirs",
+        num: 2,
+        illus: 'pouvoirs',
+        paragraphs: [
+          "En Belgique, il y a 3 pouvoirs qui se partagent le travail. C'est un peu comme une équipe de super-héros où chacun a son rôle."
+        ],
+        list: [
+          "<strong>Le pouvoir législatif :</strong> c'est lui qui <strong>crée les règles</strong> (les lois). C'est le Parlement (les députés qu'on élit) + le Roi.",
+          "<strong>Le pouvoir exécutif :</strong> c'est lui qui <strong>applique les règles</strong>. C'est le Gouvernement (les ministres) + le Roi.",
+          "<strong>Le pouvoir judiciaire :</strong> c'est lui qui <strong>tranche les disputes</strong> et punit ceux qui ne respectent pas les règles. Ce sont les juges et les tribunaux."
+        ],
+        examples: [
+          { icon: "⚖️", text: "<strong>Comparaison :</strong> imagine une école. Le directeur décide des règles (législatif), les profs les font respecter en classe (exécutif), et le surveillant punit ceux qui ne les respectent pas (judiciaire)." }
+        ]
+      },
+      {
+        title: "Le Roi, il sert à quoi ?",
+        num: 3,
+        illus: 'roi',
+        paragraphs: [
+          "Le Roi ne décide pas de tout, contrairement à ce qu'on pourrait penser. Il a un rôle important mais limité.",
+          "Quand une loi est votée par le Parlement, le Roi doit la <strong>signer</strong>. C'est ce qu'on appelle la <strong>promulgation</strong>. Sans sa signature, la loi ne peut pas entrer en vigueur."
+        ],
+        examples: [
+          { icon: "✍️", text: "<strong>Exemple :</strong> imagine que le Parlement vote une loi pour interdire de fumer dans les voitures. Une fois votée, le Roi doit la signer. S'il refuse, la loi ne s'applique pas. Mais en réalité, le Roi signe toujours, sauf cas très exceptionnel (comme le Roi Baudouin qui a refusé de signer la loi sur l'avortement)." }
+        ]
+      },
+      {
+        title: "Le peuple, la base de tout",
+        num: 4,
+        illus: 'vote',
+        paragraphs: [
+          "Le peuple, c'est nous, les citoyens. C'est nous qui élisons les personnes qui vont nous représenter et prendre les décisions.",
+          "En Belgique, le vote est <strong>obligatoire</strong> : tu ne peux pas rester chez toi le jour des élections !"
+        ],
+        examples: [
+          { icon: "🗳️", text: "<strong>Comparaison :</strong> c'est comme élire le délégué de classe. Tu ne peux pas voter pour toi-même, mais tu choisis celui qui va parler pour la classe. Les élections, c'est la même chose, mais pour le pays." }
+        ]
+      },
+      {
+        title: "Les tribunaux : qui juge quoi ?",
+        num: 5,
+        illus: 'tribunal2',
+        paragraphs: [
+          "Il y a plusieurs tribunaux, chacun spécialisé dans un type de problème. C'est comme à l'hôpital : il y a des médecins pour les os, d'autres pour le cœur, etc."
+        ],
+        list: [
+          "<strong>Le Juge de Paix :</strong> il s'occupe des petits problèmes du quotidien, les disputes de moins de 5 000 €. Par exemple, ton voisin a un arbre qui dépasse chez toi et tu veux qu'il le coupe. Ou un problème avec ton propriétaire.",
+          "<strong>Le Tribunal de Police :</strong> il juge les petites infractions, surtout sur la route : excès de vitesse, feu rouge grillé, accident de voiture. Pas les grands crimes.",
+          "<strong>Le Tribunal du Travail :</strong> il règle les problèmes entre les travailleurs et les patrons : licenciement, salaire, harcèlement. C'est lui aussi qui gère les problèmes avec le chômage ou la mutuelle.",
+          "<strong>Le Tribunal des Entreprises :</strong> il s'occupe des problèmes entre les entreprises : dettes, faillites. C'est le tribunal des affaires."
+        ],
+        examples: [
+          { icon: "🏢", text: "<strong>Comparaison :</strong> c'est comme dans une école avec plusieurs classes. La classe des petits problèmes, la classe des problèmes de voiture, la classe des problèmes de boulot, la classe des problèmes d'argent." }
+        ]
+      },
+      {
+        title: "Où se passe le procès ?",
+        num: 6,
+        illus: 'tribunal',
+        paragraphs: [
+          "On ne va pas au tribunal n'importe où. Il y a des règles :",
+          "En général, on va au tribunal du lieu où habite la personne qu'on attaque (le défendeur). Mais si c'est une affaire pénale (un délit), on va au tribunal du lieu où le délit a été commis."
+        ],
+        examples: [
+          { icon: "🗺️", text: "<strong>Exemple :</strong> tu veux réclamer de l'argent à quelqu'un qui habite à Tournai. Et bien, tu devras aller au tribunal de Tournai. Si c'est une agression qui a eu lieu à Liège, le procès se tiendra à Liège." }
+        ]
+      },
+      {
+        title: "L'appel : une deuxième chance",
+        num: 7,
+        illus: 'echelle',
+        paragraphs: [
+          "Si tu perds un procès et que tu penses que la décision est injuste, tu peux faire appel. C'est ce qu'on appelle le <strong>double degré de juridiction</strong>.",
+          "C'est une deuxième chance : une autre cour (plus haute) réexamine l'affaire."
+        ],
+        examples: [
+          { icon: "🔁", text: "<strong>Comparaison :</strong> c'est comme quand tu demandes à un autre professeur de corriger ta copie parce que tu penses que la note est injuste. La première décision peut être revue par quelqu'un d'autre." }
+        ]
+      },
+      {
+        title: "À retenir absolument",
+        num: 8,
+        illus: 'ecole',
+        paragraphs: [
+          "La Belgique est un pays fédéral avec 6 morceaux. Il y a 3 pouvoirs : législatif (crée les lois), exécutif (applique les lois), judiciaire (tranche les disputes). Le peuple élit les représentants. Le Roi signe les lois mais ne décide pas de tout. Chaque tribunal a sa spécialité, et on peut faire appel si on n'est pas d'accord avec la décision."
+        ],
+        examples: [
+          { icon: "🧠", text: "<strong>Astuce mémoire :</strong> imagine un château. Le peuple est dans la cour (à la base), les députés sont dans la grande salle (législatif), les ministres dans une autre salle (exécutif), les juges dans la salle du tribunal, et tout en haut, le Roi (mais il ne fait que signer les lois)." }
+        ]
+      }
+    ]
+  }
+};
+
+function openExplain(){
+  soundExplainOpen(); vibToggle();
+  const day = Number(currentDay);
+  const data = explainBank[day];
+  if(!data){
+    showToast("Pas encore d'explication simplifiée pour ce jour…", "🤔");
+    return;
+  }
+  document.getElementById('explainIntro').innerHTML = '🤯 <strong>Pas de panique !</strong> ' + data.intro;
+  let html = '';
+  data.sections.forEach(sec => {
+    html += '<div class="explain-section">';
+    html += '<h4><span class="num">' + sec.num + '</span>' + sec.title + '</h4>';
+    if(sec.illus && svgIllus[sec.illus]) {
+      html += '<div class="explain-illus">' + svgIllus[sec.illus] + '</div>';
+    }
+    if(sec.paragraphs) sec.paragraphs.forEach(p => html += '<p>' + p + '</p>');
+    if(sec.list) {
+      html += '<ul>';
+      sec.list.forEach(li => html += '<li>' + li + '</li>');
+      html += '</ul>';
+    }
+    if(sec.examples) sec.examples.forEach(ex => {
+      const cls = (ex.icon === "⚽" || ex.icon === "🧠" || ex.icon === "🔁" || ex.icon === "🏫" || ex.icon === "⚖️" || ex.icon === "🏢" || ex.icon === "🗳️" || ex.icon === "🗺️" || ex.icon === "👑") ? 'explain-compare' : 'explain-example';
+      html += '<div class="' + cls + '"><span class="ex-icon">' + ex.icon + '</span><div>' + ex.text + '</div></div>';
+    });
+    html += '</div>';
+  });
+  document.getElementById('explainContent').innerHTML = html;
+  document.getElementById('explainOverlay').classList.add('show');
+  document.getElementById('explainOverlay').scrollTop = 0;
+}
+
+function closeExplain(){
+  soundSwipe(); vibClick();
+  document.getElementById('explainOverlay').classList.remove('show');
 }
 
 /* ===== PYRAMIDE DATA ===== */
@@ -736,7 +1197,6 @@ function load(){
     const saved=JSON.parse(localStorage.getItem(STORAGE));
     if(Array.isArray(saved)&&saved.length){
       lessons=saved;
-      // S'assurer que la leçon 2 existe (migration depuis l'ancienne sauvegarde)
       if(!lessons.some(x=>Number(x.day)===2) || !lessons.find(x=>Number(x.day)===2).body){
         const idx2=lessons.findIndex(x=>Number(x.day)===2);
         if(idx2>=0) lessons[idx2]=lesson2; else lessons.push(lesson2);
@@ -806,6 +1266,14 @@ function openLesson(day){
  const content=document.getElementById("lessonContent");
  content.dataset.mode="full";
  content.innerHTML=markdownLite(x.body);
+
+ // Bouton "Je comprends rien" : visible seulement si une explication existe
+ const btnRien = document.getElementById('btnComprendsRien');
+ if (explainBank[Number(x.day)]) {
+   btnRien.style.display = 'inline-flex';
+ } else {
+   btnRien.style.display = 'none';
+ }
 
  // Bouton pyramide pour le jour 2
  if (Number(x.day) === 2) {
