@@ -136,6 +136,14 @@ main{padding:34px clamp(18px,4vw,54px);max-width:1400px;width:100%;margin:auto}
 .quiz-nav .btn{font-size:13.5px;padding:9px 16px}
 .quiz-nav .btn:disabled{opacity:.4;cursor:not-allowed;filter:none;transform:none}
 .quiz-nav .nav-right{display:flex;gap:8px;flex-wrap:wrap}
+.error-training-toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:12px 0 4px}
+.error-training-toolbar .btn.active{background:var(--red);border-color:var(--red);color:#fff}
+.error-training-note{font-size:12px;color:var(--muted)}
+.quiz-results{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;margin-top:16px;text-align:center}
+.quiz-results .result-score{font-size:clamp(30px,7vw,48px);font-weight:900;color:var(--accent);margin:8px 0}
+.quiz-results .result-actions{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin-top:18px}
+.summary-review-warning{border:1px solid var(--orange);background:rgba(255,189,105,.09);border-radius:10px;padding:10px 12px;margin:12px 0;color:var(--text);font-size:13px}
+
 
 .quiz-score{background:linear-gradient(135deg,#1a2945,#15223a);border:1px solid var(--accent);border-radius:12px;padding:16px 20px;margin-top:16px;display:none;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
 .quiz-score.show{display:flex;animation:fadeSlide .4s}
@@ -357,6 +365,10 @@ main{padding:34px clamp(18px,4vw,54px);max-width:1400px;width:100%;margin:auto}
       <div class="question-manager-toolbar">
         <button class="btn" onclick="toggleQuestionManager()">⚙️ Gérer les questions</button>
         <span class="manager-count" id="managerCount"></span>
+      </div>
+      <div class="error-training-toolbar">
+        <button class="btn" id="errorTrainingToggle" onclick="toggleErrorTraining()">🎯 S'entraîner sur mes erreurs</button>
+        <span class="error-training-note" id="errorTrainingCount">Aucune erreur enregistrée</span>
       </div>
       <div id="questionManager" class="question-manager hidden"></div>
       <div class="quiz-progress" id="quizProgress">
@@ -1258,28 +1270,33 @@ Méthode en 5 étapes :
 
 ## PARTIE 5 — RÉCAPITULATIF GÉNÉRAL
 
-| Notion | À retenir |
-|---|---|
-| Pouvoir législatif | Crée et vote les lois. |
-| Pouvoir exécutif | Met en œuvre les lois. |
-| Pouvoir judiciaire | Rend la justice. |
-| Indépendance | Le juge ne subit pas de pression. |
-| Impartialité | Le juge reste neutre. |
-| Procureur du Roi | Représente la société et exerce les poursuites. |
-| Juge d'instruction | Dirige l'instruction judiciaire. |
-| Avocat | Conseille et défend son client. |
-| Greffier | Assure le suivi administratif et juridique. |
-| Infraction | Comportement interdit et sanctionné par la loi. |
-| Élément matériel | Action ou omission. |
-| Élément moral | État d'esprit et exigences morales. |
-| Circonstance aggravante | Élément légal augmentant la gravité. |
-| Légitime défense | Défense contre une attaque injustifiée, sous conditions. |
-| Présomption d'innocence | Innocent tant que la culpabilité n'est pas établie. |
-| Responsabilité pénale | Répondre d'une infraction. |
-| Responsabilité civile | Réparer un dommage. |
-| Cour de cassation | Contrôle la bonne application du droit. |
+### 🏛️ Les trois pouvoirs
+- **Pouvoir législatif** — Crée et vote les lois.
+- **Pouvoir exécutif** — Met en œuvre les lois.
+- **Pouvoir judiciaire** — Rend la justice.
 
-### Les 5 principes à ne surtout pas oublier
+### ⚖️ Les acteurs de la justice
+- **Procureur du Roi** — Représente la société et exerce les poursuites.
+- **Juge d'instruction** — Dirige l'instruction judiciaire.
+- **Avocat** — Conseille et défend son client.
+- **Greffier** — Assure le suivi administratif et juridique.
+
+### 📚 Les notions de droit pénal
+- **Infraction** — Comportement interdit et sanctionné par la loi.
+- **Élément matériel** — Action ou omission.
+- **Élément moral** — État d'esprit et exigences morales.
+- **Circonstance aggravante** — Élément légal augmentant la gravité.
+- **Légitime défense** — Défense contre une attaque injustifiée, sous conditions.
+
+### 🛡️ Les garanties et les responsabilités
+- **Indépendance** — Le juge ne subit pas de pression.
+- **Impartialité** — Le juge reste neutre.
+- **Présomption d'innocence** — Innocent tant que la culpabilité n'est pas établie.
+- **Responsabilité pénale** — Répondre d'une infraction.
+- **Responsabilité civile** — Réparer un dommage.
+- **Cour de cassation** — Contrôle la bonne application du droit.
+
+### ⭐ Les 5 principes à ne surtout pas oublier
 1. Personne ne peut être condamné sans **base légale**.
 2. Une personne soupçonnée n'est **pas automatiquement coupable**.
 3. Le juge doit rester **indépendant et impartial**.
@@ -1440,8 +1457,8 @@ quizBank[1].fill.push(
   { text: "Le droit interne {0} concerne notamment les relations entre les personnes privées.", answers: [["privé", "prive"]], hints: ["Opposé à public"], synonyms: [["particulier", "civil", "des particuliers"]] },
   { text: "Le droit social relève du droit interne {0} selon la fiche.", answers: [["privé", "prive"]], hints: ["Catégorie des relations privées"], synonyms: [["particulier", "social", "des personnes privées"]] },
   { text: "Le pouvoir réglementaire doit disposer d'une {0} légale pour agir.", answers: [["habilitation"]], hints: ["Autorisation prévue par la loi"], synonyms: [["autorisation", "fondement", "pouvoir attribué"]] },
-  { text: "La police {0} vise à prévenir les troubles à l'ordre public.", answers: [["administrative"]], hints: ["Elle prévient plutôt qu'elle ne punit"], synonyms: [["préventive", "de prévention", "publique"]] },
-  { text: "Les conditions d'{0} peuvent être imposées pour certaines professions sensibles.", answers: [["honorabilité", "honorabilite"]], hints: ["Bonne moralité"], synonyms: [["probité", "intégrité", "bonne moralité"]] },
+  { text: "La sécurité, la tranquillité et la salubrité sont les composantes de l'ordre {0}.", answers: [["public"]], hints: ["Ce qui concerne la collectivité"], synonyms: [["collectif", "commun", "général"]] },
+  { text: "L'administration doit exercer ses compétences dans le respect de la {0}.", answers: [["loi"]], hints: ["Règle juridique qui s'impose aux autorités"], synonyms: [["législation", "règle", "norme"]] },
   { text: "Une même situation peut faire intervenir à la fois le droit public et le droit {0}.", answers: [["privé", "prive"]], hints: ["Relations entre personnes privées"], synonyms: [["particulier", "civil", "des particuliers"]] },
   { text: "Une sanction {0} peut être prononcée sans passer par une juridiction pénale.", answers: [["administrative"]], hints: ["Prononcée par une autorité administrative"], synonyms: [["réglementaire", "de l'administration", "publique"]] }
 );
@@ -1455,20 +1472,20 @@ quizBank[2].fill.push(
   { text: "Les Parlements des entités fédérées adoptent des {0}.", answers: [["décrets", "decrets"]], hints: ["Actes législatifs des entités fédérées"], synonyms: [["textes législatifs", "lois fédérées", "actes"]] },
   { text: "Les gouvernements des entités fédérées adoptent des {0}.", answers: [["arrêtés", "arretes"]], hints: ["Actes du pouvoir exécutif"], synonyms: [["décisions réglementaires", "actes exécutifs", "règlements"]] },
   { text: "Le vote de préférence permet de choisir un ou plusieurs {0} sur une liste.", answers: [["individus"]], hints: ["Des personnes candidates"], synonyms: [["candidats", "personnes", "élus"]] },
-  { text: "La compétence d'{0} dépend de la nature du litige et du type de tribunal.", answers: [["attribution"]], hints: ["Répartition par matière"], synonyms: [["matière", "spécialisation", "objet"]] },
+  { text: "La compétence territoriale détermine le {0} où le procès doit se dérouler.", answers: [["lieu"]], hints: ["Ville ou région concernée"], synonyms: [["endroit", "ressort", "territoire"]] },
   { text: "La Cour du travail examine les appels en matière de droit du travail et de sécurité {0}.", answers: [["sociale"]], hints: ["Protection liée au travail et aux prestations"], synonyms: [["protection sociale", "sécurité des travailleurs", "social"]] },
   { text: "La Cour de cassation vérifie l'application du droit et des règles de {0}, sans rejuger les faits.", answers: [["procédure", "procedure"]], hints: ["Règles qui encadrent le déroulement du procès"], synonyms: [["forme", "déroulement judiciaire", "processus"]] }
 );
 quizBank[3].fill.push(
   { text: "Le pouvoir judiciaire tranche les {0} en appliquant les lois.", answers: [["litiges"]], hints: ["Conflits soumis à un juge"], synonyms: [["conflits", "différends", "désaccords"]] },
-  { text: "Le juge d'instruction recherche la vérité en examinant les éléments à charge et à {0}.", answers: [["décharge", "decharge"]], hints: ["Éléments favorables à la personne suspectée"], synonyms: [["innocence", "disculpation", "défense"]] },
+  { text: "La personne qui subit un dommage peut demander une {0} dans le cadre de la responsabilité civile.", answers: [["réparation", "reparation"]], hints: ["Action de compenser le préjudice subi"], synonyms: [["indemnisation", "compensation", "dédommagement"]] },
   { text: "L'avocat conseille et {0} son client.", answers: [["défend", "defend"]], hints: ["Il prend la défense de son client"], synonyms: [["assiste", "représente", "protège"]] },
   { text: "Le greffier assiste le juge pendant les audiences et assure le suivi {0} des dossiers.", answers: [["administratif"]], hints: ["Gestion des dossiers"], synonyms: [["organisationnel", "de gestion", "bureaucratique"]] },
   { text: "Une infraction par {0} consiste à ne pas agir alors qu'une obligation légale existe.", answers: [["omission"]], hints: ["Absence d'action"], synonyms: [["inaction", "abstention", "non-intervention"]] },
   { text: "Une tentative punissable exige un commencement d'{0}.", answers: [["exécution", "execution"]], hints: ["Passage de la préparation à l'acte"], synonyms: [["réalisation", "mise en œuvre", "début d'action"]] },
   { text: "La légitime défense suppose notamment une attaque injustifiée, actuelle, la nécessité et la {0}.", answers: [["proportionnalité", "proportionalite"]], hints: ["La riposte ne doit pas être excessive"], synonyms: [["mesure", "équilibre", "adaptation"]] },
-  { text: "La présomption d'innocence signifie que la culpabilité doit être légalement {0}.", answers: [["établie", "etablie"]], hints: ["Démontrée"], synonyms: [["prouvée", "démontrée", "confirmée"]] },
-  { text: "En matière pénale, la charge de la preuve incombe à l'{0}.", answers: [["accusation"]], hints: ["Partie qui poursuit"], synonyms: [["parquet", "ministère public", "poursuite"]] },
+  { text: "Une peine ne peut être prononcée que si elle est prévue par la {0}.", answers: [["loi"]], hints: ["Règle juridique votée par le pouvoir compétent"], synonyms: [["législation", "texte légal", "règle écrite"]] },
+  { text: "La responsabilité civile vise principalement à réparer un {0} causé à autrui.", answers: [["dommage", "préjudice", "prejudice"]], hints: ["Conséquence négative subie par une personne"], synonyms: [["préjudice", "perte", "atteinte"]] },
   { text: "Une loi pénale plus {0} ne peut pas être appliquée rétroactivement pour aggraver la situation.", answers: [["sévère", "severe"]], hints: ["Plus dure, plus stricte"], synonyms: [["stricte", "rigoureuse", "dure"]] },
   { text: "Une nouvelle loi pénale plus {0} peut, sous conditions, s'appliquer rétroactivement.", answers: [["favorable"]], hints: ["Qui améliore la situation de la personne"], synonyms: [["avantageuse", "plus clémente", "moins sévère"]] },
   { text: "L'agent de gardiennage doit éviter toute violence injustifiée et respecter la nécessité et la {0}.", answers: [["proportionnalité", "proportionalite"]], hints: ["Ne pas employer une force excessive"], synonyms: [["mesure", "équilibre", "modération"]] },
@@ -1479,13 +1496,13 @@ quizBank[3].fill.push(
 
 /* QCM complémentaires : vérification des notions détaillées des fiches. */
 quizBank[1].qcm.push(
- {q:"Quelle est la fonction principale du droit selon la fiche ?",options:["Organiser la vie en société et régir les relations","Remplacer toutes les règles morales","Donner tous les pouvoirs à l'État","Supprimer les conflits par principe"],correct:0},
+ {q:"Quels éléments composent l'ordre public que la police administrative doit préserver ?",options:["Sécurité, tranquillité et salubrité publiques","Liberté, égalité et fraternité uniquement","Fiscalité, commerce et enseignement","Justice, élections et diplomatie"],correct:0},
  {q:"Pourquoi le droit est-il qualifié de plus en plus complet et complexe ?",options:["Parce qu'il n'existe que quelques règles","Parce que les textes et réglementations se multiplient","Parce que les juges votent les lois","Parce que chaque citoyen écrit ses propres règles"],correct:1},
  {q:"Comment le droit peut-il varier dans un État fédéral ?",options:["Il ne varie jamais","Il peut différer entre entités, par exemple entre régions","Il dépend uniquement de la météo","Il est identique dans tous les domaines"],correct:1},
  {q:"Quel est le rôle des juges face aux textes juridiques ?",options:["Voter les lois","Interpréter et appliquer les textes aux situations concrètes","Remplacer le Parlement","Écrire la Constitution seuls"],correct:1},
  {q:"Quel exemple correspond au droit civil ?",options:["Les contrats, la famille et les baux","Les traités entre États","Les peines pénales uniquement","Le contrôle des administrations uniquement"],correct:0},
  {q:"Quel domaine relève du droit des affaires ?",options:["Les activités des entreprises","Les relations diplomatiques","Les élections communales","Les infractions routières uniquement"],correct:0},
- {q:"Quel est l'objectif de la police administrative ?",options:["Punir après un procès","Prévenir les troubles à la sécurité, la tranquillité et la salubrité publiques","Juger les infractions","Voter des lois"],correct:1},
+ {q:"Quel élément doit encadrer l'exercice du pouvoir réglementaire ?",options:["La volonté personnelle du ministre","Une base juridique et le respect des compétences","Un vote de chaque citoyen pour chaque arrêté","L'accord d'une entreprise privée"],correct:1},
  {q:"Quelle différence distingue sanction administrative et sanction pénale ?",options:["Aucune différence","L'une est prononcée par l'autorité administrative, l'autre par une juridiction pénale","La sanction pénale est toujours décidée par une entreprise","La sanction administrative est toujours une peine de prison"],correct:1}
 );
 quizBank[2].qcm.push(
@@ -1499,7 +1516,7 @@ quizBank[2].qcm.push(
  {q:"Que peuvent adopter les Gouvernements des entités fédérées ?",options:["Des arrêts judiciaires","Des arrêtés","Des verdicts","Des lois fédérales"],correct:1}
 );
 quizBank[3].qcm.push(
- {q:"Quelle est la mission du procureur du Roi ?",options:["Décider seul de la culpabilité","Représenter la société et exercer les poursuites","Défendre personnellement l'accusé","Assurer le secrétariat du tribunal"],correct:1},
+ {q:"Qui rend la décision sur la culpabilité et la peine à l'issue du procès ?",options:["Le juge ou la juridiction compétente","Le procureur du Roi","Le greffier","L'avocat de la défense"],correct:0},
  {q:"Quelle distinction faut-il retenir entre un tribunal et une cour dans l'organisation présentée ?",options:["Le tribunal est toujours pénal","Les tribunaux traitent généralement la première instance et certaines cours réexaminent en appel","Une cour ne rend jamais de décision","Il n'existe aucune différence"],correct:1},
  {q:"Quelle juridiction traite les conflits individuels entre travailleurs et employeurs ?",options:["Tribunal du travail","Justice de paix","Cour d'assises","Tribunal de police"],correct:0},
  {q:"Quelle juridiction traite les litiges entre entreprises et les procédures de faillite ?",options:["Tribunal des entreprises","Tribunal du travail","Justice de paix","Cour d'assises"],correct:0},
@@ -1507,7 +1524,7 @@ quizBank[3].qcm.push(
  {q:"Que signifie l'élément moral d'une infraction ?",options:["L'état d'esprit de la personne","Le dommage matériel uniquement","Le lieu de l'infraction","La compétence du tribunal"],correct:0},
  {q:"Quelle est la différence entre responsabilité pénale et responsabilité civile ?",options:["La pénale vise à répondre d'une infraction ; la civile vise à réparer un dommage","Elles sont identiques","La civile entraîne toujours une prison","La pénale concerne uniquement les contrats"],correct:0},
  {q:"Quel principe limite la peine pouvant être prononcée ?",options:["La peine doit être prévue par la loi","Le juge peut inventer une peine","La police fixe librement les peines","La peine dépend uniquement de l'opinion publique"],correct:0},
- {q:"Quelle est la règle de base concernant la présomption d'innocence ?",options:["Le suspect doit prouver son innocence","La personne est innocente tant que sa culpabilité n'est pas légalement établie","Toute accusation vaut condamnation","Le procureur prononce le verdict"],correct:1},
+ {q:"Que signifie le principe de légalité des délits et des peines ?",options:["Une peine doit être prévue par la loi","Le juge peut créer une peine selon les circonstances","Une sanction peut être décidée sans texte","La police fixe les peines"],correct:0},
  {q:"Quelle attitude doit adopter un agent de gardiennage face à ses pouvoirs ?",options:["Agir comme un policier en toute circonstance","Respecter les limites et conditions prévues par la loi","Fouiller librement toute personne","Prononcer lui-même des sanctions pénales"],correct:1}
 );
 
@@ -1560,7 +1577,7 @@ let currentDay = null;
 let editingDay = null;
 const STORAGE = "carnetDroit_v1";
 
-let quizState = {day:1,tab:'qcm',questions:[],answers:{},fillAnswers:{},score:0,index:0,finished:false,showHints:false,showSynonyms:false};
+let quizState = {day:1,tab:'qcm',questions:[],answers:{},fillAnswers:{},score:0,index:0,finished:false,showHints:false,showSynonyms:false,errorOnly:false};
 
 /* ===== LOAD ===== */
 function load(){
@@ -1701,6 +1718,8 @@ function editLesson(day){
  document.getElementById("deleteBtn").style.display="inline-block";
  editingDay=x.day;
 }
+function summaryReviewKey(day){ return `carnetDroit_summary_review_${day}`; }
+
 function saveLesson(){
  const day=Number(document.getElementById("editDay").value);
  const title=document.getElementById("editTitle").value.trim();
@@ -1714,6 +1733,9 @@ function saveLesson(){
  } else {
    lessons.push({day,title,category,summary,body});
  }
+ if(globalLessonSummaries[day]){
+   try{localStorage.setItem(summaryReviewKey(day),"1");}catch(e){}
+ }
  persist(); soundSuccess(); vibSuccess();
  showToast("Fiche enregistrée","✓");
  showHome();
@@ -1726,6 +1748,8 @@ function deleteCurrent(){
  showHome();
 }
 
+function markSummaryReviewed(day){ try{localStorage.removeItem(summaryReviewKey(day));}catch(e){} toggleSummary(); toggleSummary(); showToast("Résumé marqué comme vérifié.","✓"); }
+
 function toggleSummary(){
  const content=document.getElementById("lessonContent");
  const toggle=document.getElementById("summaryToggle");
@@ -1735,8 +1759,10 @@ function toggleSummary(){
    content.dataset.mode="summary";
    const summary=globalLessonSummaries[Number(x.day)];
    if(summary){
+     const needsReview=localStorage.getItem(summaryReviewKey(Number(x.day)))==="1";
      content.innerHTML=`<section class="global-summary">
        <h3>📝 Synthèse globale — ${esc(x.title||"Fiche de révision")}</h3>
+       ${needsReview?`<div class="summary-review-warning">⚠️ La fiche a été modifiée depuis la dernière vérification. Vérifie que ce résumé correspond toujours au cours. <button class="btn" onclick="markSummaryReviewed(${Number(x.day)})">✓ J'ai vérifié le résumé</button></div>`:''}
        <p class="summary-intro">${esc(summary.intro)}</p>
        <h4>Les points essentiels à retenir</h4>
        <ul>${summary.points.map(point=>`<li>${esc(point)}</li>`).join("")}</ul>
@@ -1772,12 +1798,18 @@ function markdownLite(md){
   html=html.replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>");
   html=html.replace(/\*(.+?)\*/g,"<em>$1</em>");
   html=html.replace(/^&gt; (.*)$/gm,"<blockquote>$1</blockquote>");
-  html=html.replace(/^- (.*)$/gm,"<li>$1</li>");
-  html=html.replace(/(<li>[\s\S]*?<\/li>)/g,function(m){return "<ul>"+m+"</ul>";});
+  html=html.replace(/(?:^|\n)(- .+(?:\n- .+)*)/g,function(m){
+    const items=m.trim().split(/\n- /).map((line,i)=>"<li>"+(i===0?line.slice(2):line)+"</li>").join("");
+    return "\n<ul>"+items+"</ul>";
+  });
+  html=html.replace(/(?:^|\n)((?:\d+\. .+)(?:\n\d+\. .+)*)/g,function(m){
+    const items=m.trim().split(/\n/).map(line=>"<li>"+line.replace(/^\d+\. /,"")+"</li>").join("");
+    return "\n<ol>"+items+"</ol>";
+  });
   html=html.replace(/\n{2,}/g,"</p><p>");
   html="<p>"+html+"</p>";
-  html=html.replace(/<p>\s*<(h[234]|ul|blockquote)/g,"<$1");
-  html=html.replace(/<\/(h[234]|ul|blockquote)>\s*<\/p>/g,"</$1>");
+  html=html.replace(/<p>\s*<(h[234]|ul|ol|blockquote)/g,"<$1");
+  html=html.replace(/<\/(h[234]|ul|ol|blockquote)>\s*<\/p>/g,"</$1>");
   html=html.replace(/<p><\/p>/g,"");
   return html;
 }
@@ -1787,6 +1819,7 @@ function openQuiz(day,tab){
   soundClick();vibClick();
   quizState.day=day;
   quizState.tab=tab;
+  quizState.errorOnly=false;
   currentDay=day;
   document.getElementById("homeView").classList.add("hidden");
   document.getElementById("lessonView").classList.add("hidden");
@@ -1798,15 +1831,20 @@ function openQuiz(day,tab){
   switchQuizTab(tab);
 }
 function switchQuizTab(tab){
+  if(quizState.tab!==tab) quizState.errorOnly=false;
   quizState.tab=tab;
   document.getElementById("tabQcm").classList.toggle("active",tab==='qcm');
   document.getElementById("tabFill").classList.toggle("active",tab==='fill');
   const bank=quizBank[quizState.day];
   const allQuestions = bank && bank[tab] ? bank[tab] : [];
   const selected = getQuestionSelection(quizState.day, tab, allQuestions.length);
-  quizState.questions = allQuestions.filter((q,i)=>selected.includes(i)).map((q,i)=>({...q,_bankIndex:allQuestions.indexOf(q)}));
+  const allowed=allQuestions.map((q,i)=>i).filter(i=>selected.includes(i));
+  const errors=getErrorQuestionIds(quizState.day,tab);
+  const activeIds=quizState.errorOnly?allowed.filter(i=>errors.includes(i)):allowed;
+  quizState.questions = activeIds.map(i=>({...allQuestions[i],_bankIndex:i}));
   document.getElementById("questionManager").classList.add("hidden");
   updateManagerCount(allQuestions.length, selected.length);
+  updateErrorTrainingControl(errors.length);
   quizState.answers={};
   quizState.fillAnswers={};
   quizState.score=0;
@@ -1860,6 +1898,38 @@ function saveQuestionSelection(){
   switchQuizTab(quizState.tab);
   showToast(`${selected.length} question(s) sélectionnée(s).`,"✓");
 }
+function errorQuestionKey(day,tab){ return `carnetDroit_errors_${day}_${tab}`; }
+function getErrorQuestionIds(day,tab){
+  try{const v=JSON.parse(localStorage.getItem(errorQuestionKey(day,tab))||"[]");return Array.isArray(v)?v.filter(Number.isInteger):[];}catch(e){return [];}
+}
+function saveErrorQuestionIds(day,tab,ids){
+  try{localStorage.setItem(errorQuestionKey(day,tab),JSON.stringify([...new Set(ids)]));}catch(e){showToast("Impossible d'enregistrer les erreurs sur cet appareil.","⚠️");}
+}
+function rememberWrongAnswer(q){
+  if(!q||!Number.isInteger(q._bankIndex))return;
+  const ids=getErrorQuestionIds(quizState.day,quizState.tab);
+  if(!ids.includes(q._bankIndex)){ids.push(q._bankIndex);saveErrorQuestionIds(quizState.day,quizState.tab,ids);}
+  updateErrorTrainingControl(ids.length);
+}
+function clearPracticedError(q){
+  if(!q||!Number.isInteger(q._bankIndex))return;
+  const ids=getErrorQuestionIds(quizState.day,quizState.tab).filter(i=>i!==q._bankIndex);
+  saveErrorQuestionIds(quizState.day,quizState.tab,ids);
+  updateErrorTrainingControl(ids.length);
+}
+function updateErrorTrainingControl(count){
+  const btn=document.getElementById("errorTrainingToggle"),label=document.getElementById("errorTrainingCount");
+  if(btn){btn.classList.toggle("active",!!quizState.errorOnly);btn.textContent=quizState.errorOnly?"↩ Revenir à toutes les questions":"🎯 S'entraîner sur mes erreurs";}
+  if(label)label.textContent=count?`${count} question(s) à retravailler`:"Aucune erreur enregistrée";
+}
+function toggleErrorTraining(){
+  const count=getErrorQuestionIds(quizState.day,quizState.tab).length;
+  if(!quizState.errorOnly&&count===0){showToast("Aucune erreur pour le moment. Réponds d'abord aux questions pour constituer ta liste.","🎉");return;}
+  quizState.errorOnly=!quizState.errorOnly;
+  switchQuizTab(quizState.tab);
+  if(quizState.errorOnly)showToast("Mode entraînement sur les erreurs activé.","🎯");
+}
+
 function updateQuizProgress(){
   const total=quizState.questions.length;
   const current=Math.min(quizState.index+1,total);
@@ -1870,7 +1940,8 @@ function renderQuizStep(){
   const container=document.getElementById("quizStepContainer");
   const q=quizState.questions[quizState.index];
   if(!q){
-    container.innerHTML='<div class="quiz-step"><p>Quiz terminé !</p></div>';
+    if(quizState.finished){renderQuizResults();return;}
+    container.innerHTML='<div class="quiz-step"><p>Aucune question dans cette sélection.</p></div>';
     return;
   }
   if(quizState.tab==='qcm'){
@@ -1901,7 +1972,7 @@ function renderQuizStep(){
         const insertAt=Math.floor(choices.length/2);
         choices.splice(insertAt,0,answer);
       }
-      choices.forEach(syn=>{ html+=`<span class="synonym-chip" onclick="insertSynonym('${esc(syn)}')">${esc(syn)}</span>`; });
+      choices.forEach(syn=>{ html+=`<span class="synonym-chip" data-syn="${esc(syn)}" onclick="insertSynonym(this)">${esc(syn)}</span>`; });
       html+=`</div>`;
     }
     const answered=quizState.fillAnswers[quizState.index]!==undefined;
@@ -1921,19 +1992,20 @@ function answerQcm(i){
   if(quizState.answers[quizState.index]!==undefined) return;
   quizState.answers[quizState.index]=i;
   const q=quizState.questions[quizState.index];
-  if(i===q.correct){ quizState.score++; soundSuccess(); vibSuccess(); }
-  else { soundError(); vibError(); }
+  if(i===q.correct){ quizState.score++; clearPracticedError(q); soundSuccess(); vibSuccess(); }
+  else { rememberWrongAnswer(q); soundError(); vibError(); }
   renderQuizStep();
 }
 function checkFill(){
   const inp=document.getElementById("fillInput0");
   if(!inp) return;
-  const val=inp.value.trim().toLowerCase();
+  const val=normalizeAnswer(inp.value);
   const q=quizState.questions[quizState.index];
-  const ok=q.answers.some(ans=>ans.includes(val));
+  if(!val){showToast("Écris une réponse avant de vérifier.","⚠️");inp.focus();return;}
+  const ok=q.answers.some(group=>group.some(answer=>normalizeAnswer(answer)===val));
   quizState.fillAnswers[quizState.index]=ok;
-  if(ok){ quizState.score++; soundSuccess(); vibSuccess(); }
-  else { soundError(); vibError(); }
+  if(ok){ quizState.score++; clearPracticedError(q); soundSuccess(); vibSuccess(); }
+  else { rememberWrongAnswer(q); soundError(); vibError(); }
   renderQuizStep();
 }
 function handleFillKey(e){
@@ -1949,10 +2021,15 @@ function toggleSynonyms(){
   renderQuizStep();
   soundToggle(); vibToggle();
 }
-function insertSynonym(syn){
+function insertSynonym(source){
+  const syn=source&&source.dataset?source.dataset.syn:String(source??"");
   const inp=document.getElementById("fillInput0");
   if(inp){ inp.value=syn; inp.focus(); }
   soundClick(); vibClick();
+}
+function normalizeAnswer(value){
+  return String(value??"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase()
+    .replace(/[’‘`]/g,"'").replace(/[‐‑‒–—]/g,"-").replace(/\s+/g," ").trim();
 }
 function prevQuiz(){
   if(quizState.index>0){ quizState.index--; renderQuizStep(); updateQuizProgress(); soundSwipe(); vibClick(); }
@@ -1964,8 +2041,24 @@ function nextQuiz(){
     quizState.finished=true;
     soundComplete(); vibComplete();
     if(quizState.score === quizState.questions.length) launchConfetti(50);
+    renderQuizResults();
     showToast(`Quiz terminé : ${quizState.score}/${quizState.questions.length}`, "🎉");
   }
+}
+function renderQuizResults(){
+  const total=quizState.questions.length;
+  const percent=total?Math.round(quizState.score/total*100):0;
+  const errors=getErrorQuestionIds(quizState.day,quizState.tab).length;
+  const title=quizState.errorOnly?"Entraînement sur tes erreurs terminé":"Quiz terminé";
+  document.getElementById("quizStepContainer").innerHTML=`<div class="quiz-results"><div class="step-badge">${title}</div><div class="result-score">${quizState.score} / ${total}</div><p>${percent}% de bonnes réponses</p><p>${errors?`${errors} question(s) restent à retravailler.`:"Toutes les erreurs enregistrées ont été corrigées !"}</p><div class="result-actions"><button class="btn primary" onclick="restartCurrentQuiz()">↺ Recommencer</button>${errors?'<button class="btn" onclick="startErrorPracticeAgain()">🎯 Refaire mes erreurs</button>':''}<button class="btn" onclick="showHome()">Retour aux fiches</button></div></div>`;
+  const progress=document.getElementById("progressCounter");
+  const bar=document.getElementById("progressBar");
+  if(progress)progress.textContent=`Terminé · ${total} question(s)`;
+  if(bar)bar.style.width="100%";
+}
+function startErrorPracticeAgain(){
+  quizState.errorOnly=true;
+  switchQuizTab(quizState.tab);
 }
 function restartCurrentQuiz(){
   soundClick(); vibClick();
