@@ -44,7 +44,17 @@ main{padding:34px clamp(18px,4vw,54px);max-width:1400px;width:100%;margin:auto}
 .quiz-tab:hover{border-color:var(--accent);transform:translateY(-1px)}
 .quiz-tab.active{background:var(--accent);color:white;border-color:var(--accent);box-shadow:0 4px 14px #7c9cff44}
 
-.quiz-progress{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+
+.question-manager-toolbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 14px}
+.manager-count{font-size:12px;color:var(--muted)}
+.question-manager{background:#0d1629;border:1px solid var(--line);border-radius:12px;padding:15px;margin-bottom:18px}
+.question-manager h3{margin:0 0 5px;font-size:16px}
+.question-manager p{margin:0 0 12px;color:var(--muted);font-size:12px}
+.manager-list{display:grid;gap:7px;max-height:360px;overflow:auto}
+.manager-item{display:flex;gap:10px;align-items:flex-start;padding:9px 10px;border:1px solid #243350;background:#121f36;border-radius:8px;font-size:13px;cursor:pointer}
+.manager-item input{margin-top:3px;accent-color:var(--accent);flex-shrink:0}
+.manager-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+\n.quiz-progress{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
 .quiz-progress .counter{font-size:13px;color:var(--muted);font-weight:650}
 .quiz-progress .bar{flex:1;height:8px;background:#0d1629;border-radius:20px;overflow:hidden;min-width:120px;border:1px solid #243350}
 .quiz-progress .bar-inner{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0%;transition:width .4s cubic-bezier(.2,.8,.3,1)}
@@ -290,6 +300,13 @@ main{padding:34px clamp(18px,4vw,54px);max-width:1400px;width:100%;margin:auto}
 
 @media(max-width:760px){.app{grid-template-columns:1fr}aside{padding:13px 16px;border-right:0;border-bottom:1px solid var(--line)}.brand{padding:0}.nav{display:flex;overflow:auto;gap:5px}.navlabel,.side-note{display:none}.nav button{white-space:nowrap;width:auto}.stats{gap:8px}.stat{padding:12px}.stat strong{font-size:21px}main{padding-top:24px}.pyr-level.lvl-1 button{width:75%}.pyr-level.lvl-2 button{width:85%}.pyr-level.lvl-3 button{width:92%}.pyr-level.lvl-4 button{width:96%}.explain-section{padding:14px 16px}.explain-section h4{font-size:16px}}
 @media print{body{background:white;color:#111}.app{display:block}aside,.actions,.back,.toolbar,.footer,.btn,.quiz-controls,.card-quiz,.quiz-nav,.btn-aide,.btn-super-aide,.synonym-panel,.toast,.pyr-btn-wrap,.btn-comprends-rien,.explain-overlay,.juridiction-pyr-wrap{display:none!important}main{padding:0}.panel,.day-card,.quiz-step{background:white;color:#111;border:0}.lesson-content p,.lesson-content li{color:#222}.lesson-content h3{color:#222}}
+
+.global-summary{max-width:900px;margin:0 auto;padding:clamp(16px,3vw,28px);border:1px solid var(--line);border-radius:16px;background:linear-gradient(145deg,rgba(59,130,246,.07),rgba(15,23,42,.18))}
+.global-summary h3{margin:0 0 12px;font-size:clamp(18px,2.5vw,23px)}
+.global-summary h4{margin:20px 0 10px;font-size:15px}
+.global-summary .summary-intro{font-size:15px;line-height:1.65;margin:0;color:var(--text)}
+.global-summary ul{padding-left:21px;margin:0;display:grid;gap:9px}
+.global-summary li{line-height:1.5;padding-left:3px}
 </style>
 </head>
 <body>
@@ -319,7 +336,7 @@ main{padding:34px clamp(18px,4vw,54px);max-width:1400px;width:100%;margin:auto}
   <section id="lessonView" class="hidden">
     <button class="back" onclick="showHome()">← Retour aux fiches</button>
     <div class="panel">
-      <div class="lesson-head"><div><div class="eyebrow" id="lessonEyebrow">JOUR 1</div><h2 id="lessonTitle"></h2><div class="lesson-meta" id="lessonMeta"></div></div><div class="actions"><button class="btn-comprends-rien" id="btnComprendsRien" onclick="openExplain()">🤯 Je comprends rien</button><button class="btn" id="summaryToggle" onclick="toggleSummary()" aria-pressed="false">Résumé : désactivé</button><button class="btn" onclick="editCurrent()">✎ Modifier</button><button class="btn" onclick="window.print()">Imprimer</button></div></div>
+      <div class="lesson-head"><div><div class="eyebrow" id="lessonEyebrow">JOUR 1</div><h2 id="lessonTitle"></h2><div class="lesson-meta" id="lessonMeta"></div></div><div class="actions"><button class="btn-comprends-rien" id="btnComprendsRien" onclick="openExplain()">🤯 Je comprends rien</button><button class="btn" id="summaryToggle" onclick="toggleSummary()" aria-pressed="false">📝 Résumé global</button><button class="btn" onclick="editCurrent()">✎ Modifier</button><button class="btn" onclick="window.print()">Imprimer</button></div></div>
       <div class="lesson-content" id="lessonContent"></div>
     </div>
   </section>
@@ -337,6 +354,11 @@ main{padding:34px clamp(18px,4vw,54px);max-width:1400px;width:100%;margin:auto}
         <button class="quiz-tab active" id="tabQcm" onclick="switchQuizTab('qcm')">📝 QCM</button>
         <button class="quiz-tab" id="tabFill" onclick="switchQuizTab('fill')">✏️ Texte à trou</button>
       </div>
+      <div class="question-manager-toolbar">
+        <button class="btn" onclick="toggleQuestionManager()">⚙️ Gérer les questions</button>
+        <span class="manager-count" id="managerCount"></span>
+      </div>
+      <div id="questionManager" class="question-manager hidden"></div>
       <div class="quiz-progress" id="quizProgress">
         <span class="counter" id="progressCounter">Question 1 / 1</span>
         <div class="bar"><div class="bar-inner" id="progressBar"></div></div>
@@ -1407,6 +1429,131 @@ quizBank[3] = {
   ]
 };
 
+
+/* Questions complémentaires : ajoutées uniquement à partir des notions présentes dans les fiches. */
+quizBank[1].fill.push(
+  { text: "Le droit est dit {0} parce qu'il intervient dans de nombreux aspects de la vie quotidienne.", answers: [["invasif"]], hints: ["Il est partout"], synonyms: [["présent partout", "omniprésent", "étendu"]] },
+  { text: "Le droit est variable dans l'{0} : une règle peut différer d'un pays ou d'une région à l'autre.", answers: [["espace"]], hints: ["Dimension géographique"], synonyms: [["territoire", "lieu", "géographie"]] },
+  { text: "Le droit est {0} dans le temps : les règles évoluent avec la société.", answers: [["évolutif", "evolutif"]], hints: ["Il change"], synonyms: [["changeant", "évoluant", "adaptable"]] },
+  { text: "La {0} juridique vise à permettre aux personnes de connaître les règles applicables.", answers: [["sécurité", "securite"]], hints: ["Ce qui protège contre l'incertitude"], synonyms: [["prévisibilité", "stabilité", "protection"]] },
+  { text: "L'{0} de la loi ne dispense pas de respecter les règles applicables.", answers: [["ignorance"]], hints: ["Ne pas savoir"], synonyms: [["méconnaissance", "absence de connaissance", "inconnaissance"]] },
+  { text: "Le droit interne {0} concerne notamment les relations entre les personnes privées.", answers: [["privé", "prive"]], hints: ["Opposé à public"], synonyms: [["particulier", "civil", "des particuliers"]] },
+  { text: "Le droit social relève du droit interne {0} selon la fiche.", answers: [["privé", "prive"]], hints: ["Catégorie des relations privées"], synonyms: [["particulier", "social", "des personnes privées"]] },
+  { text: "Le pouvoir réglementaire doit disposer d'une {0} légale pour agir.", answers: [["habilitation"]], hints: ["Autorisation prévue par la loi"], synonyms: [["autorisation", "fondement", "pouvoir attribué"]] },
+  { text: "La police {0} vise à prévenir les troubles à l'ordre public.", answers: [["administrative"]], hints: ["Elle prévient plutôt qu'elle ne punit"], synonyms: [["préventive", "de prévention", "publique"]] },
+  { text: "Les conditions d'{0} peuvent être imposées pour certaines professions sensibles.", answers: [["honorabilité", "honorabilite"]], hints: ["Bonne moralité"], synonyms: [["probité", "intégrité", "bonne moralité"]] },
+  { text: "Une même situation peut faire intervenir à la fois le droit public et le droit {0}.", answers: [["privé", "prive"]], hints: ["Relations entre personnes privées"], synonyms: [["particulier", "civil", "des particuliers"]] },
+  { text: "Une sanction {0} peut être prononcée sans passer par une juridiction pénale.", answers: [["administrative"]], hints: ["Prononcée par une autorité administrative"], synonyms: [["réglementaire", "de l'administration", "publique"]] }
+);
+quizBank[2].fill.push(
+  { text: "La Belgique est un État {0} composé de trois Communautés et de trois Régions.", answers: [["fédéral", "federal"]], hints: ["Le pouvoir est réparti entre plusieurs entités"], synonyms: [["composé", "décentralisé", "fédéré"]] },
+  { text: "Les trois Communautés s'occupent notamment de la culture, de l'enseignement et des matières liées à la {0}.", answers: [["personne"]], hints: ["L'individu"], synonyms: [["population", "individu", "être humain"]] },
+  { text: "Les trois Régions s'occupent notamment du territoire, de l'environnement et de l'{0}.", answers: [["économie", "economie"]], hints: ["Activités et production"], synonyms: [["activité économique", "développement", "finances"]] },
+  { text: "Le Parlement fédéral belge est {0} : il comprend la Chambre des représentants et le Sénat.", answers: [["bicaméral", "bicameral"]], hints: ["Il comporte deux chambres"], synonyms: [["à deux chambres", "composé de deux assemblées", "double"]] },
+  { text: "Le Roi fait partie du pouvoir {0} fédéral belge.", answers: [["législatif", "legislatif"]], hints: ["Pouvoir qui adopte les lois"], synonyms: [["parlementaire", "qui vote les lois", "législateur"]] },
+  { text: "La signature du Roi qui permet à une loi votée d'entrer en vigueur est appelée {0}.", answers: [["promulgation"]], hints: ["Acte officiel du Roi après le vote"], synonyms: [["signature officielle", "validation", "acte de promulguer"]] },
+  { text: "Les Parlements des entités fédérées adoptent des {0}.", answers: [["décrets", "decrets"]], hints: ["Actes législatifs des entités fédérées"], synonyms: [["textes législatifs", "lois fédérées", "actes"]] },
+  { text: "Les gouvernements des entités fédérées adoptent des {0}.", answers: [["arrêtés", "arretes"]], hints: ["Actes du pouvoir exécutif"], synonyms: [["décisions réglementaires", "actes exécutifs", "règlements"]] },
+  { text: "Le vote de préférence permet de choisir un ou plusieurs {0} sur une liste.", answers: [["individus"]], hints: ["Des personnes candidates"], synonyms: [["candidats", "personnes", "élus"]] },
+  { text: "La compétence d'{0} dépend de la nature du litige et du type de tribunal.", answers: [["attribution"]], hints: ["Répartition par matière"], synonyms: [["matière", "spécialisation", "objet"]] },
+  { text: "La Cour du travail examine les appels en matière de droit du travail et de sécurité {0}.", answers: [["sociale"]], hints: ["Protection liée au travail et aux prestations"], synonyms: [["protection sociale", "sécurité des travailleurs", "social"]] },
+  { text: "La Cour de cassation vérifie l'application du droit et des règles de {0}, sans rejuger les faits.", answers: [["procédure", "procedure"]], hints: ["Règles qui encadrent le déroulement du procès"], synonyms: [["forme", "déroulement judiciaire", "processus"]] }
+);
+quizBank[3].fill.push(
+  { text: "Le pouvoir judiciaire tranche les {0} en appliquant les lois.", answers: [["litiges"]], hints: ["Conflits soumis à un juge"], synonyms: [["conflits", "différends", "désaccords"]] },
+  { text: "Le juge d'instruction recherche la vérité en examinant les éléments à charge et à {0}.", answers: [["décharge", "decharge"]], hints: ["Éléments favorables à la personne suspectée"], synonyms: [["innocence", "disculpation", "défense"]] },
+  { text: "L'avocat conseille et {0} son client.", answers: [["défend", "defend"]], hints: ["Il prend la défense de son client"], synonyms: [["assiste", "représente", "protège"]] },
+  { text: "Le greffier assiste le juge pendant les audiences et assure le suivi {0} des dossiers.", answers: [["administratif"]], hints: ["Gestion des dossiers"], synonyms: [["organisationnel", "de gestion", "bureaucratique"]] },
+  { text: "Une infraction par {0} consiste à ne pas agir alors qu'une obligation légale existe.", answers: [["omission"]], hints: ["Absence d'action"], synonyms: [["inaction", "abstention", "non-intervention"]] },
+  { text: "Une tentative punissable exige un commencement d'{0}.", answers: [["exécution", "execution"]], hints: ["Passage de la préparation à l'acte"], synonyms: [["réalisation", "mise en œuvre", "début d'action"]] },
+  { text: "La légitime défense suppose notamment une attaque injustifiée, actuelle, la nécessité et la {0}.", answers: [["proportionnalité", "proportionalite"]], hints: ["La riposte ne doit pas être excessive"], synonyms: [["mesure", "équilibre", "adaptation"]] },
+  { text: "La présomption d'innocence signifie que la culpabilité doit être légalement {0}.", answers: [["établie", "etablie"]], hints: ["Démontrée"], synonyms: [["prouvée", "démontrée", "confirmée"]] },
+  { text: "En matière pénale, la charge de la preuve incombe à l'{0}.", answers: [["accusation"]], hints: ["Partie qui poursuit"], synonyms: [["parquet", "ministère public", "poursuite"]] },
+  { text: "Une loi pénale plus {0} ne peut pas être appliquée rétroactivement pour aggraver la situation.", answers: [["sévère", "severe"]], hints: ["Plus dure, plus stricte"], synonyms: [["stricte", "rigoureuse", "dure"]] },
+  { text: "Une nouvelle loi pénale plus {0} peut, sous conditions, s'appliquer rétroactivement.", answers: [["favorable"]], hints: ["Qui améliore la situation de la personne"], synonyms: [["avantageuse", "plus clémente", "moins sévère"]] },
+  { text: "L'agent de gardiennage doit éviter toute violence injustifiée et respecter la nécessité et la {0}.", answers: [["proportionnalité", "proportionalite"]], hints: ["Ne pas employer une force excessive"], synonyms: [["mesure", "équilibre", "modération"]] },
+  { text: "Lorsqu'il constate une infraction, l'agent doit observer, évaluer le danger, sécuriser, alerter et rendre {0}.", answers: [["compte"]], hints: ["Transmettre les informations sur les faits"], synonyms: [["rapport", "informer", "faire un retour"]] },
+  { text: "Un rapport d'incident doit être clair, précis, chronologique et {0}.", answers: [["objectif"]], hints: ["Sans jugement ni supposition personnelle"], synonyms: [["neutre", "factuel", "impartial"]] }
+);
+
+
+/* QCM complémentaires : vérification des notions détaillées des fiches. */
+quizBank[1].qcm.push(
+ {q:"Quelle est la fonction principale du droit selon la fiche ?",options:["Organiser la vie en société et régir les relations","Remplacer toutes les règles morales","Donner tous les pouvoirs à l'État","Supprimer les conflits par principe"],correct:0},
+ {q:"Pourquoi le droit est-il qualifié de plus en plus complet et complexe ?",options:["Parce qu'il n'existe que quelques règles","Parce que les textes et réglementations se multiplient","Parce que les juges votent les lois","Parce que chaque citoyen écrit ses propres règles"],correct:1},
+ {q:"Comment le droit peut-il varier dans un État fédéral ?",options:["Il ne varie jamais","Il peut différer entre entités, par exemple entre régions","Il dépend uniquement de la météo","Il est identique dans tous les domaines"],correct:1},
+ {q:"Quel est le rôle des juges face aux textes juridiques ?",options:["Voter les lois","Interpréter et appliquer les textes aux situations concrètes","Remplacer le Parlement","Écrire la Constitution seuls"],correct:1},
+ {q:"Quel exemple correspond au droit civil ?",options:["Les contrats, la famille et les baux","Les traités entre États","Les peines pénales uniquement","Le contrôle des administrations uniquement"],correct:0},
+ {q:"Quel domaine relève du droit des affaires ?",options:["Les activités des entreprises","Les relations diplomatiques","Les élections communales","Les infractions routières uniquement"],correct:0},
+ {q:"Quel est l'objectif de la police administrative ?",options:["Punir après un procès","Prévenir les troubles à la sécurité, la tranquillité et la salubrité publiques","Juger les infractions","Voter des lois"],correct:1},
+ {q:"Quelle différence distingue sanction administrative et sanction pénale ?",options:["Aucune différence","L'une est prononcée par l'autorité administrative, l'autre par une juridiction pénale","La sanction pénale est toujours décidée par une entreprise","La sanction administrative est toujours une peine de prison"],correct:1}
+);
+quizBank[2].qcm.push(
+ {q:"Quelles sont les trois Communautés belges ?",options:["Wallonne, flamande et bruxelloise","Française, flamande et germanophone","Bruxelloise, germanophone et wallonne","Française, wallonne et européenne"],correct:1},
+ {q:"Quelles sont les trois Régions belges ?",options:["Wallonne, flamande et Bruxelles-Capitale","Française, flamande et germanophone","Liège, Namur et Hainaut","Fédérale, communautaire et provinciale"],correct:0},
+ {q:"Les matières liées à la culture, à l'enseignement et à l'emploi des langues relèvent principalement…",options:["Des Communautés","Des Régions","Des tribunaux","Du pouvoir judiciaire"],correct:0},
+ {q:"Les matières liées à l'urbanisme, à l'environnement et aux travaux publics relèvent principalement…",options:["Des Communautés","Des Régions","Du Sénat uniquement","De la Cour de cassation"],correct:1},
+ {q:"Que signifie le principe d'absence de hiérarchie entre les entités fédérées et l'État fédéral ?",options:["Une entité peut annuler toutes les décisions des autres","Chacun exerce ses compétences dans les domaines qui lui sont attribués","Le Roi décide seul de toutes les compétences","Les Régions n'ont aucun pouvoir propre"],correct:1},
+ {q:"Quel est le rôle du pouvoir exécutif ?",options:["Adopter les lois","Mettre en œuvre les lois","Juger les litiges","Contrôler les appels judiciaires"],correct:1},
+ {q:"Que peuvent adopter les Parlements des entités fédérées ?",options:["Des décrets","Des jugements","Des peines pénales","Des arrêts de cassation"],correct:0},
+ {q:"Que peuvent adopter les Gouvernements des entités fédérées ?",options:["Des arrêts judiciaires","Des arrêtés","Des verdicts","Des lois fédérales"],correct:1}
+);
+quizBank[3].qcm.push(
+ {q:"Quelle est la mission du procureur du Roi ?",options:["Décider seul de la culpabilité","Représenter la société et exercer les poursuites","Défendre personnellement l'accusé","Assurer le secrétariat du tribunal"],correct:1},
+ {q:"Quelle distinction faut-il retenir entre un tribunal et une cour dans l'organisation présentée ?",options:["Le tribunal est toujours pénal","Les tribunaux traitent généralement la première instance et certaines cours réexaminent en appel","Une cour ne rend jamais de décision","Il n'existe aucune différence"],correct:1},
+ {q:"Quelle juridiction traite les conflits individuels entre travailleurs et employeurs ?",options:["Tribunal du travail","Justice de paix","Cour d'assises","Tribunal de police"],correct:0},
+ {q:"Quelle juridiction traite les litiges entre entreprises et les procédures de faillite ?",options:["Tribunal des entreprises","Tribunal du travail","Justice de paix","Cour d'assises"],correct:0},
+ {q:"Que signifie l'élément matériel d'une infraction ?",options:["L'état d'esprit","Le comportement concret, par action ou omission","La décision du juge","La peine prononcée"],correct:1},
+ {q:"Que signifie l'élément moral d'une infraction ?",options:["L'état d'esprit de la personne","Le dommage matériel uniquement","Le lieu de l'infraction","La compétence du tribunal"],correct:0},
+ {q:"Quelle est la différence entre responsabilité pénale et responsabilité civile ?",options:["La pénale vise à répondre d'une infraction ; la civile vise à réparer un dommage","Elles sont identiques","La civile entraîne toujours une prison","La pénale concerne uniquement les contrats"],correct:0},
+ {q:"Quel principe limite la peine pouvant être prononcée ?",options:["La peine doit être prévue par la loi","Le juge peut inventer une peine","La police fixe librement les peines","La peine dépend uniquement de l'opinion publique"],correct:0},
+ {q:"Quelle est la règle de base concernant la présomption d'innocence ?",options:["Le suspect doit prouver son innocence","La personne est innocente tant que sa culpabilité n'est pas légalement établie","Toute accusation vaut condamnation","Le procureur prononce le verdict"],correct:1},
+ {q:"Quelle attitude doit adopter un agent de gardiennage face à ses pouvoirs ?",options:["Agir comme un policier en toute circonstance","Respecter les limites et conditions prévues par la loi","Fouiller librement toute personne","Prononcer lui-même des sanctions pénales"],correct:1}
+);
+
+/* Résumés globaux : synthèse courte de l'ensemble de chaque fiche et points essentiels. */
+const globalLessonSummaries = {
+  1: {
+    intro:"Le droit regroupe les règles qui organisent la vie en société et encadrent les relations entre les individus et l'État. Il évolue selon le temps et varie selon les lieux. La fiche présente ses branches, les institutions belges et les limites de l'action publique et de la sécurité privée.",
+    points:[
+      "Droit positif : règles en vigueur à un moment et dans un lieu donnés.",
+      "Le droit est invasif, complexe, variable dans l'espace et évolutif dans le temps.",
+      "Droit international / droit interne ; droit privé / droit public.",
+      "La Constitution organise l'État et garantit les droits fondamentaux.",
+      "La police administrative prévient les troubles à l'ordre public.",
+      "La sécurité privée est réglementée et ne remplace pas la police.",
+      "Les sanctions pénales et administratives sont distinctes."
+    ]
+  },
+  2: {
+    intro:"La Belgique est un État fédéral où les compétences sont réparties entre l'État fédéral, trois Communautés et trois Régions. Les pouvoirs législatif, exécutif et judiciaire ont des rôles distincts. La fiche explique aussi le fonctionnement des élections, des juridictions et les règles de compétence des tribunaux.",
+    points:[
+      "6 entités fédérées : 3 Communautés et 3 Régions.",
+      "Communautés : matières liées à la personne, la culture, l'enseignement et les langues.",
+      "Régions : territoire, urbanisme, environnement et économie.",
+      "Législatif : adopte les lois ; exécutif : les met en œuvre ; judiciaire : tranche les litiges.",
+      "Les Parlements fédérés adoptent des décrets ; leurs Gouvernements adoptent des arrêtés.",
+      "Les tribunaux ont des compétences d'attribution et territoriales.",
+      "Le double degré de juridiction permet, dans les conditions prévues, de faire appel."
+    ]
+  },
+  3: {
+    intro:"La fiche présente le pouvoir judiciaire, les acteurs de la justice et les principales juridictions belges. Elle explique les bases du droit pénal, les éléments d'une infraction, les conditions de la tentative et de la légitime défense, ainsi que les garanties fondamentales et les limites des agents de gardiennage.",
+    points:[
+      "Le juge décide ; le procureur représente la société ; l'avocat défend ; le juge d'instruction enquête ; le greffier assure le suivi du dossier.",
+      "La justice doit être indépendante et impartiale.",
+      "Les juridictions ont des compétences spécifiques ; la Cour de cassation contrôle l'application du droit.",
+      "Une infraction suppose des éléments constitutifs prévus par la loi.",
+      "La tentative punissable exige un commencement d'exécution.",
+      "La légitime défense est soumise à des conditions, dont la nécessité et la proportionnalité.",
+      "Présomption d'innocence : la culpabilité doit être légalement établie.",
+      "La responsabilité pénale et la responsabilité civile n'ont pas le même objet.",
+      "L'agent de gardiennage doit respecter les limites légales de ses pouvoirs."
+    ]
+  }
+};
+
+
 /* ===== STATE ===== */
 let lessons = [];
 let currentDay = null;
@@ -1584,31 +1731,39 @@ function toggleSummary(){
  const toggle=document.getElementById("summaryToggle");
  const x=lessons.find(a=>Number(a.day)===Number(currentDay));
  if(!x)return;
- if(content.dataset.mode==="full"){
+ if(content.dataset.mode!=="summary"){
    content.dataset.mode="summary";
-   content.innerHTML = `<p style="font-size:16px;line-height:1.7">${esc(x.summary||"Aucun résumé disponible.")}</p>`;
-   toggle.textContent="Résumé : activé";
+   const summary=globalLessonSummaries[Number(x.day)];
+   if(summary){
+     content.innerHTML=`<section class="global-summary">
+       <h3>📝 Synthèse globale — ${esc(x.title||"Fiche de révision")}</h3>
+       <p class="summary-intro">${esc(summary.intro)}</p>
+       <h4>Les points essentiels à retenir</h4>
+       <ul>${summary.points.map(point=>`<li>${esc(point)}</li>`).join("")}</ul>
+     </section>`;
+   }else{
+     const fallback=(x.summary||"Aucun résumé disponible.");
+     content.innerHTML=`<section class="global-summary"><h3>📝 Synthèse</h3><p class="summary-intro">${esc(fallback)}</p><p>Cette fiche ne possède pas encore de synthèse détaillée.</p></section>`;
+   }
+   toggle.textContent="Afficher la fiche complète";
    toggle.setAttribute("aria-pressed","true");
- } else {
+ }else{
    content.dataset.mode="full";
    content.innerHTML=markdownLite(x.body);
-   if (Number(x.day) === 2) {
-     const wrap = document.createElement('div');
-     wrap.className = 'pyr-btn-wrap';
-     wrap.innerHTML = '<button class="btn primary" onclick="openPyramid()">🏛️ Voir la pyramide des pouvoirs</button>';
+   if(Number(x.day)===2){
+     const wrap=document.createElement('div');wrap.className='pyr-btn-wrap';
+     wrap.innerHTML='<button class="btn primary" onclick="openPyramid()">🏛️ Voir la pyramide des pouvoirs</button>';
      content.prepend(wrap);
    }
-   if (Number(x.day) === 3) {
-     const wrap = document.createElement('div');
-     wrap.className = 'pyr-btn-wrap';
-     wrap.innerHTML = '<button class="btn primary" onclick="openJuridictionPyr()">⚖️ Voir la pyramide des juridictions</button>';
+   if(Number(x.day)===3){
+     const wrap=document.createElement('div');wrap.className='pyr-btn-wrap';
+     wrap.innerHTML='<button class="btn primary" onclick="openJuridictionPyr()">⚖️ Voir la pyramide des juridictions</button>';
      content.prepend(wrap);
    }
-   toggle.textContent="Résumé : désactivé";
+   toggle.textContent="📝 Résumé global";
    toggle.setAttribute("aria-pressed","false");
  }
 }
-
 function markdownLite(md){
   let html=esc(md);
   html=html.replace(/^### (.*)$/gm,"<h4>$1</h4>");
@@ -1647,7 +1802,11 @@ function switchQuizTab(tab){
   document.getElementById("tabQcm").classList.toggle("active",tab==='qcm');
   document.getElementById("tabFill").classList.toggle("active",tab==='fill');
   const bank=quizBank[quizState.day];
-  quizState.questions = bank && bank[tab] ? bank[tab] : [];
+  const allQuestions = bank && bank[tab] ? bank[tab] : [];
+  const selected = getQuestionSelection(quizState.day, tab, allQuestions.length);
+  quizState.questions = allQuestions.filter((q,i)=>selected.includes(i)).map((q,i)=>({...q,_bankIndex:allQuestions.indexOf(q)}));
+  document.getElementById("questionManager").classList.add("hidden");
+  updateManagerCount(allQuestions.length, selected.length);
   quizState.answers={};
   quizState.fillAnswers={};
   quizState.score=0;
@@ -1657,6 +1816,49 @@ function switchQuizTab(tab){
   quizState.showSynonyms=false;
   renderQuizStep();
   updateQuizProgress();
+}
+
+function selectionKey(day,tab){ return `carnetDroit_questions_${day}_${tab}`; }
+function getQuestionSelection(day,tab,total){
+  try{
+    const raw=localStorage.getItem(selectionKey(day,tab));
+    if(raw===null) return Array.from({length:total},(_,i)=>i);
+    const parsed=JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed.filter(i=>Number.isInteger(i)&&i>=0&&i<total) : Array.from({length:total},(_,i)=>i);
+  }catch(e){ return Array.from({length:total},(_,i)=>i); }
+}
+function updateManagerCount(total,selected){
+  const el=document.getElementById("managerCount");
+  if(el) el.textContent=`${selected} / ${total} question(s) sélectionnée(s)`;
+}
+function toggleQuestionManager(){
+  const panel=document.getElementById("questionManager");
+  if(panel.classList.contains("hidden")) renderQuestionManager();
+  panel.classList.toggle("hidden");
+}
+function renderQuestionManager(){
+  const bank=quizBank[quizState.day], all=bank&&bank[quizState.tab]?bank[quizState.tab]:[];
+  const selected=getQuestionSelection(quizState.day,quizState.tab,all.length);
+  const panel=document.getElementById("questionManager");
+  let html=`<h3>Choisir les questions à réviser</h3><p>Coche les questions que tu veux garder dans cette session. Par défaut, elles sont toutes sélectionnées.</p><div class="manager-list">`;
+  all.forEach((q,i)=>{
+    const label=quizState.tab==='qcm'?q.q:q.text.replace(/\{0\}/g,"_____");
+    html+=`<label class="manager-item"><input type="checkbox" class="question-manager-check" value="${i}" ${selected.includes(i)?"checked":""}><span><strong>Question ${i+1}.</strong> ${esc(label)}</span></label>`;
+  });
+  html+=`</div><div class="manager-actions"><button class="btn primary" onclick="saveQuestionSelection()">✓ Appliquer ma sélection</button><button class="btn" onclick="selectAllQuestions(true)">Tout sélectionner</button><button class="btn" onclick="selectAllQuestions(false)">Tout décocher</button></div>`;
+  panel.innerHTML=html;
+}
+function selectAllQuestions(checked){
+  document.querySelectorAll(".question-manager-check").forEach(el=>el.checked=checked);
+}
+function saveQuestionSelection(){
+  const all=quizBank[quizState.day][quizState.tab]||[];
+  const selected=[...document.querySelectorAll(".question-manager-check:checked")].map(el=>Number(el.value));
+  if(selected.length===0){ showToast("Sélectionne au moins une question.","⚠️"); return; }
+  localStorage.setItem(selectionKey(quizState.day,quizState.tab),JSON.stringify(selected));
+  document.getElementById("questionManager").classList.add("hidden");
+  switchQuizTab(quizState.tab);
+  showToast(`${selected.length} question(s) sélectionnée(s).`,"✓");
 }
 function updateQuizProgress(){
   const total=quizState.questions.length;
@@ -1691,8 +1893,15 @@ function renderQuizStep(){
     text=text.replace(/\{0\}/g,`<span class="fill-blank-wrap"><input class="fill-input" id="fillInput0" onkeydown="handleFillKey(event)" placeholder="…"><span class="fill-hint">${esc(q.hints?q.hints[0]:"")}</span></span>`);
     html+=`<div class="question">${text}</div>`;
     if(quizState.showSynonyms && q.synonyms){
-      html+=`<div class="synonym-panel show"><div class="syn-title">💡 Aide aux synonymes</div>`;
-      q.synonyms[0].forEach(syn=>{ html+=`<span class="synonym-chip" onclick="insertSynonym('${esc(syn)}')">${esc(syn)}</span>`; });
+      html+=`<div class="synonym-panel show"><div class="syn-title">🧠 Super aide — trouve la bonne réponse parmi les bulles</div>`;
+      const choices=[...(q.synonyms[0]||[])];
+      const answer=(q.answers && q.answers[0] && q.answers[0][0]) ? q.answers[0][0] : null;
+      if(answer && !choices.some(item=>item.trim().toLowerCase()===answer.trim().toLowerCase())){
+        // La bonne réponse est mélangée aux synonymes, sans être systématiquement en première position.
+        const insertAt=Math.floor(choices.length/2);
+        choices.splice(insertAt,0,answer);
+      }
+      choices.forEach(syn=>{ html+=`<span class="synonym-chip" onclick="insertSynonym('${esc(syn)}')">${esc(syn)}</span>`; });
       html+=`</div>`;
     }
     const answered=quizState.fillAnswers[quizState.index]!==undefined;
@@ -1700,7 +1909,7 @@ function renderQuizStep(){
       const isCorrect=quizState.fillAnswers[quizState.index];
       html+=`<div class="quiz-feedback ${isCorrect?'ok':'ko'} show">${isCorrect?'✅ Bonne réponse !':'❌ Mauvaise réponse. La réponse attendue était : <strong>'+q.answers[0][0]+'</strong>'}</div>`;
     }
-    html+='<div class="quiz-nav"><div class="nav-right"><button class="btn-aide" onclick="toggleHint()">💡 Indice</button><button class="btn-super-aide" onclick="toggleSynonyms()">🧠 Synonymes</button></div><div class="nav-right"><button class="btn" onclick="prevQuiz()" '+(quizState.index===0?'disabled':'')+'>← Précédent</button><button class="btn primary" onclick="checkFill()" '+(answered?'disabled':'')+'>Vérifier</button><button class="btn primary" onclick="nextQuiz()" '+(answered?'':'disabled')+'>Suivant →</button></div></div></div>';
+    html+='<div class="quiz-nav"><div class="nav-right"><button class="btn-aide" onclick="toggleHint()">💡 Indice</button><button class="btn-super-aide" onclick="toggleSynonyms()">🧠 Super aide</button></div><div class="nav-right"><button class="btn" onclick="prevQuiz()" '+(quizState.index===0?'disabled':'')+'>← Précédent</button><button class="btn primary" onclick="checkFill()" '+(answered?'disabled':'')+'>Vérifier</button><button class="btn primary" onclick="nextQuiz()" '+(answered?'':'disabled')+'>Suivant →</button></div></div></div>';
     container.innerHTML=html;
     if(answered){
       const inp=document.getElementById("fillInput0");
