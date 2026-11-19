@@ -240,7 +240,6 @@ main{padding:34px clamp(18px,4vw,54px);max-width:1400px;width:100%;margin:auto}
 .explain-compare .ex-icon{font-size:18px;flex-shrink:0;line-height:1.4}
 .explain-compare strong{color:#f0e5ff}
 
-/* Illustrations SVG dans les sections */
 .explain-illus{
   display:flex;justify-content:center;align-items:center;
   margin:14px 0;padding:14px;
@@ -265,8 +264,32 @@ main{padding:34px clamp(18px,4vw,54px);max-width:1400px;width:100%;margin:auto}
 .btn-comprends-rien:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(255,189,105,.45);filter:brightness(1.06)}
 .btn-comprends-rien:active{transform:scale(.97)}
 
+/* NOUVELLE PYRAMIDE INTERACTIVE (JOUR 3) */
+.juridiction-pyr-wrap{display:flex;justify-content:center;margin:20px 0;padding:20px;background:#0d1629;border-radius:16px;border:1px solid var(--line)}
+.juridiction-pyr{display:flex;flex-direction:column;align-items:center;width:100%;max-width:600px;gap:8px}
+.juridiction-pyr .pyr-node{width:100%;display:flex;justify-content:center}
+.juridiction-pyr .pyr-node button{
+  width:100%;padding:12px 10px;border-radius:8px;font-weight:800;font-size:13px;
+  color:white;text-align:center;transition:.25s;border:2px solid transparent;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+  box-shadow:0 4px 12px rgba(0,0,0,.2);
+}
+.juridiction-pyr .pyr-node button small{font-weight:500;font-size:10px;opacity:.85}
+.juridiction-pyr .pyr-node button:hover{transform:scale(1.03);border-color:white;filter:brightness(1.15);z-index:10;position:relative}
+.juridiction-pyr .pyr-node button:active{transform:scale(.98)}
+.juridiction-pyr .pyr-node.top button{width:50%;background:linear-gradient(135deg,#b47aff,#8a4dff)}
+.juridiction-pyr .pyr-node.mid1{display:flex;justify-content:center;gap:8px}
+.juridiction-pyr .pyr-node.mid1 button{width:45%;background:linear-gradient(135deg,#7c9cff,#5a6fd6)}
+.juridiction-pyr .pyr-node.mid2{display:flex;justify-content:center;gap:8px}
+.juridiction-pyr .pyr-node.mid2 button{width:31%;background:linear-gradient(135deg,#55d6a0,#2fa878)}
+.juridiction-pyr .pyr-node.base{display:flex;justify-content:center;gap:8px}
+.juridiction-pyr .pyr-node.base button{width:48%;background:linear-gradient(135deg,#ffbd69,#e08e3c)}
+.juridiction-pyr .pyr-node.side{display:flex;flex-direction:column;width:100%;gap:6px;margin-top:10px}
+.juridiction-pyr .pyr-node.side button{width:100%;background:linear-gradient(135deg,#3a4d72,#2a3a5a);text-align:left;padding:10px 15px;font-size:12px}
+.juridiction-pyr .pyr-node.side button:hover{background:#4a5f85}
+
 @media(max-width:760px){.app{grid-template-columns:1fr}aside{padding:13px 16px;border-right:0;border-bottom:1px solid var(--line)}.brand{padding:0}.nav{display:flex;overflow:auto;gap:5px}.navlabel,.side-note{display:none}.nav button{white-space:nowrap;width:auto}.stats{gap:8px}.stat{padding:12px}.stat strong{font-size:21px}main{padding-top:24px}.pyr-level.lvl-1 button{width:75%}.pyr-level.lvl-2 button{width:85%}.pyr-level.lvl-3 button{width:92%}.pyr-level.lvl-4 button{width:96%}.explain-section{padding:14px 16px}.explain-section h4{font-size:16px}}
-@media print{body{background:white;color:#111}.app{display:block}aside,.actions,.back,.toolbar,.footer,.btn,.quiz-controls,.card-quiz,.quiz-nav,.btn-aide,.btn-super-aide,.synonym-panel,.toast,.pyr-btn-wrap,.btn-comprends-rien,.explain-overlay{display:none!important}main{padding:0}.panel,.day-card,.quiz-step{background:white;color:#111;border:0}.lesson-content p,.lesson-content li{color:#222}.lesson-content h3{color:#222}}
+@media print{body{background:white;color:#111}.app{display:block}aside,.actions,.back,.toolbar,.footer,.btn,.quiz-controls,.card-quiz,.quiz-nav,.btn-aide,.btn-super-aide,.synonym-panel,.toast,.pyr-btn-wrap,.btn-comprends-rien,.explain-overlay,.juridiction-pyr-wrap{display:none!important}main{padding:0}.panel,.day-card,.quiz-step{background:white;color:#111;border:0}.lesson-content p,.lesson-content li{color:#222}.lesson-content h3{color:#222}}
 </style>
 </head>
 <body>
@@ -343,7 +366,7 @@ main{padding:34px clamp(18px,4vw,54px);max-width:1400px;width:100%;margin:auto}
 
 <div class="toast" id="toast"><span id="toastIcon">✓</span><span id="toastMsg"></span></div>
 
-<!-- MODALE PYRAMIDE -->
+<!-- MODALE PYRAMIDE (Jour 2) -->
 <div class="pyramid-overlay" id="pyramidOverlay" onclick="if(event.target===this)closePyramid()">
   <div class="pyramid-modal">
     <button class="pyr-close" onclick="closePyramid()" title="Fermer">✕</button>
@@ -373,6 +396,51 @@ main{padding:34px clamp(18px,4vw,54px);max-width:1400px;width:100%;margin:auto}
     <div class="explain-bottom">
       <p>💡 <em>Relis cette version simplifiée, puis retourne voir la fiche complète : tu verras, ça ira beaucoup mieux !</em></p>
       <button class="btn primary" onclick="closeExplain()">👍 OK, j'ai compris !</button>
+    </div>
+  </div>
+</div>
+
+<!-- NOUVELLE MODALE PYRAMIDE JURIDICTIONS (Jour 3) -->
+<div class="pyramid-overlay" id="juridictionOverlay" onclick="if(event.target===this)closeJuridictionPyr()">
+  <div class="pyramid-modal">
+    <button class="pyr-close" onclick="closeJuridictionPyr()" title="Fermer">✕</button>
+    <h2>⚖️ La pyramide des juridictions en Belgique</h2>
+    <p class="pyr-sub">Clique sur une juridiction pour découvrir son rôle</p>
+    
+    <div class="juridiction-pyr-wrap">
+      <div class="juridiction-pyr">
+        <!-- Haut de la pyramide -->
+        <div class="pyr-node top">
+          <button onclick="showJuridictionInfo('cassation')">Cour de cassation<small>Contrôle l'application du droit</small></button>
+        </div>
+        <!-- Milieu 1 -->
+        <div class="pyr-node mid1">
+          <button onclick="showJuridictionInfo('appel')">Cour d'appel<small>Juge les recours</small></button>
+          <button onclick="showJuridictionInfo('travail_cour')">Cour du travail<small>Appels droit du travail</small></button>
+        </div>
+        <!-- Milieu 2 -->
+        <div class="pyr-node mid2">
+          <button onclick="showJuridictionInfo('travail_trib')">Trib. du travail<small>Litiges employeurs/travailleurs</small></button>
+          <button onclick="showJuridictionInfo('entreprise')">Trib. de l'entreprise<small>Litiges commerciaux</small></button>
+          <button onclick="showJuridictionInfo('premiere')">Trib. 1ère instance<small>Affaires civiles/pénales</small></button>
+        </div>
+        <!-- Base -->
+        <div class="pyr-node base">
+          <button onclick="showJuridictionInfo('paix')">Justice de paix<small>Petits litiges civils</small></button>
+          <button onclick="showJuridictionInfo('police')">Tribunal de police<small>Infractions routières</small></button>
+        </div>
+        <!-- Hors pyramide -->
+        <div class="pyr-node side" style="margin-top:20px; border-top:1px dashed #3a4d72; padding-top:15px;">
+          <div style="font-size:12px; color:var(--muted); text-align:center; margin-bottom:10px; font-weight:700; text-transform:uppercase; letter-spacing:1px;">Les 3 juridictions hors pyramide</div>
+          <button onclick="showJuridictionInfo('assises')">Cour d'assises<small>Crimes les plus graves (jury populaire de 12 citoyens)</small></button>
+          <button onclick="showJuridictionInfo('conseil')">Conseil d'État<small>Contrôle la légalité des décisions administratives</small></button>
+          <button onclick="showJuridictionInfo('constitutionnelle')">Cour constitutionnelle<small>Vérifie si les lois respectent la Constitution</small></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="pyr-info" id="juridictionInfo">
+      <p style="color:var(--muted);margin:0;text-align:center">👆 Clique sur une juridiction pour voir les détails.</p>
     </div>
   </div>
 </div>
@@ -475,324 +543,57 @@ function launchConfetti(count=40){
   }
 }
 
-/* ===== SVG ILLUSTRATIONS (dessins simples) ===== */
+/* ===== SVG ILLUSTRATIONS ===== */
 const svgIllus = {
-  balance: `<svg viewBox="0 0 200 140" width="200" height="140" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="100" cy="20" r="6" fill="#ffbd69"/>
-    <rect x="98" y="26" width="4" height="70" fill="#ffbd69"/>
-    <polygon points="60,96 140,96 150,108 50,108" fill="#7c9cff"/>
-    <circle cx="50" cy="108" r="4" fill="#9b83ff"/>
-    <circle cx="150" cy="108" r="4" fill="#9b83ff"/>
-    <path d="M40 55 L60 96 M160 55 L140 96" stroke="#ffbd69" stroke-width="3" fill="none"/>
-    <line x1="40" y1="55" x2="160" y2="55" stroke="#ffbd69" stroke-width="4" stroke-linecap="round"/>
-    <circle cx="40" cy="55" r="8" fill="#ffbd69"/>
-    <circle cx="160" cy="55" r="8" fill="#ffbd69"/>
-    <text x="100" y="132" text-anchor="middle" fill="#9aabc8" font-size="10" font-family="sans-serif">la justice pèse le pour et le contre</text>
-  </svg>`,
-  famille: `<svg viewBox="0 0 220 140" width="220" height="140" xmlns="http://www.w3.org/2000/svg">
-    <rect x="20" y="60" width="180" height="60" rx="6" fill="#1a2945" stroke="#293754" stroke-width="2"/>
-    <polygon points="20,60 110,20 200,60" fill="#7c9cff"/>
-    <rect x="95" y="85" width="30" height="35" fill="#ffbd69"/>
-    <rect x="40" y="80" width="20" height="20" fill="#9b83ff"/>
-    <rect x="160" y="80" width="20" height="20" fill="#55d6a0"/>
-    <circle cx="50" cy="90" r="3" fill="#edf3ff"/>
-    <circle cx="170" cy="90" r="3" fill="#edf3ff"/>
-    <text x="110" y="135" text-anchor="middle" fill="#9aabc8" font-size="10" font-family="sans-serif">les règles de la maison</text>
-  </svg>`,
-  ecole: `<svg viewBox="0 0 220 140" width="220" height="140" xmlns="http://www.w3.org/2000/svg">
-    <rect x="40" y="50" width="140" height="70" rx="4" fill="#1a2945" stroke="#293754" stroke-width="2"/>
-    <polygon points="30,50 110,10 190,50" fill="#55d6a0"/>
-    <rect x="55" y="65" width="25" height="25" fill="#7c9cff"/>
-    <rect x="95" y="65" width="25" height="25" fill="#9b83ff"/>
-    <rect x="135" y="65" width="25" height="25" fill="#ffbd69"/>
-    <rect x="90" y="95" width="40" height="25" fill="#ff7b86"/>
-    <circle cx="105" cy="108" r="2" fill="#1a2945"/>
-    <text x="110" y="135" text-anchor="middle" fill="#9aabc8" font-size="10" font-family="sans-serif">l'école des règles</text>
-  </svg>`,
-  roi: `<svg viewBox="0 0 160 140" width="160" height="140" xmlns="http://www.w3.org/2000/svg">
-    <polygon points="40,50 50,25 70,45 80,15 90,45 110,25 120,50" fill="#ffbd69" stroke="#e08e3c" stroke-width="2"/>
-    <circle cx="50" cy="28" r="4" fill="#ff7b86"/>
-    <circle cx="80" cy="18" r="4" fill="#55d6a0"/>
-    <circle cx="110" cy="28" r="4" fill="#7c9cff"/>
-    <rect x="40" y="50" width="80" height="12" fill="#ffbd69" stroke="#e08e3c" stroke-width="2"/>
-    <circle cx="80" cy="85" r="20" fill="#ffe9a8"/>
-    <circle cx="72" cy="80" r="3" fill="#1a1000"/>
-    <circle cx="88" cy="80" r="3" fill="#1a1000"/>
-    <path d="M72 92 Q80 98 88 92" stroke="#1a1000" stroke-width="2" fill="none" stroke-linecap="round"/>
-    <text x="80" y="130" text-anchor="middle" fill="#9aabc8" font-size="10" font-family="sans-serif">le roi signe les lois</text>
-  </svg>`,
-  vote: `<svg viewBox="0 0 200 140" width="200" height="140" xmlns="http://www.w3.org/2000/svg">
-    <rect x="60" y="40" width="80" height="50" rx="4" fill="#1a2945" stroke="#7c9cff" stroke-width="2"/>
-    <rect x="70" y="30" width="60" height="15" rx="2" fill="#293754"/>
-    <rect x="85" y="20" width="30" height="15" rx="1" fill="#ffe9a8"/>
-    <circle cx="100" cy="27" r="3" fill="#ff7b86"/>
-    <path d="M65 55 L75 75 L95 50" stroke="#55d6a0" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <text x="100" y="120" text-anchor="middle" fill="#9aabc8" font-size="10" font-family="sans-serif">voter = choisir</text>
-  </svg>`,
-  puzzle: `<svg viewBox="0 0 200 140" width="200" height="140" xmlns="http://www.w3.org/2000/svg">
-    <rect x="30" y="40" width="40" height="40" rx="4" fill="#7c9cff"/>
-    <rect x="80" y="40" width="40" height="40" rx="4" fill="#9b83ff"/>
-    <rect x="130" y="40" width="40" height="40" rx="4" fill="#55d6a0"/>
-    <rect x="30" y="90" width="40" height="40" rx="4" fill="#ffbd69"/>
-    <rect x="80" y="90" width="40" height="40" rx="4" fill="#ff7b86"/>
-    <circle cx="100" cy="60" r="4" fill="#0d1629"/>
-    <circle cx="100" cy="110" r="4" fill="#0d1629"/>
-    <text x="100" y="145" text-anchor="middle" fill="#9aabc8" font-size="10" font-family="sans-serif">les pièces du puzzle</text>
-  </svg>`,
-  puzzle2: `<svg viewBox="0 0 200 140" width="200" height="140" xmlns="http://www.w3.org/2000/svg">
-    <rect x="30" y="40" width="40" height="40" rx="4" fill="#7c9cff"/>
-    <rect x="80" y="40" width="40" height="40" rx="4" fill="#9b83ff"/>
-    <rect x="130" y="40" width="40" height="40" rx="4" fill="#55d6a0"/>
-    <rect x="30" y="90" width="40" height="40" rx="4" fill="#ffbd69"/>
-    <rect x="80" y="90" width="40" height="40" rx="4" fill="#ff7b86"/>
-    <circle cx="100" cy="60" r="4" fill="#0d1629"/>
-    <circle cx="100" cy="110" r="4" fill="#0d1629"/>
-    <text x="100" y="145" text-anchor="middle" fill="#9aabc8" font-size="10" font-family="sans-serif">les 6 morceaux du pays</text>
-  </svg>`,
-  pouvoirs: `<svg viewBox="0 0 220 140" width="220" height="140" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="110" cy="70" r="40" fill="none" stroke="#7c9cff" stroke-width="2" stroke-dasharray="4 4"/>
-    <circle cx="110" cy="35" r="14" fill="#ffbd69"/>
-    <text x="110" y="40" text-anchor="middle" fill="#1a1000" font-weight="bold" font-size="12">1</text>
-    <circle cx="145" cy="85" r="14" fill="#7c9cff"/>
-    <text x="145" y="90" text-anchor="middle" fill="#fff" font-weight="bold" font-size="12">2</text>
-    <circle cx="75" cy="85" r="14" fill="#55d6a0"/>
-    <text x="75" y="90" text-anchor="middle" fill="#fff" font-weight="bold" font-size="12">3</text>
-    <text x="110" y="25" text-anchor="middle" fill="#ffbd69" font-size="9" font-family="sans-serif">LÉGISLATIF</text>
-    <text x="170" y="90" text-anchor="middle" fill="#7c9cff" font-size="9" font-family="sans-serif">EXÉCUTIF</text>
-    <text x="50" y="90" text-anchor="middle" fill="#55d6a0" font-size="9" font-family="sans-serif">JUDICIAIRE</text>
-    <text x="110" y="132" text-anchor="middle" fill="#9aabc8" font-size="10" font-family="sans-serif">3 pouvoirs qui se partagent le travail</text>
-  </svg>`,
-  tribunal: `<svg viewBox="0 0 220 140" width="220" height="140" xmlns="http://www.w3.org/2000/svg">
-    <polygon points="30,50 110,15 190,50" fill="#7c9cff"/>
-    <rect x="40" y="50" width="140" height="8" fill="#5a6fd6"/>
-    <rect x="50" y="58" width="10" height="55" fill="#293754"/>
-    <rect x="105" y="58" width="10" height="55" fill="#293754"/>
-    <rect x="160" y="58" width="10" height="55" fill="#293754"/>
-    <rect x="30" y="113" width="160" height="8" fill="#5a6fd6"/>
-    <circle cx="110" cy="35" r="8" fill="#ffbd69"/>
-    <text x="110" y="135" text-anchor="middle" fill="#9aabc8" font-size="10" font-family="sans-serif">le tribunal tranche</text>
-  </svg>`,
-  tribunal2: `<svg viewBox="0 0 220 140" width="220" height="140" xmlns="http://www.w3.org/2000/svg">
-    <rect x="30" y="80" width="50" height="30" rx="4" fill="#ffbd69"/>
-    <text x="55" y="100" text-anchor="middle" fill="#1a1000" font-weight="bold" font-size="10">PAIX</text>
-    <rect x="90" y="80" width="50" height="30" rx="4" fill="#7c9cff"/>
-    <text x="115" y="100" text-anchor="middle" fill="#fff" font-weight="bold" font-size="10">POLICE</text>
-    <rect x="150" y="80" width="40" height="30" rx="4" fill="#55d6a0"/>
-    <text x="170" y="100" text-anchor="middle" fill="#fff" font-weight="bold" font-size="9">TRAVAIL</text>
-    <text x="110" y="135" text-anchor="middle" fill="#9aabc8" font-size="10" font-family="sans-serif">chacun sa spécialité</text>
-  </svg>`,
-  echelle: `<svg viewBox="0 0 200 140" width="200" height="140" xmlns="http://www.w3.org/2000/svg">
-    <rect x="40" y="100" width="120" height="6" fill="#293754"/>
-    <rect x="60" y="80" width="80" height="6" fill="#293754"/>
-    <rect x="80" y="60" width="40" height="6" fill="#293754"/>
-    <rect x="90" y="40" width="20" height="6" fill="#293754"/>
-    <circle cx="100" cy="30" r="10" fill="#ffbd69"/>
-    <text x="100" y="132" text-anchor="middle" fill="#9aabc8" font-size="10" font-family="sans-serif">l'appel = 2e chance</text>
-  </svg>`
+  balance: `<svg viewBox="0 0 200 140" width="200" height="140" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="20" r="6" fill="#ffbd69"/><rect x="98" y="26" width="4" height="70" fill="#ffbd69"/><polygon points="60,96 140,96 150,108 50,108" fill="#7c9cff"/><circle cx="50" cy="108" r="4" fill="#9b83ff"/><circle cx="150" cy="108" r="4" fill="#9b83ff"/><path d="M40 55 L60 96 M160 55 L140 96" stroke="#ffbd69" stroke-width="3" fill="none"/><line x1="40" y1="55" x2="160" y2="55" stroke="#ffbd69" stroke-width="4" stroke-linecap="round"/><circle cx="40" cy="55" r="8" fill="#ffbd69"/><circle cx="160" cy="55" r="8" fill="#ffbd69"/><text x="100" y="132" text-anchor="middle" fill="#9aabc8" font-size="10" font-family="sans-serif">la justice pèse le pour et le contre</text></svg>`,
+  famille: `<svg viewBox="0 0 220 140" width="220" height="140" xmlns="http://www.w3.org/2000/svg"><rect x="20" y="60" width="180" height="60" rx="6" fill="#1a2945" stroke="#293754" stroke-width="2"/><polygon points="20,60 110,20 200,60" fill="#7c9cff"/><rect x="95" y="85" width="30" height="35" fill="#ffbd69"/><rect x="40" y="80" width="20" height="20" fill="#9b83ff"/><rect x="160" y="80" width="20" height="20" fill="#55d6a0"/><circle cx="50" cy="90" r="3" fill="#edf3ff"/><circle cx="170" cy="90" r="3" fill="#edf3ff"/><text x="110" y="135" text-anchor="middle" fill="#9aabc8" font-size="10" font-family="sans-serif">les règles de la maison</text></svg>`,
+  ecole: `<svg viewBox="0 0 220 140" width="220" height="140" xmlns="http://www.w3.org/2000/svg"><rect x="40" y="50" width="140" height="70" rx="4" fill="#1a2945" stroke="#293754" stroke-width="2"/><polygon points="30,50 110,10 190,50" fill="#55d6a0"/><rect x="55" y="65" width="25" height="25" fill="#7c9cff"/><rect x="95" y="65" width="25" height="25" fill="#9b83ff"/><rect x="135" y="65" width="25" height="25" fill="#ffbd69"/><rect x="90" y="95" width="40" height="25" fill="#ff7b86"/><circle cx="105" cy="108" r="2" fill="#1a2945"/><text x="110" y="135" text-anchor="middle" fill="#9aabc8" font-size="10" font-family="sans-serif">l'école des règles</text></svg>`,
+  roi: `<svg viewBox="0 0 160 140" width="160" height="140" xmlns="http://www.w3.org/2000/svg"><polygon points="40,50 50,25 70,45 80,15 90,45 110,25 120,50" fill="#ffbd69" stroke="#e08e3c" stroke-width="2"/><circle cx="50" cy="28" r="4" fill="#ff7b86"/><circle cx="80" cy="18" r="4" fill="#55d6a0"/><circle cx="110" cy="28" r="4" fill="#7c9cff"/><rect x="40" y="50" width="80" height="12" fill="#ffbd69" stroke="#e08e3c" stroke-width="2"/><circle cx="80" cy="85" r="20" fill="#ffe9a8"/><circle cx="72" cy="80" r="3" fill="#1a1000"/><circle cx="88" cy="80" r="3" fill="#1a1000"/><path d="M72 92 Q80 98 88 92" stroke="#1a1000" stroke-width="2" fill="none" stroke-linecap="round"/><text x="80" y="130" text-anchor="middle" fill="#9aabc8" font-size="10" font-family="sans-serif">le roi signe les lois</text></svg>`,
+  vote: `<svg viewBox="0 0 200 140" width="200" height="140" xmlns="http://www.w3.org/2000/svg"><rect x="60" y="40" width="80" height="50" rx="4" fill="#1a2945" stroke="#7c9cff" stroke-width="2"/><rect x="70" y="30" width="60" height="15" rx="2" fill="#293754"/><rect x="85" y="20" width="30" height="15" rx="1" fill="#ffe9a8"/><circle cx="100" cy="27" r="3" fill="#ff7b86"/><path d="M65 55 L75 75 L95 50" stroke="#55d6a0" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text x="100" y="120" text-anchor="middle" fill="#9aabc8" font-size="10" font-family="sans-serif">voter = choisir</text></svg>`,
+  puzzle: `<svg viewBox="0 0 200 140" width="200" height="140" xmlns="http://www.w3.org/2000/svg"><rect x="30" y="40" width="40" height="40" rx="4" fill="#7c9cff"/><rect x="80" y="40" width="40" height="40" rx="4" fill="#9b83ff"/><rect x="130" y="40" width="40" height="40" rx="4" fill="#55d6a0"/><rect x="30" y="90" width="40" height="40" rx="4" fill="#ffbd69"/><rect x="80" y="90" width="40" height="40" rx="4" fill="#ff7b86"/><circle cx="100" cy="60" r="4" fill="#0d1629"/><circle cx="100" cy="110" r="4" fill="#0d1629"/><text x="100" y="145" text-anchor="middle" fill="#9aabc8" font-size="10" font-family="sans-serif">les pièces du puzzle</text></svg>`,
+  pouvoirs: `<svg viewBox="0 0 220 140" width="220" height="140" xmlns="http://www.w3.org/2000/svg"><circle cx="110" cy="70" r="40" fill="none" stroke="#7c9cff" stroke-width="2" stroke-dasharray="4 4"/><circle cx="110" cy="35" r="14" fill="#ffbd69"/><text x="110" y="40" text-anchor="middle" fill="#1a1000" font-weight="bold" font-size="12">1</text><circle cx="145" cy="85" r="14" fill="#7c9cff"/><text x="145" y="90" text-anchor="middle" fill="#fff" font-weight="bold" font-size="12">2</text><circle cx="75" cy="85" r="14" fill="#55d6a0"/><text x="75" y="90" text-anchor="middle" fill="#fff" font-weight="bold" font-size="12">3</text><text x="110" y="25" text-anchor="middle" fill="#ffbd69" font-size="9" font-family="sans-serif">LÉGISLATIF</text><text x="170" y="90" text-anchor="middle" fill="#7c9cff" font-size="9" font-family="sans-serif">EXÉCUTIF</text><text x="50" y="90" text-anchor="middle" fill="#55d6a0" font-size="9" font-family="sans-serif">JUDICIAIRE</text><text x="110" y="132" text-anchor="middle" fill="#9aabc8" font-size="10" font-family="sans-serif">3 pouvoirs qui se partagent le travail</text></svg>`,
+  tribunal: `<svg viewBox="0 0 220 140" width="220" height="140" xmlns="http://www.w3.org/2000/svg"><polygon points="30,50 110,15 190,50" fill="#7c9cff"/><rect x="40" y="50" width="140" height="8" fill="#5a6fd6"/><rect x="50" y="58" width="10" height="55" fill="#293754"/><rect x="105" y="58" width="10" height="55" fill="#293754"/><rect x="160" y="58" width="10" height="55" fill="#293754"/><rect x="30" y="113" width="160" height="8" fill="#5a6fd6"/><circle cx="110" cy="35" r="8" fill="#ffbd69"/><text x="110" y="135" text-anchor="middle" fill="#9aabc8" font-size="10" font-family="sans-serif">le tribunal tranche</text></svg>`,
+  tribunal2: `<svg viewBox="0 0 220 140" width="220" height="140" xmlns="http://www.w3.org/2000/svg"><rect x="30" y="80" width="50" height="30" rx="4" fill="#ffbd69"/><text x="55" y="100" text-anchor="middle" fill="#1a1000" font-weight="bold" font-size="10">PAIX</text><rect x="90" y="80" width="50" height="30" rx="4" fill="#7c9cff"/><text x="115" y="100" text-anchor="middle" fill="#fff" font-weight="bold" font-size="10">POLICE</text><rect x="150" y="80" width="40" height="30" rx="4" fill="#55d6a0"/><text x="170" y="100" text-anchor="middle" fill="#fff" font-weight="bold" font-size="9">TRAVAIL</text><text x="110" y="135" text-anchor="middle" fill="#9aabc8" font-size="10" font-family="sans-serif">chacun sa spécialité</text></svg>`,
+  echelle: `<svg viewBox="0 0 200 140" width="200" height="140" xmlns="http://www.w3.org/2000/svg"><rect x="40" y="100" width="120" height="6" fill="#293754"/><rect x="60" y="80" width="80" height="6" fill="#293754"/><rect x="80" y="60" width="40" height="6" fill="#293754"/><rect x="90" y="40" width="20" height="6" fill="#293754"/><circle cx="100" cy="30" r="10" fill="#ffbd69"/><text x="100" y="132" text-anchor="middle" fill="#9aabc8" font-size="10" font-family="sans-serif">l'appel = 2e chance</text></svg>`
 };
 
-/* ===== EXPLICATIONS SIMPLES (JE COMPRENDS RIEN) ===== */
-/* ⚠️ Ce bloc est déclaré AVANT openExplain pour éviter tout conflit */
+/* ===== EXPLICATIONS SIMPLES ===== */
 const explainBank = {
   1: {
     intro: "Aujourd'hui on parle du droit en général. Accroche-toi, on va tout simplifier avec des exemples très très simples.",
     sections: [
-      {
-        title: "C'est quoi le droit ?",
-        num: 1,
-        illus: 'balance',
-        paragraphs: [
-          "Le droit, c'est un <strong>ensemble de règles</strong> pour que tout le monde puisse vivre ensemble sans se taper dessus.",
-          "Ces règles disent ce qu'on peut faire, ce qu'on ne peut pas faire, et ce qui se passe si on ne respecte pas."
-        ],
-        examples: [
-          { icon: "🚦", text: "<strong>Exemple :</strong> le feu rouge, c'est une règle. Tout le monde s'arrête, comme ça les voitures ne se rentrent pas dedans." },
-          { icon: "⚽", text: "<strong>Comparaison :</strong> le droit, c'est comme les règles du jeu quand tu joues au foot. Sans règles, ce serait le chaos total !" }
-        ]
-      },
-      {
-        title: "Les 4 caractéristiques du droit",
-        num: 2,
-        illus: 'puzzle',
-        paragraphs: ["Le droit a 4 grandes particularités qu'il faut retenir :"],
-        list: [
-          "<strong>Il est invasif :</strong> il est partout, même dans des trucs tout bêtes. Par exemple, il y a des règles sur ce que tu mets dans ton assiette, sur comment tu construis ta maison, sur ce que tu dis en public…",
-          "<strong>Il est compliqué :</strong> il y a énormément de lois, et elles sont parfois écrites dans un langage dur à comprendre. C'est pour ça qu'on a besoin d'avocats et de juges pour nous aider.",
-          "<strong>Il change selon l'endroit :</strong> une règle ici, ce n'est pas la même ailleurs. En France on peut rouler à 130 km/h sur l'autoroute, en Belgique à 120 km/h. Ce n'est pas pareil non plus entre la Flandre et la Wallonie pour certaines choses.",
-          "<strong>Il change avec le temps :</strong> les règles évoluent. Avant, on ne pouvait pas se marier entre personnes du même sexe. Maintenant, si. Parce que la société a changé, le droit a suivi."
-        ],
-        examples: [
-          { icon: "🚗", text: "<strong>Exemple :</strong> la ceinture de sécurité. Il y a 50 ans, personne ne la mettait. Maintenant, c'est obligatoire parce qu'on a compris que ça sauve des vies." }
-        ]
-      },
-      {
-        title: "Les grandes familles du droit",
-        num: 3,
-        illus: 'famille',
-        paragraphs: ["Imagine que le droit, c'est un gros classeur avec plein de tiroirs. Chaque tiroir a son sujet."],
-        list: [
-          "<strong>Droit international public :</strong> les règles entre les pays, comme quand la Belgique parle avec la France ou avec l'Europe.",
-          "<strong>Droit international privé :</strong> quand une histoire privée dépasse les frontières. Par exemple, un Belge qui divorce d'une Française : quelles règles on applique ?",
-          "<strong>Droit privé :</strong> les règles entre les personnes « normales » : toi et ton voisin, toi et ton patron, toi et ton vendeur.",
-          "<strong>Droit public :</strong> les règles qui concernent l'État, les administrations, la police, les impôts. C'est quand l'État s'en mêle !"
-        ],
-        examples: [
-          { icon: "🏠", text: "<strong>Exemple de droit privé :</strong> tu signes un contrat pour louer un appartement, c'est du droit privé." },
-          { icon: "🚓", text: "<strong>Exemple de droit public :</strong> tu reçois une amende pour excès de vitesse, c'est du droit public (l'État te fait payer)." }
-        ]
-      },
-      {
-        title: "La Belgique et sa Constitution",
-        num: 4,
-        illus: 'roi',
-        paragraphs: [
-          "La <strong>Constitution</strong>, c'est LE livre le plus important de la Belgique. C'est comme la règle du jeu suprême : elle dit comment le pays doit fonctionner et quels sont tes droits de base.",
-          "La Belgique est une <strong>monarchie constitutionnelle</strong> : il y a un roi, mais il n'a pas tout le pouvoir. Il doit respecter la Constitution, comme tout le monde."
-        ],
-        examples: [
-          { icon: "👑", text: "<strong>Exemple :</strong> quand une loi est votée, le Roi doit la signer. C'est comme le tampon officiel « approuvé ». Mais si le Roi refuse, ce n'est pas la fin du monde : le gouvernement peut signer à sa place (c'est déjà arrivé pour la loi sur l'avortement avec le Roi Baudouin)." }
-        ]
-      },
-      {
-        title: "Les sanctions : gare aux bêtises !",
-        num: 5,
-        illus: 'echelle',
-        paragraphs: [
-          "Quand on ne respecte pas le droit, il y a des <strong>sanctions</strong>. C'est la punition.",
-          "Il y a deux grandes sortes de sanctions :"
-        ],
-        list: [
-          "<strong>Sanctions pénales :</strong> tu as fait une vraie bêtise grave (voler, frapper quelqu'un, rouler trop vite). C'est le juge pénal qui décide : une amende, ou parfois de la prison.",
-          "<strong>Sanctions administratives :</strong> c'est l'administration (la mairie, le ministère…) qui te punit sans passer par un juge. Par exemple, on te retire ton permis de conduire, ou on ferme ton magasin."
-        ],
-        examples: [
-          { icon: "📝", text: "<strong>Exemple :</strong> tu conduis trop vite → le tribunal de police peut te donner une amende (sanction pénale). Et en plus, l'administration peut te retirer ton permis (sanction administrative)." }
-        ]
-      },
-      {
-        title: "À retenir absolument",
-        num: 6,
-        illus: 'ecole',
-        paragraphs: [
-          "Le droit, c'est des règles pour vivre ensemble. Il est partout, il change selon les pays et avec le temps. En Belgique, la Constitution est la règle suprême. Et si on ne respecte pas, il y a des punitions : soit des juges (pénal), soit l'administration (administratif)."
-        ],
-        examples: [
-          { icon: "🧠", text: "<strong>Astuce mémoire :</strong> pense à un match de foot. Le terrain = le pays. Les règles du jeu = le droit. L'arbitre = le juge. Le carton rouge = la sanction. Simple, non ?" }
-        ]
-      }
+      { title: "C'est quoi le droit ?", num: 1, illus: 'balance', paragraphs: ["Le droit, c'est un <strong>ensemble de règles</strong> pour que tout le monde puisse vivre ensemble sans se taper dessus.","Ces règles disent ce qu'on peut faire, ce qu'on ne peut pas faire, et ce qui se passe si on ne respecte pas."], examples: [{ icon: "🚦", text: "<strong>Exemple :</strong> le feu rouge, c'est une règle. Tout le monde s'arrête, comme ça les voitures ne se rentrent pas dedans." },{ icon: "⚽", text: "<strong>Comparaison :</strong> le droit, c'est comme les règles du jeu quand tu joues au foot. Sans règles, ce serait le chaos total !" }] },
+      { title: "Les 4 caractéristiques du droit", num: 2, illus: 'puzzle', paragraphs: ["Le droit a 4 grandes particularités qu'il faut retenir :"], list: ["<strong>Il est invasif :</strong> il est partout, même dans des trucs tout bêtes. Par exemple, il y a des règles sur ce que tu mets dans ton assiette, sur comment tu construis ta maison, sur ce que tu dis en public…","<strong>Il est compliqué :</strong> il y a énormément de lois, et elles sont parfois écrites dans un langage dur à comprendre. C'est pour ça qu'on a besoin d'avocats et de juges pour nous aider.","<strong>Il change selon l'endroit :</strong> une règle ici, ce n'est pas la même ailleurs. En France on peut rouler à 130 km/h sur l'autoroute, en Belgique à 120 km/h. Ce n'est pas pareil non plus entre la Flandre et la Wallonie pour certaines choses.","<strong>Il change avec le temps :</strong> les règles évoluent. Avant, on ne pouvait pas se marier entre personnes du même sexe. Maintenant, si. Parce que la société a changé, le droit a suivi."], examples: [{ icon: "🚗", text: "<strong>Exemple :</strong> la ceinture de sécurité. Il y a 50 ans, personne ne la mettait. Maintenant, c'est obligatoire parce qu'on a compris que ça sauve des vies." }] },
+      { title: "Les grandes familles du droit", num: 3, illus: 'famille', paragraphs: ["Imagine que le droit, c'est un gros classeur avec plein de tiroirs. Chaque tiroir a son sujet."], list: ["<strong>Droit international public :</strong> les règles entre les pays, comme quand la Belgique parle avec la France ou avec l'Europe.","<strong>Droit international privé :</strong> quand une histoire privée dépasse les frontières. Par exemple, un Belge qui divorce d'une Française : quelles règles on applique ?","<strong>Droit privé :</strong> les règles entre les personnes « normales » : toi et ton voisin, toi et ton patron, toi et ton vendeur.","<strong>Droit public :</strong> les règles qui concernent l'État, les administrations, la police, les impôts. C'est quand l'État s'en mêle !"], examples: [{ icon: "🏠", text: "<strong>Exemple de droit privé :</strong> tu signes un contrat pour louer un appartement, c'est du droit privé." },{ icon: "🚓", text: "<strong>Exemple de droit public :</strong> tu reçois une amende pour excès de vitesse, c'est du droit public (l'État te fait payer)." }] },
+      { title: "La Belgique et sa Constitution", num: 4, illus: 'roi', paragraphs: ["La <strong>Constitution</strong>, c'est LE livre le plus important de la Belgique. C'est comme la règle du jeu suprême : elle dit comment le pays doit fonctionner et quels sont tes droits de base.","La Belgique est une <strong>monarchie constitutionnelle</strong> : il y a un roi, mais il n'a pas tout le pouvoir. Il doit respecter la Constitution, comme tout le monde."], examples: [{ icon: "👑", text: "<strong>Exemple :</strong> quand une loi est votée, le Roi doit la signer. C'est comme le tampon officiel « approuvé ». Mais si le Roi refuse, ce n'est pas la fin du monde : le gouvernement peut signer à sa place (c'est déjà arrivé pour la loi sur l'avortement avec le Roi Baudouin)." }] },
+      { title: "Les sanctions : gare aux bêtises !", num: 5, illus: 'echelle', paragraphs: ["Quand on ne respecte pas le droit, il y a des <strong>sanctions</strong>. C'est la punition.","Il y a deux grandes sortes de sanctions :"], list: ["<strong>Sanctions pénales :</strong> tu as fait une vraie bêtise grave (voler, frapper quelqu'un, rouler trop vite). C'est le juge pénal qui décide : une amende, ou parfois de la prison.","<strong>Sanctions administratives :</strong> c'est l'administration (la mairie, le ministère…) qui te punit sans passer par un juge. Par exemple, on te retire ton permis de conduire, ou on ferme ton magasin."], examples: [{ icon: "📝", text: "<strong>Exemple :</strong> tu conduis trop vite → le tribunal de police peut te donner une amende (sanction pénale). Et en plus, l'administration peut te retirer ton permis (sanction administrative)." }] },
+      { title: "À retenir absolument", num: 6, illus: 'ecole', paragraphs: ["Le droit, c'est des règles pour vivre ensemble. Il est partout, il change selon les pays et avec le temps. En Belgique, la Constitution est la règle suprême. Et si on ne respecte pas, il y a des punitions : soit des juges (pénal), soit l'administration (administratif)."], examples: [{ icon: "🧠", text: "<strong>Astuce mémoire :</strong> pense à un match de foot. Le terrain = le pays. Les règles du jeu = le droit. L'arbitre = le juge. Le carton rouge = la sanction. Simple, non ?" }] }
     ]
   },
   2: {
     intro: "Aujourd'hui on parle de comment la Belgique est organisée, avec ses pouvoirs et ses tribunaux. On va prendre des images très simples.",
     sections: [
-      {
-        title: "La Belgique, un pays en plusieurs morceaux",
-        num: 1,
-        illus: 'puzzle2',
-        paragraphs: [
-          "La Belgique n'est pas un pays tout simple : c'est un <strong>État fédéral</strong>. Ça veut dire que le pays est découpé en plusieurs parties, et que chacune a un peu de pouvoir.",
-          "Il y a 6 morceaux au total : 3 <strong>Communautés</strong> et 3 <strong>Régions</strong>."
-        ],
-        list: [
-          "<strong>Les Communautés :</strong> elles s'occupent des choses liées à la personne : la culture, l'école, la langue. Par exemple, l'école en Flandre et l'école en Wallonie ne sont pas exactement pareilles (jours de congé différents, par exemple).",
-          "<strong>Les Régions :</strong> elles s'occupent des choses liées au sol et à l'économie : les routes, l'urbanisme, l'environnement."
-        ],
-        examples: [
-          { icon: "🏫", text: "<strong>Comparaison :</strong> c'est comme si dans une grande maison, il y avait plusieurs pièces. Dans la pièce « école », c'est la Communauté qui décide de la déco. Dans la pièce « route », c'est la Région qui décide." }
-        ]
-      },
-      {
-        title: "Les 3 grands pouvoirs",
-        num: 2,
-        illus: 'pouvoirs',
-        paragraphs: [
-          "En Belgique, il y a 3 pouvoirs qui se partagent le travail. C'est un peu comme une équipe de super-héros où chacun a son rôle."
-        ],
-        list: [
-          "<strong>Le pouvoir législatif :</strong> c'est lui qui <strong>crée les règles</strong> (les lois). C'est le Parlement (les députés qu'on élit) + le Roi.",
-          "<strong>Le pouvoir exécutif :</strong> c'est lui qui <strong>applique les règles</strong>. C'est le Gouvernement (les ministres) + le Roi.",
-          "<strong>Le pouvoir judiciaire :</strong> c'est lui qui <strong>tranche les disputes</strong> et punit ceux qui ne respectent pas les règles. Ce sont les juges et les tribunaux."
-        ],
-        examples: [
-          { icon: "⚖️", text: "<strong>Comparaison :</strong> imagine une école. Le directeur décide des règles (législatif), les profs les font respecter en classe (exécutif), et le surveillant punit ceux qui ne les respectent pas (judiciaire)." }
-        ]
-      },
-      {
-        title: "Le Roi, il sert à quoi ?",
-        num: 3,
-        illus: 'roi',
-        paragraphs: [
-          "Le Roi ne décide pas de tout, contrairement à ce qu'on pourrait penser. Il a un rôle important mais limité.",
-          "Quand une loi est votée par le Parlement, le Roi doit la <strong>signer</strong>. C'est ce qu'on appelle la <strong>promulgation</strong>. Sans sa signature, la loi ne peut pas entrer en vigueur."
-        ],
-        examples: [
-          { icon: "✍️", text: "<strong>Exemple :</strong> imagine que le Parlement vote une loi pour interdire de fumer dans les voitures. Une fois votée, le Roi doit la signer. S'il refuse, la loi ne s'applique pas. Mais en réalité, le Roi signe toujours, sauf cas très exceptionnel (comme le Roi Baudouin qui a refusé de signer la loi sur l'avortement)." }
-        ]
-      },
-      {
-        title: "Le peuple, la base de tout",
-        num: 4,
-        illus: 'vote',
-        paragraphs: [
-          "Le peuple, c'est nous, les citoyens. C'est nous qui élisons les personnes qui vont nous représenter et prendre les décisions.",
-          "En Belgique, le vote est <strong>obligatoire</strong> : tu ne peux pas rester chez toi le jour des élections !"
-        ],
-        examples: [
-          { icon: "🗳️", text: "<strong>Comparaison :</strong> c'est comme élire le délégué de classe. Tu ne peux pas voter pour toi-même, mais tu choisis celui qui va parler pour la classe. Les élections, c'est la même chose, mais pour le pays." }
-        ]
-      },
-      {
-        title: "Les tribunaux : qui juge quoi ?",
-        num: 5,
-        illus: 'tribunal2',
-        paragraphs: [
-          "Il y a plusieurs tribunaux, chacun spécialisé dans un type de problème. C'est comme à l'hôpital : il y a des médecins pour les os, d'autres pour le cœur, etc."
-        ],
-        list: [
-          "<strong>Le Juge de Paix :</strong> il s'occupe des petits problèmes du quotidien, les disputes de moins de 5 000 €. Par exemple, ton voisin a un arbre qui dépasse chez toi et tu veux qu'il le coupe. Ou un problème avec ton propriétaire.",
-          "<strong>Le Tribunal de Police :</strong> il juge les petites infractions, surtout sur la route : excès de vitesse, feu rouge grillé, accident de voiture. Pas les grands crimes.",
-          "<strong>Le Tribunal du Travail :</strong> il règle les problèmes entre les travailleurs et les patrons : licenciement, salaire, harcèlement. C'est lui aussi qui gère les problèmes avec le chômage ou la mutuelle.",
-          "<strong>Le Tribunal des Entreprises :</strong> il s'occupe des problèmes entre les entreprises : dettes, faillites. C'est le tribunal des affaires."
-        ],
-        examples: [
-          { icon: "🏢", text: "<strong>Comparaison :</strong> c'est comme dans une école avec plusieurs classes. La classe des petits problèmes, la classe des problèmes de voiture, la classe des problèmes de boulot, la classe des problèmes d'argent." }
-        ]
-      },
-      {
-        title: "Où se passe le procès ?",
-        num: 6,
-        illus: 'tribunal',
-        paragraphs: [
-          "On ne va pas au tribunal n'importe où. Il y a des règles :",
-          "En général, on va au tribunal du lieu où habite la personne qu'on attaque (le défendeur). Mais si c'est une affaire pénale (un délit), on va au tribunal du lieu où le délit a été commis."
-        ],
-        examples: [
-          { icon: "🗺️", text: "<strong>Exemple :</strong> tu veux réclamer de l'argent à quelqu'un qui habite à Tournai. Et bien, tu devras aller au tribunal de Tournai. Si c'est une agression qui a eu lieu à Liège, le procès se tiendra à Liège." }
-        ]
-      },
-      {
-        title: "L'appel : une deuxième chance",
-        num: 7,
-        illus: 'echelle',
-        paragraphs: [
-          "Si tu perds un procès et que tu penses que la décision est injuste, tu peux faire appel. C'est ce qu'on appelle le <strong>double degré de juridiction</strong>.",
-          "C'est une deuxième chance : une autre cour (plus haute) réexamine l'affaire."
-        ],
-        examples: [
-          { icon: "🔁", text: "<strong>Comparaison :</strong> c'est comme quand tu demandes à un autre professeur de corriger ta copie parce que tu penses que la note est injuste. La première décision peut être revue par quelqu'un d'autre." }
-        ]
-      },
-      {
-        title: "À retenir absolument",
-        num: 8,
-        illus: 'ecole',
-        paragraphs: [
-          "La Belgique est un pays fédéral avec 6 morceaux. Il y a 3 pouvoirs : législatif (crée les lois), exécutif (applique les lois), judiciaire (tranche les disputes). Le peuple élit les représentants. Le Roi signe les lois mais ne décide pas de tout. Chaque tribunal a sa spécialité, et on peut faire appel si on n'est pas d'accord avec la décision."
-        ],
-        examples: [
-          { icon: "🧠", text: "<strong>Astuce mémoire :</strong> imagine un château. Le peuple est dans la cour (à la base), les députés sont dans la grande salle (législatif), les ministres dans une autre salle (exécutif), les juges dans la salle du tribunal, et tout en haut, le Roi (mais il ne fait que signer les lois)." }
-        ]
-      }
+      { title: "La Belgique, un pays en plusieurs morceaux", num: 1, illus: 'puzzle2', paragraphs: ["La Belgique n'est pas un pays tout simple : c'est un <strong>État fédéral</strong>. Ça veut dire que le pays est découpé en plusieurs parties, et que chacune a un peu de pouvoir.","Il y a 6 morceaux au total : 3 <strong>Communautés</strong> et 3 <strong>Régions</strong>."], list: ["<strong>Les Communautés :</strong> elles s'occupent des choses liées à la personne : la culture, l'école, la langue. Par exemple, l'école en Flandre et l'école en Wallonie ne sont pas exactement pareilles (jours de congé différents, par exemple).","<strong>Les Régions :</strong> elles s'occupent des choses liées au sol et à l'économie : les routes, l'urbanisme, l'environnement."], examples: [{ icon: "🏫", text: "<strong>Comparaison :</strong> c'est comme si dans une grande maison, il y avait plusieurs pièces. Dans la pièce « école », c'est la Communauté qui décide de la déco. Dans la pièce « route », c'est la Région qui décide." }] },
+      { title: "Les 3 grands pouvoirs", num: 2, illus: 'pouvoirs', paragraphs: ["En Belgique, il y a 3 pouvoirs qui se partagent le travail. C'est un peu comme une équipe de super-héros où chacun a son rôle."], list: ["<strong>Le pouvoir législatif :</strong> c'est lui qui <strong>crée les règles</strong> (les lois). C'est le Parlement (les députés qu'on élit) + le Roi.","<strong>Le pouvoir exécutif :</strong> c'est lui qui <strong>applique les règles</strong>. C'est le Gouvernement (les ministres) + le Roi.","<strong>Le pouvoir judiciaire :</strong> c'est lui qui <strong>tranche les disputes</strong> et punit ceux qui ne respectent pas les règles. Ce sont les juges et les tribunaux."], examples: [{ icon: "⚖️", text: "<strong>Comparaison :</strong> imagine une école. Le directeur décide des règles (législatif), les profs les font respecter en classe (exécutif), et le surveillant punit ceux qui ne les respectent pas (judiciaire)." }] },
+      { title: "Le Roi, il sert à quoi ?", num: 3, illus: 'roi', paragraphs: ["Le Roi ne décide pas de tout, contrairement à ce qu'on pourrait penser. Il a un rôle important mais limité.","Quand une loi est votée par le Parlement, le Roi doit la <strong>signer</strong>. C'est ce qu'on appelle la <strong>promulgation</strong>. Sans sa signature, la loi ne peut pas entrer en vigueur."], examples: [{ icon: "✍️", text: "<strong>Exemple :</strong> imagine que le Parlement vote une loi pour interdire de fumer dans les voitures. Une fois votée, le Roi doit la signer. S'il refuse, la loi ne s'applique pas. Mais en réalité, le Roi signe toujours, sauf cas très exceptionnel (comme le Roi Baudouin qui a refusé de signer la loi sur l'avortement)." }] },
+      { title: "Le peuple, la base de tout", num: 4, illus: 'vote', paragraphs: ["Le peuple, c'est nous, les citoyens. C'est nous qui élisons les personnes qui vont nous représenter et prendre les décisions.","En Belgique, le vote est <strong>obligatoire</strong> : tu ne peux pas rester chez toi le jour des élections !"], examples: [{ icon: "🗳️", text: "<strong>Comparaison :</strong> c'est comme élire le délégué de classe. Tu ne peux pas voter pour toi-même, mais tu choisis celui qui va parler pour la classe. Les élections, c'est la même chose, mais pour le pays." }] },
+      { title: "Les tribunaux : qui juge quoi ?", num: 5, illus: 'tribunal2', paragraphs: ["Il y a plusieurs tribunaux, chacun spécialisé dans un type de problème. C'est comme à l'hôpital : il y a des médecins pour les os, d'autres pour le cœur, etc."], list: ["<strong>Le Juge de Paix :</strong> il s'occupe des petits problèmes du quotidien, les disputes de moins de 5 000 €. Par exemple, ton voisin a un arbre qui dépasse chez toi et tu veux qu'il le coupe. Ou un problème avec ton propriétaire.","<strong>Le Tribunal de Police :</strong> il juge les petites infractions, surtout sur la route : excès de vitesse, feu rouge grillé, accident de voiture. Pas les grands crimes.","<strong>Le Tribunal du Travail :</strong> il règle les problèmes entre les travailleurs et les patrons : licenciement, salaire, harcèlement. C'est lui aussi qui gère les problèmes avec le chômage ou la mutuelle.","<strong>Le Tribunal des Entreprises :</strong> il s'occupe des problèmes entre les entreprises : dettes, faillites. C'est le tribunal des affaires."], examples: [{ icon: "🏢", text: "<strong>Comparaison :</strong> c'est comme dans une école avec plusieurs classes. La classe des petits problèmes, la classe des problèmes de voiture, la classe des problèmes de boulot, la classe des problèmes d'argent." }] },
+      { title: "Où se passe le procès ?", num: 6, illus: 'tribunal', paragraphs: ["On ne va pas au tribunal n'importe où. Il y a des règles :","En général, on va au tribunal du lieu où habite la personne qu'on attaque (le défendeur). Mais si c'est une affaire pénale (un délit), on va au tribunal du lieu où le délit a été commis."], examples: [{ icon: "🗺️", text: "<strong>Exemple :</strong> tu veux réclamer de l'argent à quelqu'un qui habite à Tournai. Et bien, tu devras aller au tribunal de Tournai. Si c'est une agression qui a eu lieu à Liège, le procès se tiendra à Liège." }] },
+      { title: "L'appel : une deuxième chance", num: 7, illus: 'echelle', paragraphs: ["Si tu perds un procès et que tu penses que la décision est injuste, tu peux faire appel. C'est ce qu'on appelle le <strong>double degré de juridiction</strong>.","C'est une deuxième chance : une autre cour (plus haute) réexamine l'affaire."], examples: [{ icon: "🔁", text: "<strong>Comparaison :</strong> c'est comme quand tu demandes à un autre professeur de corriger ta copie parce que tu penses que la note est injuste. La première décision peut être revue par quelqu'un d'autre." }] },
+      { title: "À retenir absolument", num: 8, illus: 'ecole', paragraphs: ["La Belgique est un pays fédéral avec 6 morceaux. Il y a 3 pouvoirs : législatif (crée les lois), exécutif (applique les lois), judiciaire (tranche les disputes). Le peuple élit les représentants. Le Roi signe les lois mais ne décide pas de tout. Chaque tribunal a sa spécialité, et on peut faire appel si on n'est pas d'accord avec la décision."], examples: [{ icon: "🧠", text: "<strong>Astuce mémoire :</strong> imagine un château. Le peuple est dans la cour (à la base), les députés sont dans la grande salle (législatif), les ministres dans une autre salle (exécutif), les juges dans la salle du tribunal, et tout en haut, le Roi (mais il ne fait que signer les lois)." }] }
+    ]
+  },
+  3: {
+    intro: "Aujourd'hui on parle de la justice, des crimes et des punitions. C'est du sérieux, mais on va tout expliquer avec des mots très simples et des exemples de tous les jours.",
+    sections: [
+      { title: "C'est quoi le pouvoir judiciaire ?", num: 1, illus: 'tribunal', paragraphs: ["Le <strong>pouvoir judiciaire</strong>, c'est le « troisième pouvoir » de l'État belge. Son travail : <strong>juger</strong> les gens et <strong>punir</strong> ceux qui font des bêtises graves.","Il y a trois pouvoirs en Belgique qui se partagent le travail :"], list: ["<strong>Le législatif :</strong> il décide des règles (« on n'a pas le droit de voler »).","<strong>L'exécutif :</strong> il organise le pays (« on met des policiers dans les rues »).","<strong>Le judiciaire :</strong> il juge (« ce monsieur a volé, il est puni »)."], examples: [{ icon: "⚽", text: "<strong>Comparaison :</strong> dans un match de foot, l'arbitre c'est le pouvoir judiciaire. Il regarde ce qui s'est passé et décide s'il y a faute. Il ne joue pas, il juge." }] },
+      { title: "Le juge, le procureur, l'avocat… qui fait quoi ?", num: 2, illus: 'balance', paragraphs: ["Au tribunal, il y a plusieurs personnes, chacune avec un rôle différent :"], list: ["<strong>Le juge :</strong> c'est lui qui <strong>décide</strong> à la fin. Il écoute tout le monde, regarde les preuves, et dit si la personne est coupable ou non.","<strong>Le procureur du Roi :</strong> il représente la <strong>société</strong>. C'est lui qui dit « cette personne a fait du mal à la société, il faut la punir ». Il demande une punition, mais <strong>ne décide pas</strong>.","<strong>Le juge d'instruction :</strong> c'est l'enquêteur. Il cherche la vérité, il regarde les preuves <strong>pour</strong> et <strong>contre</strong> la personne. Il ne décide pas non plus.","<strong>L'avocat :</strong> il <strong>défend</strong> la personne accusée (ou aide la victime). Il essaie de montrer que son client est innocent ou que la punition est trop forte.","<strong>Le greffier :</strong> c'est le secrétaire du tribunal. Il écrit tout ce qui se passe."], examples: [{ icon: "🏫", text: "<strong>Comparaison :</strong> imagine une dispute à l'école. Le directeur écoute (le juge). Un délégué dit « ce n'est pas bien ce qu'il a fait » (le procureur). L'élève se défend (l'avocat). La secrétaire note tout (le greffier)." }] },
+      { title: "Où on juge quoi ? (les tribunaux)", num: 3, illus: 'tribunal2', paragraphs: ["Il n'y a pas un seul tribunal, mais plusieurs. Chacun est spécialisé, comme les médecins."], list: ["<strong>Justice de paix :</strong> les petits problèmes du quotidien. Le voisin fait trop de bruit, le propriétaire ne rend pas la caution…","<strong>Tribunal de police :</strong> les problèmes de voiture. Excès de vitesse, feu rouge grillé, accident.","<strong>Tribunal correctionnel :</strong> les délits. Vol, escroquerie, coups et blessures.","<strong>Cour d'assises :</strong> les crimes très graves (meurtre…). Là, il y a <strong>12 citoyens</strong> qui forment un <strong>jury</strong>, comme dans les films américains !","<strong>Cour d'appel :</strong> si tu perds et que tu penses que c'est injuste, tu peux demander une <strong>deuxième chance</strong>.","<strong>Cour de cassation :</strong> le tribunal le plus haut. Il ne refait pas le procès, il vérifie juste que les <strong>règles</strong> ont été bien suivies."], examples: [{ icon: "🏢", text: "<strong>Comparaison :</strong> c'est comme à l'hôpital. Il y a un médecin pour les os, un pour le cœur, un pour les yeux. Chaque tribunal a sa spécialité." }] },
+      { title: "C'est quoi une infraction ?", num: 4, illus: 'echelle', paragraphs: ["Une <strong>infraction</strong>, c'est un acte <strong>interdit par la loi</strong> et <strong>punissable</strong>. Il y a deux sortes :"], list: ["<strong>L'action :</strong> tu <strong>fais</strong> quelque chose d'interdit. Par exemple, tu frappes quelqu'un, tu voles un objet.","<strong>L'omission :</strong> tu <strong>ne fais pas</strong> quelque chose que la loi t'oblige à faire. Par exemple, tu vois quelqu'un se noyer et tu ne l'aides pas alors que la loi t'oblige à aider."], examples: [{ icon: "🚦", text: "<strong>Exemple :</strong> griller un feu rouge, c'est une action. Ne pas s'arrêter pour aider après un accident, c'est une omission." }] },
+      { title: "Les 3 morceaux d'une infraction", num: 5, illus: 'puzzle', paragraphs: ["Pour qu'une infraction existe, il faut <strong>3 éléments</strong>. Si un manque, ce n'est pas une infraction !"], list: ["<strong>1. L'élément matériel :</strong> ce que la personne a <strong>fait</strong> (ou pas fait). Par exemple, elle a pris le téléphone.","<strong>2. L'élément moral :</strong> ce qu'elle avait <strong>dans la tête</strong>. Voulait-elle vraiment le voler ? C'était un accident ?","<strong>3. Les circonstances aggravantes :</strong> est-ce que c'était <strong>plus grave</strong> que d'habitude ? Par exemple, avec une arme, ou contre une personne vulnérable."], examples: [{ icon: "🧠", text: "<strong>Astuce :</strong> pense à un gâteau. Il faut les ingrédients (matériel), la cuisson (moral), et si tu ajoutes du chocolat en plus (circonstance aggravante), c'est encore plus grave." }] },
+      { title: "Les principes qui protègent tout le monde", num: 6, illus: 'vote', paragraphs: ["Il y a des règles <strong>très importantes</strong> pour protéger les gens :"], list: ["<strong>Présomption d'innocence :</strong> on est <strong>innocent</strong> jusqu'à ce qu'on prouve qu'on est coupable. Même si tu es suspect, tu n'es pas coupable tant que le juge n'a pas décidé.","<strong>Charge de la preuve :</strong> c'est à la <strong>justice</strong> de prouver que tu es coupable, pas à toi de prouver que tu es innocent.","<strong>Légalité :</strong> on ne peut te punir que pour quelque chose <strong>écrit dans la loi</strong>. Un juge ne peut pas inventer une punition.","<strong>Non-rétroactivité :</strong> on ne peut pas te punir pour un acte qui n'était <strong>pas interdit au moment où tu l'as fait</strong>.","<strong>Territorialité :</strong> la loi belge s'applique pour les faits commis en Belgique."], examples: [{ icon: "⚖️", text: "<strong>Exemple :</strong> si demain une loi interdit de porter du bleu, on ne peut pas te punir pour avoir porté du bleu hier. C'est la non-rétroactivité." }] },
+      { title: "L'agent de gardiennage : ses pouvoirs et ses limites", num: 7, illus: 'ecole', paragraphs: ["Un <strong>agent de gardiennage</strong> (agent de sécurité), ce n'est <strong>pas un policier</strong>. Il n'a pas les mêmes pouvoirs !","Ce qu'il <strong>peut</strong> faire :"], list: ["Surveiller les bâtiments.","Contrôler les entrées.","Observer et signaler les choses bizarres.","Alerter la police."], examples: [{ icon: "🚫", text: "<strong>Ce qu'il ne peut PAS faire :</strong> fouiller quelqu'un comme ça, arrêter quelqu'un pendant des heures, interroger comme un policier, frapper quelqu'un qui ne représente plus de danger. S'il fait ça, il dépasse ses droits." }] },
+      { title: "À retenir absolument", num: 8, illus: 'ecole', paragraphs: ["La justice juge et punit. Le juge décide, le procureur accuse, l'avocat défend. Il y a plusieurs tribunaux spécialisés. Une infraction a 3 éléments (matériel, moral, aggravant). On est innocent jusqu'à preuve du contraire. Et un agent de gardiennage n'a pas les mêmes pouvoirs qu'un policier !"], examples: [{ icon: "🧠", text: "<strong>Astuce mémoire :</strong> pense à un match de foot. Les règles = la loi. L'arbitre = le juge. Le carton rouge = la sanction. Et toi, tu es un joueur : tu dois respecter les règles, sinon l'arbitre te punit." }] }
     ]
   }
 };
@@ -835,7 +636,7 @@ function closeExplain(){
   document.getElementById('explainOverlay').classList.remove('show');
 }
 
-/* ===== PYRAMIDE DATA ===== */
+/* ===== PYRAMIDE DATA (Jour 2) ===== */
 const pyramidData = {
   5:{title:"👑 Le Roi",tag:"Monarchie constitutionnelle",content:`<p>La Belgique est une <strong>monarchie constitutionnelle</strong> : le Roi fait partie intégrante du pouvoir législatif, mais ses pouvoirs sont encadrés par la Constitution.</p><ul><li><strong>Promulgation :</strong> une fois la loi votée par le Parlement, le Roi doit la signer pour qu'elle entre en vigueur.</li><li><strong>Contreseing ministériel :</strong> les actes officiels du Roi requièrent en principe la signature d'un ministre.</li><li><strong>Cas historique :</strong> le Roi Baudouin a refusé de signer la loi sur l'avortement. Le gouvernement l'a placé en « incapacité de régner » pendant 24 heures pour que la loi soit signée à sa place.</li></ul><p><strong>À retenir :</strong> le Roi règne mais ne gouverne pas seul.</p>`},
   4:{title:"⚖️ Pouvoir judiciaire",tag:"Cours & tribunaux",content:`<p>Le pouvoir judiciaire <strong>tranche les litiges</strong> en appliquant les lois et les peines.</p><ul><li><strong>Composition :</strong> cours et tribunaux, juges, Procureur du Roi.</li><li><strong>Indépendance :</strong> le pouvoir exécutif n'a aucune emprise sur lui (il ne choisit pas les juges, ne fixe pas leurs salaires).</li><li><strong>Cour vs Tribunal :</strong> le tribunal juge en première instance ; la cour (ex. Cour d'appel) réexamine le dossier en degré supérieur.</li><li><strong>Procureur du Roi :</strong> représente la société dans les affaires pénales, propose des sanctions, mais c'est le juge qui décide.</li></ul><p><strong>Double degré de juridiction :</strong> une affaire jugée en première instance peut être réexaminée par une juridiction supérieure.</p>`},
@@ -860,6 +661,39 @@ function showPyrInfo(level){
   const info=document.getElementById('pyrInfo');
   info.innerHTML=`<h3>${data.title}</h3><span class="pyr-tag">${data.tag}</span>${data.content}`;
   info.style.animation='none';void info.offsetWidth;info.style.animation='fadeSlide .35s ease-out';
+}
+
+/* ===== NOUVELLE PYRAMIDE DES JURIDICTIONS (Jour 3) ===== */
+const juridictionData = {
+  cassation: {title:"Cour de cassation", tag:"Plus haute juridiction", content:`<p>La <strong>Cour de cassation</strong> est la juridiction suprême de l'ordre judiciaire. Elle ne juge pas les faits à nouveau, mais vérifie si les règles de droit et de procédure ont été correctement appliquées.</p><ul><li><strong>Rôle :</strong> contrôler la bonne application du droit.</li><li><strong>Ce qu'elle ne fait pas :</strong> elle ne réexamine pas les preuves ni les faits.</li><li><strong>Décision :</strong> elle peut casser une décision et renvoyer l'affaire devant une autre juridiction.</li></ul>`},
+  appel: {title:"Cour d'appel", tag:"Juridiction de recours", content:`<p>La <strong>Cour d'appel</strong> réexamine une affaire lorsqu'une partie fait appel, si la loi l'autorise.</p><ul><li><strong>Rôle :</strong> réexaminer les faits et le droit.</li><li><strong>Exemple :</strong> une personne condamnée par le tribunal correctionnel conteste la décision.</li></ul>`},
+  travail_cour: {title:"Cour du travail", tag:"Appels en droit social", content:`<p>La <strong>Cour du travail</strong> juge les appels en matière de droit du travail et de sécurité sociale.</p><ul><li><strong>Rôle :</strong> réexaminer les décisions rendues par le Tribunal du travail.</li></ul>`},
+  travail_trib: {title:"Tribunal du travail", tag:"Litiges sociaux", content:`<p>Le <strong>Tribunal du travail</strong> règle les conflits entre travailleurs et employeurs.</p><ul><li><strong>Compétence :</strong> licenciement, salaire, harcèlement, accidents du travail, litiges avec l'ONSS, le chômage ou l'INAMI.</li><li><strong>Composition :</strong> un juge professionnel et des juges consulaires (syndicats et patronat).</li></ul>`},
+  entreprise: {title:"Tribunal de l'entreprise", tag:"Litiges commerciaux", content:`<p>Le <strong>Tribunal de l'entreprise</strong> (anciennement Tribunal de commerce) s'occupe des litiges liés aux entreprises.</p><ul><li><strong>Compétence :</strong> litiges entre entreprises, faillites, difficultés financières.</li><li><strong>Composition :</strong> juges professionnels et juges consulaires (professionnels du monde économique).</li></ul>`},
+  premiere: {title:"Tribunal de première instance", tag:"Affaires civiles et pénales", content:`<p>Le <strong>Tribunal de première instance</strong> traite un large éventail d'affaires.</p><ul><li><strong>Compétence :</strong> affaires civiles, pénales (correctionnel), familiales, de jeunesse et application des peines.</li></ul>`},
+  paix: {title:"Justice de paix", tag:"Petits litiges civils", content:`<p>La <strong>Justice de paix</strong> traite les petits litiges de la vie quotidienne.</p><ul><li><strong>Compétence :</strong> voisinage, location, biens immobiliers, certains litiges concernant des sommes d'argent (moins de 5 000 €).</li><li><strong>Exemple :</strong> conflit entre propriétaire et locataire concernant la garantie locative.</li></ul>`},
+  police: {title:"Tribunal de police", tag:"Infractions routières", content:`<p>Le <strong>Tribunal de police</strong> traite principalement les infractions au Code de la route et les accidents de circulation.</p><ul><li><strong>Compétence :</strong> excès de vitesse, feu rouge grillé, alcool au volant, accidents de la route.</li><li><strong>Compétence civile :</strong> indemnisation des préjudices corporels ou matériels suite à un accident de la route.</li></ul>`},
+  assises: {title:"Cour d'assises", tag:"Crimes les plus graves", content:`<p>La <strong>Cour d'assises</strong> juge les crimes les plus graves (meurtre, assassinat, etc.).</p><ul><li><strong>Composition :</strong> 3 magistrats professionnels et 12 citoyens formant un jury populaire.</li><li><strong>Rôle du jury :</strong> intervient notamment dans la décision sur la culpabilité.</li></ul><p><strong>Hors pyramide :</strong> elle ne fait pas partie de la hiérarchie habituelle des recours.</p>`},
+  conseil: {title:"Conseil d'État", tag:"Contrôle administratif", content:`<p>Le <strong>Conseil d'État</strong> contrôle la légalité des décisions administratives.</p><ul><li><strong>Rôle :</strong> vérifier que les arrêtés et décisions de l'administration respectent la loi.</li><li><strong>Pouvoir :</strong> il peut annuler une décision administrative illégale.</li></ul><p><strong>Hors pyramide judiciaire :</strong> il relève de l'ordre administratif, pas de l'ordre judiciaire.</p>`},
+  constitutionnelle: {title:"Cour constitutionnelle", tag:"Contrôle de constitutionnalité", content:`<p>La <strong>Cour constitutionnelle</strong> vérifie si les lois, décrets et ordonnances respectent la Constitution.</p><ul><li><strong>Rôle :</strong> contrôler la conformité des normes législatives à la Constitution.</li><li><strong>Pouvoir :</strong> elle peut annuler une loi ou un décret jugé inconstitutionnel.</li></ul><p><strong>Hors pyramide judiciaire :</strong> c'est une juridiction spéciale.</p>`}
+};
+
+function openJuridictionPyr(){
+  soundPyramidOpen(); vibPyramid();
+  document.getElementById('juridictionOverlay').classList.add('show');
+  document.getElementById('juridictionInfo').innerHTML='<p style="color:var(--muted);margin:0;text-align:center">👆 Clique sur une juridiction pour voir les détails.</p>';
+}
+function closeJuridictionPyr(){
+  soundSwipe(); vibClick();
+  document.getElementById('juridictionOverlay').classList.remove('show');
+}
+function showJuridictionInfo(id){
+  soundPyramidClick(); vibPyramid();
+  const data = juridictionData[id];
+  if(!data) return;
+  const info = document.getElementById('juridictionInfo');
+  info.innerHTML = `<h3>${data.title}</h3><span class="pyr-tag">${data.tag}</span>${data.content}`;
+  info.style.animation='none'; void info.offsetWidth; info.style.animation='fadeSlide .35s ease-out';
 }
 
 /* ===== DATA ===== */
@@ -1088,6 +922,349 @@ C'est un principe fondamental qui garantit qu'une affaire jugée en première in
 - Le double degré de juridiction permet de contester une décision en appel.`
 };
 
+const lesson3 = {
+  day: 3,
+  title: "Le pouvoir judiciaire, le droit pénal et le gardiennage",
+  category: "Droit pénal & institutions judiciaires",
+  summary: "Pouvoir judiciaire, acteurs de la justice, juridictions belges, droit pénal, principes fondamentaux et limites du métier d'agent de gardiennage.",
+  body: `## PARTIE 1 — LE POUVOIR JUDICIAIRE
+
+### 1. Qu'est-ce que le pouvoir judiciaire ?
+Le pouvoir judiciaire est l'un des **trois pouvoirs** de l'État belge. Son rôle est de faire respecter la loi, juger les infractions, sanctionner les coupables et régler les conflits entre citoyens ou entreprises.
+
+Il permet de :
+- Juger les personnes soupçonnées d'une infraction.
+- Déterminer leur culpabilité ou leur innocence.
+- Prononcer des sanctions.
+- Régler les conflits.
+- Protéger les droits et libertés des citoyens.
+
+> **Exemple :** une personne vole un téléphone. La police enquête et transmet les informations à la justice. Le tribunal examine les preuves et décide si elle est coupable et quelle sanction appliquer.
+
+**Différence :** la police **constate** les infractions, intervient et recherche les auteurs. La justice **examine** les dossiers et prend les décisions judiciaires.
+
+### 2. Les trois pouvoirs de l'État belge
+La Belgique possède trois pouvoirs distincts afin d'éviter qu'une seule institution détienne toute l'autorité.
+
+| Pouvoir | Rôle | Exemple |
+|---|---|---|
+| **Législatif** | Crée et vote les lois. | Décide que le vol est interdit. |
+| **Exécutif** | Applique les lois et organise l'État. | Organise les services de police. |
+| **Judiciaire** | Juge et sanctionne les infractions. | Condamne éventuellement un voleur. |
+
+- **Législatif :** Parlement fédéral (Chambre des représentants et Sénat dans leurs compétences respectives).
+- **Exécutif :** gouvernement, administrations et autorités exécutives.
+- **Judiciaire :** cours et tribunaux.
+
+La **séparation des pouvoirs** permet d'éviter les abus et de maintenir un équilibre. Par exemple, un ministre ne peut pas ordonner à un juge de condamner quelqu'un.
+
+### 3. L'indépendance de la justice
+L'**indépendance** signifie que les juges prennent leurs décisions sans subir de pression extérieure.
+
+Ils doivent se baser sur la loi, les preuves, les faits et les arguments des parties, sans être influencés par le gouvernement, la police, les médias ou l'opinion publique.
+
+> **Exemple :** une personne riche ou politiquement influente doit être jugée comme n'importe quel citoyen.
+
+Il faut distinguer :
+- **Indépendance :** ne pas subir de pression extérieure.
+- **Impartialité :** rester neutre et ne favoriser aucune partie.
+
+### 4. Les différents acteurs de la justice
+**A. Le juge** — Examine les affaires, écoute les parties, analyse les preuves, applique la loi et décide de la culpabilité et de la sanction éventuelle.
+
+**B. Le procureur du Roi** — Représente les intérêts de la société. Il appartient au **ministère public**, appelé également **parquet**. Ses missions :
+- Diriger les enquêtes pénales dans le cadre de l'information.
+- Faire rechercher les auteurs d'infractions.
+- Décider des suites à donner à certaines affaires.
+- Demander l'application de la loi pénale devant les tribunaux.
+
+Il demande une sanction, mais **ne décide pas lui-même de la culpabilité**.
+
+**C. Le juge d'instruction** — Intervient dans les affaires nécessitant une instruction judiciaire. Il recherche la vérité en examinant :
+- Les **éléments à charge** : pouvant montrer la culpabilité.
+- Les **éléments à décharge** : pouvant innocenter le suspect.
+
+Il peut entendre des témoins, interroger des suspects, faire appel à des experts et ordonner certaines mesures (perquisition). Il **ne décide pas de la culpabilité**.
+
+**D. L'avocat** — Conseil et défend les intérêts de son client. Il peut défendre un accusé, représenter une victime, conseiller une personne et présenter des arguments et des preuves.
+
+**E. Le greffier** — Assure le suivi administratif et juridique des dossiers, assiste le juge pendant les audiences et veille à la bonne tenue des documents et actes de procédure.
+
+| Professionnel | Fonction |
+|---|---|
+| **Juge** | Rend les décisions judiciaires. |
+| **Procureur du Roi** | Représente la société et exerce les poursuites. |
+| **Juge d'instruction** | Dirige l'instruction judiciaire. |
+| **Avocat** | Conseille et défend son client. |
+| **Greffier** | Assure le suivi administratif et juridique. |
+
+### 5. Les différentes juridictions en Belgique
+Une **juridiction** est une institution chargée de juger une affaire. Le tribunal compétent dépend de la **nature** et de la **gravité** du litige.
+
+**A. Justice de paix** — Conflits de la vie quotidienne : voisinage, location, biens immobiliers, certains litiges concernant des sommes d'argent.
+
+**B. Tribunal de police** — Infractions au Code de la route, accidents de circulation, certaines infractions pénales.
+
+**C. Tribunal correctionnel** — Affaires pénales : vol, escroquerie, certaines agressions, infractions liées aux stupéfiants (les « délits »).
+
+**D. Cour d'assises** — Crimes les plus graves (certains homicides). Elle comprend :
+- **3 magistrats professionnels**.
+- **12 citoyens** formant un **jury populaire**, qui intervient notamment dans la décision sur la culpabilité.
+
+**E. Cour d'appel** — Réexamine une affaire lorsqu'une partie fait appel. Elle peut réexaminer les **faits** et le **droit**.
+
+**F. Cour de cassation** — Juridiction suprême de l'ordre judiciaire. Elle vérifie si les **règles de droit et de procédure** ont été correctement appliquées. Elle **ne recommence pas** un procès ordinaire. Elle peut casser une décision et renvoyer l'affaire devant une autre juridiction.
+
+> **Attention :** ces juridictions ne forment **pas une seule ligne hiérarchique**. Les recours dépendent de la nature de l'affaire et des règles légales.
+
+### 6. Déroulement d'une affaire judiciaire
+Exemple : une personne est soupçonnée de voler du matériel dans une entreprise.
+
+1. **Constatation** : le vol est découvert et la police est avertie.
+2. **Enquête policière** : rassemblement de témoignages, images et preuves.
+3. **Procureur du Roi** : examine le dossier et décide des suites.
+4. **Instruction éventuelle** : un juge d'instruction réalise des investigations complémentaires.
+5. **Orientation** : classement sans suite, autre réponse judiciaire ou renvoi devant un tribunal.
+6. **Audience** : le juge examine les faits, preuves et arguments.
+7. **Décision** : condamnation ou acquittement.
+8. **Recours éventuel** : une partie peut faire appel.
+
+> **Important :** être soupçonné ne signifie pas être coupable. La culpabilité doit être établie légalement.
+
+## PARTIE 2 — LE DROIT PÉNAL
+
+### 1. Qu'est-ce que le droit pénal ?
+Le droit pénal regroupe les règles qui définissent :
+- Les comportements interdits.
+- Les infractions.
+- Les conditions de responsabilité.
+- Les sanctions applicables.
+
+Son objectif est de **protéger la société**, les personnes et leurs biens.
+
+**Différence droit pénal / droit civil :**
+- **Droit pénal :** infractions portant atteinte aux règles protégeant la société (ex. agression).
+- **Droit civil :** relations entre personnes et entreprises (ex. conflit de dette ou de contrat).
+
+Un même événement peut entraîner **les deux responsabilités**.
+
+> **Exemple :** une personne casse volontairement le nez d'une autre :
+> - **Pénal :** poursuite pour violences.
+> - **Civil :** obligation d'indemniser la victime.
+
+### 2. Qu'est-ce qu'une infraction ?
+Une **infraction** est un comportement interdit et sanctionné par la loi pénale. Elle peut être :
+
+**A. Une action** : réaliser un comportement interdit (frapper, voler, dégrader, menacer).
+
+**B. Une omission** : ne pas accomplir une action alors que la loi impose d'agir (refuser sans justification de porter assistance alors qu'une obligation légale existe).
+
+> **Attention :** toute absence d'intervention n'est pas une infraction. Il faut une **obligation légale**.
+
+### 3. Les éléments constitutifs d'une infraction
+**A. L'élément matériel** — Comportement concret : ce que la personne a fait ou n'a pas fait.
+
+> Sans comportement matériel correspondant à une infraction, une simple mauvaise intention ne suffit pas pour condamner.
+
+**B. L'élément moral** — État d'esprit de la personne : conscience d'agir, liberté de comportement et intention ou faute selon l'infraction.
+
+**C. Les circonstances aggravantes** — Circonstances prévues par la loi qui augmentent la gravité de l'infraction et peuvent entraîner une sanction plus importante.
+
+Exemples :
+- Utilisation d'une arme.
+- Violences particulièrement graves.
+- Vulnérabilité de la victime dans les cas prévus.
+- Infractions contre certaines personnes exerçant une fonction sociale.
+
+> Le juge **ne peut pas inventer** une circonstance aggravante.
+
+| Élément | Question à se poser |
+|---|---|
+| Matériel | Qu'a fait ou omis de faire la personne ? |
+| Moral | Dans quel état d'esprit a-t-elle agi ? |
+| Aggravant | Existe-t-il une circonstance prévue par la loi ? |
+
+### 4. Classification des infractions en Belgique
+**⚠️ Réforme du Code pénal :** le nouveau Code pénal belge est entré en vigueur le **1er septembre 2026**, selon le cours.
+
+**L'ancien système** distinguait trois catégories :
+1. **Contraventions** : infractions les moins graves.
+2. **Délits** : infractions de gravité intermédiaire.
+3. **Crimes** : infractions les plus graves.
+
+**Le nouveau système : huit niveaux de peine** (du moins grave au plus grave).
+
+Les sanctions peuvent comprendre : amende, peine de travail, peine de probation, emprisonnement, autres peines prévues par la loi.
+
+> Le nouveau Code pénal cherche à faire de l'emprisonnement une **solution de dernier recours**.
+
+> **À retenir :** connaître les **huit niveaux** pour le droit belge actuel, mais également les **trois anciennes catégories** pour comprendre les anciens cours.
+
+### 5. La tentative d'infraction
+La **tentative** se produit lorsqu'une personne commence à exécuter une infraction sans parvenir à la terminer.
+
+Il faut distinguer :
+- L'**intention** de commettre une infraction.
+- Le **commencement d'exécution**.
+
+> Une simple pensée ou préparation ne suffit pas automatiquement à constituer une tentative punissable.
+
+> **Exemple :** vouloir voler une voiture et préparer des outils ne suffit pas nécessairement. Commencer à forcer la serrure peut constituer une tentative.
+
+### 6. La participation à une infraction
+Une personne peut être responsable sans réaliser directement l'acte principal.
+
+> **Exemple :** lors d'un cambriolage :
+> - **A** entre dans le bâtiment et vole.
+> - **B** surveille les alentours.
+> - **C** fournit les horaires de fermeture.
+
+Être simplement présent à proximité **ne suffit pas** pour devenir automatiquement complice.
+
+### 7. La responsabilité pénale
+C'est le fait de devoir **répondre de ses actes devant la justice**, lorsque les conditions légales de l'infraction et de la responsabilité sont réunies.
+
+- **Responsabilité pénale :** répondre d'une infraction devant la justice.
+- **Responsabilité civile :** réparer les dommages causés à autrui.
+
+Les deux responsabilités peuvent exister **simultanément**.
+
+### 8. La légitime défense
+La légitime défense permet de se défendre contre une agression dans les conditions prévues par la loi. Il faut notamment :
+- Une **attaque injustifiée**.
+- Une attaque **actuelle ou imminente**.
+- Une **nécessité** de se défendre.
+- Une défense **proportionnée**.
+
+> **Différence :** se défendre pour **faire cesser** une agression n'est pas la même chose que **punir soi-même** quelqu'un.
+
+### 9. Les sanctions pénales
+Le juge peut prononcer une sanction prévue par la loi. Il tient compte de la gravité, des circonstances, de la responsabilité et des règles applicables.
+
+- **A. Amende :** somme d'argent payée à l'État.
+- **B. Emprisonnement :** privation de liberté pendant une durée déterminée.
+- **C. Peine de travail :** heures de travail non rémunéré dans une organisation reconnue.
+- **D. Probation :** obligations et conditions à respecter pendant une période déterminée.
+- **E. Confiscation :** retrait de certains biens ou avantages dans les conditions prévues par la loi.
+
+> **Important :** le juge **ne choisit pas librement** les sanctions. Elles doivent toujours être prévues par la loi.
+
+## PARTIE 3 — LES PRINCIPES FONDAMENTAUX DU DROIT PÉNAL
+
+### 1. La présomption d'innocence
+Toute personne est considérée comme **innocente** tant que sa culpabilité n'a pas été légalement établie.
+
+Une personne peut être soupçonnée, interpellée, arrêtée, inculpée ou poursuivie **sans être automatiquement coupable**.
+
+### 2. La charge de la preuve
+Dans une affaire pénale, **l'accusation** doit apporter les éléments permettant d'établir la culpabilité.
+
+Le suspect ou le prévenu **ne doit pas prouver son innocence**.
+
+Exemples de preuves : vidéosurveillance, témoignages, traces matérielles, constatations policières.
+
+### 3. Le principe de légalité des infractions et des peines
+Une personne ne peut être condamnée que pour un comportement **défini comme une infraction par la loi**. La peine doit également être **prévue par la loi**.
+
+> Un juge ne peut pas condamner quelqu'un simplement parce qu'il trouve son comportement immoral ou désagréable.
+
+### 4. La non-rétroactivité de la loi pénale
+En principe, une personne **ne peut pas être condamnée** sur la base d'une loi pénale qui n'existait pas au moment des faits.
+
+**Exception :** une nouvelle loi **plus favorable** peut s'appliquer rétroactivement dans les conditions prévues par la loi.
+
+> Une loi **plus sévère** ne peut pas être appliquée rétroactivement pour aggraver la situation.
+
+### 5. La territorialité de la loi pénale
+La loi pénale belge s'applique en principe aux infractions commises **sur le territoire belge**, quelle que soit la nationalité de l'auteur.
+
+> **Exemple :** un touriste étranger qui vole à Tournai peut être poursuivi selon la loi belge.
+
+## PARTIE 4 — LE LIEN ENTRE LE DROIT PÉNAL ET LE MÉTIER D'AGENT DE GARDIENNAGE
+
+### 1. Le rôle de l'agent de gardiennage
+L'agent de gardiennage assure principalement la **prévention**, la **surveillance** et la **protection**.
+
+Ses missions :
+- Surveiller les bâtiments et installations.
+- Contrôler les accès dans le cadre légal.
+- Prévenir les comportements dangereux.
+- Observer les situations suspectes.
+- Signaler les infractions.
+- Alerter la police.
+- Intervenir dans les limites de ses compétences.
+
+> Il **ne possède pas les mêmes pouvoirs qu'un policier**.
+
+### 2. Les limites des pouvoirs de l'agent
+L'agent ne possède pas de **pouvoir général de police judiciaire** et doit respecter les droits fondamentaux.
+
+**A. Les fouilles** — Il ne peut pas fouiller librement une personne parce qu'elle semble suspecte. Les contrôles doivent respecter les conditions prévues par la législation sur le gardiennage.
+
+**B. Les arrestations** — L'agent **ne possède pas** de pouvoir général d'arrestation comme un policier. Cependant, un particulier peut, dans certaines circonstances strictement prévues par la loi, **appréhender** une personne surprise en **flagrant délit**.
+
+Il doit :
+- Respecter les conditions légales.
+- Éviter toute violence injustifiée.
+- Prévenir immédiatement la police.
+- Remettre rapidement la personne aux autorités.
+
+**C. Les interrogatoires** — L'agent **n'a pas le pouvoir** de mener un interrogatoire judiciaire. Il peut demander des explications dans le cadre de sa mission, mais **ne peut pas contraindre** une personne à répondre.
+
+**D. L'utilisation de la force** — La force ne peut jamais être utilisée arbitrairement. Une intervention physique doit respecter les conditions légales, notamment la **nécessité** et la **proportionnalité**.
+
+> **Exemple :** un individu tente de frapper l'agent : celui-ci peut se défendre. Mais si l'individu est maîtrisé et ne représente plus de danger, continuer à le frapper est **injustifiable**.
+
+### 3. Que faire lorsqu'un agent constate une infraction ?
+Méthode en 5 étapes :
+1. **Observer** : constater les faits sans tirer de conclusions hâtives.
+2. **Évaluer le danger** : vérifier si des personnes sont en danger.
+3. **Sécuriser** : protéger les personnes et les lieux dans les limites de ses compétences.
+4. **Alerter** : prévenir la police ou les secours.
+5. **Rendre compte** : transmettre des informations précises et objectives.
+
+**L'importance du rapport d'incident** — Il doit être :
+- **Clair**
+- **Précis**
+- **Chronologique**
+- **Objectif**
+- **Sans suppositions personnelles**
+
+> **❌ Mauvais exemple :** « Un voleur agressif a essayé de s'enfuir. » (contient une conclusion sur la culpabilité)
+>
+> **✅ Bon exemple :** « À 15 h 20, j'ai observé un individu prendre deux articles dans le rayon électronique et les placer dans son sac. Lorsque je me suis approché, l'individu s'est dirigé rapidement vers la sortie. J'ai contacté la police. » (décrit uniquement les faits observés)
+
+## PARTIE 5 — RÉCAPITULATIF GÉNÉRAL
+
+| Notion | À retenir |
+|---|---|
+| Pouvoir législatif | Crée et vote les lois. |
+| Pouvoir exécutif | Met en œuvre les lois. |
+| Pouvoir judiciaire | Rend la justice. |
+| Indépendance | Le juge ne subit pas de pression. |
+| Impartialité | Le juge reste neutre. |
+| Procureur du Roi | Représente la société et exerce les poursuites. |
+| Juge d'instruction | Dirige l'instruction judiciaire. |
+| Avocat | Conseille et défend son client. |
+| Greffier | Assure le suivi administratif et juridique. |
+| Infraction | Comportement interdit et sanctionné par la loi. |
+| Élément matériel | Action ou omission. |
+| Élément moral | État d'esprit et exigences morales. |
+| Circonstance aggravante | Élément légal augmentant la gravité. |
+| Légitime défense | Défense contre une attaque injustifiée, sous conditions. |
+| Présomption d'innocence | Innocent tant que la culpabilité n'est pas établie. |
+| Responsabilité pénale | Répondre d'une infraction. |
+| Responsabilité civile | Réparer un dommage. |
+| Cour de cassation | Contrôle la bonne application du droit. |
+
+### Les 5 principes à ne surtout pas oublier
+1. Personne ne peut être condamné sans **base légale**.
+2. Une personne soupçonnée n'est **pas automatiquement coupable**.
+3. Le juge doit rester **indépendant et impartial**.
+4. Une peine doit être **prévue par la loi**.
+5. Un agent de gardiennage **ne possède pas les mêmes pouvoirs** qu'un policier.`
+};
+
 const quizBank = {
   1: {
     qcm: [
@@ -1183,6 +1360,53 @@ const quizBank = {
   }
 };
 
+quizBank[3] = {
+  qcm: [
+    { q: "Quel est le rôle principal du pouvoir judiciaire ?", options: ["Créer les lois", "Juger les infractions et régler les conflits", "Organiser la police", "Voter le budget"], correct: 1 },
+    { q: "Quelle est la différence entre la police et la justice ?", options: ["La police juge, la justice enquête", "La police constate et enquête, la justice examine et décide", "Elles ont le même rôle", "La justice arrête les suspects"], correct: 1 },
+    { q: "Quels sont les trois pouvoirs de l'État belge ?", options: ["Policier, militaire, civil", "Législatif, exécutif, judiciaire", "Fédéral, régional, communal", "Pénal, civil, administratif"], correct: 1 },
+    { q: "Qui compose le pouvoir législatif fédéral ?", options: ["Le Roi seul", "Les cours et tribunaux", "Le Parlement fédéral (Chambre + Sénat)", "Le gouvernement"], correct: 2 },
+    { q: "Que signifie l'indépendance de la justice ?", options: ["Les juges font ce qu'ils veulent", "Les juges décident sans pression extérieure", "Les juges n'obéissent à aucune loi", "Les juges sont payés par le gouvernement"], correct: 1 },
+    { q: "Quelle est la différence entre indépendance et impartialité ?", options: ["Aucune différence", "Indépendance = pas de pression extérieure ; impartialité = neutralité entre les parties", "Indépendance = neutralité ; impartialité = pas de pression", "Ce sont des synonymes"], correct: 1 },
+    { q: "Quel acteur représente les intérêts de la société dans les affaires pénales ?", options: ["L'avocat", "Le greffier", "Le procureur du Roi", "Le juge d'instruction"], correct: 2 },
+    { q: "Quel est le rôle du juge d'instruction ?", options: ["Rendre le verdict final", "Rechercher la vérité (éléments à charge et à décharge)", "Défendre l'accusé", "Représenter la société"], correct: 1 },
+    { q: "Qui assure le suivi administratif des dossiers et assiste le juge pendant les audiences ?", options: ["Le procureur", "Le greffier", "L'avocat", "Le jury"], correct: 1 },
+    { q: "Quelle juridiction traite principalement les conflits de voisinage et de location ?", options: ["Le tribunal correctionnel", "La Cour d'assises", "La Justice de paix", "La Cour de cassation"], correct: 2 },
+    { q: "Quelle juridiction juge les crimes les plus graves avec un jury populaire ?", options: ["La Justice de paix", "Le tribunal de police", "La Cour d'assises", "La Cour d'appel"], correct: 2 },
+    { q: "Que fait la Cour de cassation ?", options: ["Réexamine les faits", "Juge les crimes graves", "Vérifie la bonne application du droit et des procédures", "Rend les verdicts de première instance"], correct: 2 },
+    { q: "Quelle est la différence entre droit pénal et droit civil ?", options: ["Ils sont identiques", "Le pénal concerne les infractions à la société, le civil les relations entre personnes", "Le civil juge les crimes", "Le pénal ne s'applique qu'aux entreprises"], correct: 1 },
+    { q: "Qu'est-ce qu'une infraction par omission ?", options: ["Frapper quelqu'un", "Voler un objet", "Ne pas agir alors qu'une obligation légale existe", "Mentir au tribunal"], correct: 2 },
+    { q: "Quels sont les trois éléments constitutifs d'une infraction ?", options: ["Juge, avocat, procureur", "Matériel, moral, circonstances aggravantes", "Action, intention, punition", "Loi, décret, arrêté"], correct: 1 },
+    { q: "Combien de niveaux de peine prévoit le nouveau Code pénal belge ?", options: ["3", "5", "8", "12"], correct: 2 },
+    { q: "Que faut-il pour qu'une tentative soit punissable ?", options: ["Une simple pensée", "Un commencement d'exécution", "Une préparation seule", "Un acte manqué sans intention"], correct: 1 },
+    { q: "Quelles sont les conditions de la légitime défense ?", options: ["Attaque injustifiée, actuelle, nécessité, proportionnalité", "Attaque passée, vengeance, force maximale", "Aucune condition", "Attaque verbale uniquement"], correct: 0 },
+    { q: "Que signifie la présomption d'innocence ?", options: ["Tout le monde est coupable", "Innocent tant que la culpabilité n'est pas légalement établie", "Le juge décide librement", "L'accusé doit prouver son innocence"], correct: 1 },
+    { q: "Un agent de gardiennage peut-il fouiller librement une personne suspecte ?", options: ["Oui, sans condition", "Non, il doit respecter les conditions prévues par la loi", "Oui, s'il a un doute", "Oui, avec l'accord de la police"], correct: 1 }
+  ],
+  fill: [
+    { text: "Le pouvoir {0} est l'un des trois pouvoirs de l'État belge.", answers: [["judiciaire"]], hints: ["Relatif à la justice"], synonyms: [["de justice", "juridictionnel", "des tribunaux"]] },
+    { text: "La {0} des pouvoirs permet d'éviter les abus.", answers: [["séparation", "separation"]], hints: ["Division en trois"], synonyms: [["division", "répartition", "partage"]] },
+    { text: "L'{0} de la justice signifie que les juges ne subissent pas de pression extérieure.", answers: [["indépendance", "independance"]], hints: ["Liberté de décision"], synonyms: [["autonomie", "liberté", "souveraineté"]] },
+    { text: "L'{0} signifie que le juge reste neutre et ne favorise aucune partie.", answers: [["impartialité", "impartialite"]], hints: ["Neutralité, équité"], synonyms: [["neutralité", "équité", "objectivité"]] },
+    { text: "Le procureur du Roi appartient au ministère public, aussi appelé {0}.", answers: [["parquet"]], hints: ["Nom courant du ministère public"], synonyms: [["ministère public", "MP", "accusation"]] },
+    { text: "Le juge d'instruction examine les éléments à charge et à {0}.", answers: [["décharge", "decharge"]], hints: ["Opposé à « charge »"], synonyms: [["innocence", "disculpation", "défense"]] },
+    { text: "Le {0} assure le suivi administratif et juridique des dossiers.", answers: [["greffier"]], hints: ["Assistant du juge"], synonyms: [["secrétaire judiciaire", "agent de greffe", "assistant"]] },
+    { text: "La Justice de {0} traite les conflits de voisinage et de location.", answers: [["paix"]], hints: ["Contraire de guerre"], synonyms: [["tranquillité", "proximité", "conciliation"]] },
+    { text: "La Cour d'{0} réexamine une affaire lorsqu'une partie fait appel.", answers: [["appel"]], hints: ["Recours contre une décision"], synonyms: [["recours", "second degré", "réexamen"]] },
+    { text: "La Cour de {0} est la juridiction suprême de l'ordre judiciaire.", answers: [["cassation"]], hints: ["Annulation d'une décision"], synonyms: [["annulation", "suprême", "plus haute"]] },
+    { text: "Le droit {0} regroupe les règles qui définissent les infractions et les sanctions.", answers: [["pénal", "penal"]], hints: ["Relatif aux peines"], synonyms: [["criminel", "répressif", "des peines"]] },
+    { text: "Une {0} est un comportement interdit et sanctionné par la loi pénale.", answers: [["infraction"]], hints: ["Acte interdit"], synonyms: [["délit", "crime", "faute"]] },
+    { text: "L'élément {0} correspond au comportement concret (action ou omission).", answers: [["matériel", "materiel"]], hints: ["Concret, tangible"], synonyms: [["physique", "concret", "factuel"]] },
+    { text: "L'élément {0} concerne l'état d'esprit de la personne.", answers: [["moral"]], hints: ["Relatif à l'intention"], synonyms: [["intentionnel", "psychologique", "mental"]] },
+    { text: "Une circonstance {0} augmente la gravité de l'infraction.", answers: [["aggravante"]], hints: ["Qui rend plus grave"], synonyms: [["plus grave", "alourdissante", "sévère"]] },
+    { text: "Le nouveau Code pénal belge est entré en vigueur le 1er septembre {0}.", answers: [["2026"]], hints: ["Année future proche"], synonyms: [["2026", "vingt-vingt-six", "deux mille vingt-six"]] },
+    { text: "La {0} se produit lorsqu'une personne commence à exécuter une infraction sans la terminer.", answers: [["tentative"]], hints: ["Essai non abouti"], synonyms: [["essai", "effort", "début"]] },
+    { text: "La {0} d'innocence signifie que toute personne est innocente tant que sa culpabilité n'est pas établie.", answers: [["présomption", "presomption"]], hints: ["Supposition légale"], synonyms: [["supposition", "postulat", "principe"]] },
+    { text: "En matière pénale, c'est l'{0} qui doit apporter la preuve de la culpabilité.", answers: [["accusation"]], hints: ["Partie qui poursuit"], synonyms: [["ministère public", "parquet", "poursuite"]] },
+    { text: "La loi pénale belge s'applique aux infractions commises sur le {0} belge.", answers: [["territoire"]], hints: ["Espace géographique d'un pays"], synonyms: [["sol", "espace", "pays"]] }
+  ]
+};
+
 /* ===== STATE ===== */
 let lessons = [];
 let currentDay = null;
@@ -1201,10 +1425,14 @@ function load(){
         const idx2=lessons.findIndex(x=>Number(x.day)===2);
         if(idx2>=0) lessons[idx2]=lesson2; else lessons.push(lesson2);
       }
+      if(!lessons.some(x=>Number(x.day)===3) || !lessons.find(x=>Number(x.day)===3).body){
+        const idx3=lessons.findIndex(x=>Number(x.day)===3);
+        if(idx3>=0) lessons[idx3]=lesson3; else lessons.push(lesson3);
+      }
     } else {
-      lessons=[starter,lesson2];
+      lessons=[starter,lesson2,lesson3];
     }
-  }catch(e){lessons=[starter,lesson2];}
+  }catch(e){lessons=[starter,lesson2,lesson3];}
   for(let d=1;d<=10;d++) if(!lessons.some(x=>Number(x.day)===d)) lessons.push({day:d,title:"À compléter",category:"À venir",summary:"Emplacement réservé pour ton prochain cours.",body:""});
   lessons.sort((a,b)=>a.day-b.day);
   persist();
@@ -1279,441 +1507,276 @@ function openLesson(day){
  if (Number(x.day) === 2) {
    const wrap = document.createElement('div');
    wrap.className = 'pyr-btn-wrap';
-   wrap.innerHTML = '<button class="btn primary" style="padding:14px 28px;font-size:16px;background:linear-gradient(135deg,#9b83ff,#7c5cf0)" onclick="openPyramid()">🏛️ Voir la pyramide des pouvoirs</button>';
+   wrap.innerHTML = '<button class="btn primary" onclick="openPyramid()">🏛️ Voir la pyramide des pouvoirs</button>';
    content.prepend(wrap);
  }
-
- content.style.animation='none';
- void content.offsetWidth;
- content.style.animation='fadeIn .4s ease';
-}
-
-/* ===== QUIZ ===== */
-function openQuiz(day, tab){
-  const bank = quizBank[Number(day)];
-  if (!bank) { showToast("Pas de quiz pour ce jour.", "⚠️"); return; }
-  soundSwipe(); vibClick();
-  quizState.day = Number(day);
-  quizState.tab = (tab === 'fill') ? 'fill' : 'qcm';
-  quizState.answers = {}; quizState.fillAnswers = {};
-  quizState.score = 0; quizState.index = 0; quizState.finished = false;
-  quizState.showHints = false; quizState.showSynonyms = false;
-
-  document.getElementById("homeView").classList.add("hidden");
-  document.getElementById("lessonView").classList.add("hidden");
-  document.getElementById("editorView").classList.add("hidden");
-  document.getElementById("quizOnlyView").classList.remove("hidden");
-
-  const lesson = lessons.find(l => Number(l.day) === Number(day));
-  const title = lesson && lesson.title ? lesson.title : "Jour " + day;
-  document.getElementById("quizOnlyEyebrow").textContent = "JOUR " + day + " — " + (quizState.tab === 'qcm' ? 'QCM' : 'TEXTE À TROU');
-  document.getElementById("quizOnlyTitle").textContent = "Quiz — " + title;
-
-  loadQuizQuestions();
-  setTabButtons();
-  renderQuizStep();
-}
-
-function loadQuizQuestions(){
-  const bank = quizBank[quizState.day];
-  if (!bank) { quizState.questions = []; return; }
-  if (quizState.tab === 'qcm') {
-    quizState.questions = bank.qcm.map((q, i) => ({...q, id: "qcm_" + quizState.day + "_" + i}));
-  } else {
-    quizState.questions = bank.fill.map((f, i) => ({...f, id: "fill_" + quizState.day + "_" + i}));
-  }
-}
-
-function setTabButtons(){
-  document.getElementById("tabQcm").classList.toggle("active", quizState.tab === 'qcm');
-  document.getElementById("tabFill").classList.toggle("active", quizState.tab === 'fill');
-}
-
-function switchQuizTab(tab){
-  soundToggle(); vibToggle();
-  quizState.tab = tab;
-  quizState.index = 0; quizState.finished = false; quizState.score = 0;
-  quizState.answers = {}; quizState.fillAnswers = {};
-  quizState.showHints = false; quizState.showSynonyms = false;
-  setTabButtons();
-  document.getElementById("quizOnlyEyebrow").textContent = "JOUR " + quizState.day + " — " + (tab === 'qcm' ? 'QCM' : 'TEXTE À TROU');
-  loadQuizQuestions();
-  renderQuizStep();
-}
-
-function toggleHints(){ soundToggle(); vibToggle(); quizState.showHints = !quizState.showHints; renderQuizStep(); }
-function toggleSynonyms(){ soundToggle(); vibToggle(); quizState.showSynonyms = !quizState.showSynonyms; renderQuizStep(); }
-
-function applySynonym(itemId, blankIdx, value){
-  const input = document.querySelector(`.fill-input[data-fid="${itemId}"][data-bid="${blankIdx}"]`);
-  if (!input || input.disabled) return;
-  soundPop(); vibClick();
-  input.value = value;
-  quizState.fillAnswers[itemId + "_" + blankIdx] = value;
-  input.classList.remove("correct", "wrong");
-  input.style.transform = 'scale(1.08)';
-  setTimeout(() => input.style.transform = '', 150);
-}
-
-function renderQuizStep(){
-  const container = document.getElementById("quizStepContainer");
-  const progressWrap = document.getElementById("quizProgress");
-  const qs = quizState.questions;
-  const idx = quizState.index;
-
-  if (quizState.finished) {
-    progressWrap.style.display = "none";
-    const total = quizState.tab === 'qcm' ? qs.length : qs.reduce((acc, f) => acc + f.answers.length, 0);
-    const pct = total > 0 ? Math.round(quizState.score / total * 100) : 0;
-    if (pct >= 80) { launchConfetti(50); soundComplete(); vibComplete(); }
-    else if (pct >= 50) { soundSuccess(); vibSuccess(); }
-    else { soundError(); vibError(); }
-    container.innerHTML = `<div class="quiz-step score-celebration" style="text-align:center;align-items:center;justify-content:center;min-height:220px">
-      <div style="font-size:42px;margin-bottom:8px">${pct >= 80 ? '🎓' : pct >= 50 ? '👍' : '💪'}</div>
-      <h3 style="margin:0 0 6px;font-size:22px;color:var(--text)">Quiz terminé !</h3>
-      <p style="color:var(--muted);margin:0 0 14px">${quizState.tab === 'qcm' ? 'QCM' : 'Texte à trou'} · Jour ${quizState.day}</p>
-      <div style="font-size:32px;font-weight:800;color:var(--accent);margin-bottom:4px">${quizState.score} / ${total}</div>
-      <div style="color:var(--muted);font-size:14px">${pct}% de réussite</div>
-      <div class="quiz-nav" style="justify-content:center;margin-top:22px">
-        <button class="btn primary" onclick="restartCurrentQuiz()">↺ Recommencer</button>
-      </div>
-    </div>`;
-    return;
-  }
-
-  if (qs.length === 0) {
-    progressWrap.style.display = "none";
-    container.innerHTML = '<div class="quiz-step"><p style="color:var(--muted);margin:0">Aucune question disponible pour ce quiz.</p></div>';
-    return;
-  }
-
-  progressWrap.style.display = "flex";
-  const total = qs.length;
-  const item = qs[idx];
-  const isQcm = quizState.tab === 'qcm';
-
-  document.getElementById("progressCounter").textContent = "Question " + (idx + 1) + " / " + total;
-  document.getElementById("progressBar").style.width = ((idx + 1) / total * 100) + "%";
-
-  let bodyHtml = "";
-  let synonymPanelHtml = "";
-
-  if (isQcm) {
-    const answered = quizState.answers[item.id] !== undefined;
-    const chosen = quizState.answers[item.id];
-    bodyHtml = `<div class="question"><span class="qnum">Q${idx + 1}</span>${esc(item.q)}</div>
-      <div class="quiz-options">` +
-      item.options.map((opt, oi) => {
-        let cls = "quiz-option";
-        if (answered) {
-          cls += " disabled";
-          if (oi === item.correct) cls += " correct";
-          else if (oi === chosen) cls += " wrong";
-        }
-        return `<div class="${cls}" data-oi="${oi}"><span class="check">✓</span><span>${esc(opt)}</span></div>`;
-      }).join("") +
-      `</div>
-      <div class="quiz-feedback ${answered ? 'show ' + (chosen === item.correct ? 'ok' : 'ko') : ''}">${
-        answered
-          ? (chosen === item.correct ? "✓ Bonne réponse !" : "✗ Incorrect. La bonne réponse est : " + esc(item.options[item.correct]))
-          : ""
-      }</div>`;
-  } else {
-    const answered = quizState.fillAnswers[item.id + "_answered"] === true;
-    let textHtml = esc(item.text);
-    textHtml = textHtml.replace(/\{(\d+)\}/g, (match, num) => {
-      const n = Number(num);
-      const val = quizState.fillAnswers[item.id + "_" + num] || "";
-      let cls = "fill-input";
-      if (answered) {
-        const accepted = (item.answers[n] || []).map(a => a.toLowerCase());
-        const trimmed = (val || "").trim().toLowerCase();
-        cls += accepted.includes(trimmed) ? " correct" : " wrong";
-      }
-      let hint = "";
-      if (item.hints && item.hints[n]) hint = item.hints[n];
-      else {
-        const first = (item.answers[n] || [""])[0];
-        hint = "« " + first.charAt(0) + "… » · " + first.length + " lettres";
-      }
-      const showClass = (quizState.showHints && !answered) ? ' show-hint' : '';
-      return `<span class="fill-blank-wrap${showClass}">
-        <input class="${cls}" data-fid="${item.id}" data-bid="${num}" value="${esc(val)}" placeholder="…" autocomplete="off" ${answered?'disabled':''}>
-        <span class="fill-hint">💡 ${esc(hint)}</span>
-      </span>`;
-    });
-    let fbHtml = "";
-    if (answered) {
-      const allOk = item.answers.every((accepted, i) => {
-        const v = (quizState.fillAnswers[item.id + "_" + i] || "").trim().toLowerCase();
-        return accepted.map(a => a.toLowerCase()).includes(v);
-      });
-      fbHtml = `<div class="quiz-feedback show ${allOk?'ok':'ko'}">${allOk ? "✓ Tout est correct !" : "✗ Certaines réponses sont incorrectes. Réponse(s) attendue(s) : " + item.answers.map(a => a[0]).join(", ")}</div>`;
-    }
-    bodyHtml = `<div class="question"><span class="qnum">Q${idx + 1}</span>${textHtml}</div>${fbHtml}`;
-
-    if (quizState.showSynonyms && !answered) {
-      const nbBlanks = item.answers.length;
-      let groupsHtml = "";
-      let hasAny = false;
-      for (let b = 0; b < nbBlanks; b++) {
-        const syns = (item.synonyms && item.synonyms[b]) ? [...item.synonyms[b]] : [];
-        const goodAnswer = (item.answers[b] || [""])[0];
-        const items = [...syns, goodAnswer];
-        if (items.length === 0) continue;
-        hasAny = true;
-        shuffleArray(items);
-        const label = nbBlanks > 1 ? `Trou ${b + 1} — clique sur le bon mot` : `Clique sur le bon mot`;
-        const chipsHtml = items.map(it => `<button class="synonym-chip" onclick="applySynonym('${item.id}', ${b}, '${esc(it).replace(/'/g, "\\'")}')">${esc(it)}</button>`).join("");
-        groupsHtml += `<div class="syn-group">
-          <div class="syn-group-label">${label}</div>
-          <div class="syn-chips">${chipsHtml}</div>
-        </div>`;
-      }
-      if (!hasAny) groupsHtml = `<div style="font-size:13px;color:#a89ad8">Aucune aide disponible pour cette question.</div>`;
-      synonymPanelHtml = `<div class="synonym-panel show">
-        <div class="syn-title">⭐ Super aide — clique sur un mot pour remplir</div>
-        ${groupsHtml}
-      </div>`;
-    }
-  }
-
-  const isFirst = idx === 0;
-  const isLast = idx === total - 1;
-  const nextLabel = isLast ? "Voir le score →" : "Suivant →";
-  const qcmAnswered = isQcm && quizState.answers[item.id] !== undefined;
-  const fillAnswered = !isQcm && quizState.fillAnswers[item.id + "_answered"] === true;
-  const nextDisabled = isQcm ? !qcmAnswered : !fillAnswered;
-
-  let statusHint = "";
-  if (!isQcm && fillAnswered) {
-    statusHint = `<div class="quiz-feedback show info" style="margin-top:0">✓ Réponse validée. Clique sur <strong>Suivant →</strong> pour continuer.</div>`;
-  }
-
-  container.innerHTML = `<div class="quiz-step">
-    <span class="step-badge">${isQcm ? 'QCM' : 'TEXTE À TROU'} · ${idx + 1}/${total}</span>
-    ${bodyHtml}
-    ${synonymPanelHtml}
-    ${statusHint}
-    <div class="quiz-nav">
-      <button class="btn" onclick="quizPrev()" ${isFirst ? 'disabled' : ''}>← Précédent</button>
-      <div class="nav-right">
-        ${!isQcm ? `<button class="btn-aide${quizState.showHints ? ' active' : ''}" onclick="toggleHints()" title="Afficher/masquer les indices">💡 Aide</button>` : ''}
-        ${!isQcm ? `<button class="btn-super-aide${quizState.showSynonyms ? ' active' : ''}" onclick="toggleSynonyms()" title="Afficher les mots possibles">⭐ Super aide</button>` : ''}
-        ${!isQcm && !fillAnswered ? `<button class="btn primary" onclick="validateFill()">Valider</button>` : ''}
-        <button class="btn primary" onclick="quizNext()" ${nextDisabled ? 'disabled' : ''}>${nextLabel}</button>
-      </div>
-    </div>
-  </div>`;
-
-  if (isQcm && !qcmAnswered) {
-    container.querySelectorAll(".quiz-option").forEach(opt => {
-      opt.addEventListener("click", () => {
-        const oi = Number(opt.dataset.oi);
-        quizState.answers[item.id] = oi;
-        if (oi === item.correct) { quizState.score++; soundSuccess(); vibSuccess(); }
-        else { soundError(); vibError(); }
-        renderQuizStep();
-      });
-    });
-  } else if (!isQcm && !fillAnswered) {
-    container.querySelectorAll(".fill-input").forEach(input => {
-      input.addEventListener("input", () => {
-        quizState.fillAnswers[input.dataset.fid + "_" + input.dataset.bid] = input.value;
-        input.classList.remove("correct", "wrong");
-      });
-      input.addEventListener("keydown", (e) => {
-        if (e.key === 'Enter') { e.preventDefault(); validateFill(); }
-      });
-    });
-  }
-}
-
-function validateFill(){
-  const item = quizState.questions[quizState.index];
-  if (!item) return;
-  if (quizState.fillAnswers[item.id + "_answered"] === true) return;
-  let allCorrect = true;
-  item.answers.forEach((accepted, i) => {
-    const v = (quizState.fillAnswers[item.id + "_" + i] || "").trim().toLowerCase();
-    if (accepted.map(a => a.toLowerCase()).includes(v)) quizState.score++;
-    else allCorrect = false;
-  });
-  quizState.fillAnswers[item.id + "_answered"] = true;
-  quizState.showSynonyms = false;
-  if (allCorrect) { soundSuccess(); vibSuccess(); }
-  else { soundError(); vibError(); }
-  renderQuizStep();
-}
-
-function quizNext(){
-  soundClick(); vibClick();
-  const qs = quizState.questions;
-  const item = qs[quizState.index];
-  if (!item) return;
-  const isQcm = quizState.tab === 'qcm';
-  const fillAnswered = !isQcm && quizState.fillAnswers[item.id + "_answered"] === true;
-  const qcmAnswered = isQcm && quizState.answers[item.id] !== undefined;
-  if (!isQcm && !fillAnswered) return;
-  if (isQcm && !qcmAnswered) return;
-
-  if (quizState.index < qs.length - 1) {
-    quizState.index++;
-    quizState.showSynonyms = false;
-    renderQuizStep();
-  } else {
-    quizState.finished = true;
-    renderQuizStep();
-  }
-}
-
-function quizPrev(){
-  soundClick(); vibClick();
-  if (quizState.index > 0) {
-    quizState.index--;
-    quizState.showSynonyms = false;
-    renderQuizStep();
-  }
-}
-
-function restartCurrentQuiz(){
-  soundClick(); vibClick();
-  quizState.answers = {}; quizState.fillAnswers = {};
-  quizState.score = 0; quizState.index = 0; quizState.finished = false;
-  quizState.showHints = false; quizState.showSynonyms = false;
-  renderQuizStep();
-}
-
-function shuffleArray(arr) {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
-
-/* ===== SUMMARY ===== */
-function toggleSummary(){
-  soundToggle(); vibToggle();
- const x=lessons.find(a=>Number(a.day)===Number(currentDay));if(!x)return;
- const content=document.getElementById("lessonContent");
- const toggle=document.getElementById("summaryToggle");
- const isSummary=content.dataset.mode==="summary";
- if(isSummary){
-   content.innerHTML=markdownLite(x.body);
-   content.dataset.mode="full";
-   toggle.textContent="Résumé : désactivé";
-   toggle.setAttribute("aria-pressed","false");
-   if (Number(x.day) === 2) {
-     const wrap = document.createElement('div');
-     wrap.className = 'pyr-btn-wrap';
-     wrap.innerHTML = '<button class="btn primary" style="padding:14px 28px;font-size:16px;background:linear-gradient(135deg,#9b83ff,#7c5cf0)" onclick="openPyramid()">🏛️ Voir la pyramide des pouvoirs</button>';
-     content.prepend(wrap);
-   }
- } else {
-   content.innerHTML=markdownLite(makeShortSummary(x.body));
-   content.dataset.mode="summary";
-   toggle.textContent="Résumé : activé";
-   toggle.setAttribute("aria-pressed","true");
-   if (Number(x.day) === 2) {
-     const wrap = document.createElement('div');
-     wrap.className = 'pyr-btn-wrap';
-     wrap.innerHTML = '<button class="btn primary" style="padding:14px 28px;font-size:16px;background:linear-gradient(135deg,#9b83ff,#7c5cf0)" onclick="openPyramid()">🏛️ Voir la pyramide des pouvoirs</button>';
-     content.prepend(wrap);
-   }
+ // Bouton pyramide des juridictions pour le jour 3
+ if (Number(x.day) === 3) {
+   const wrap = document.createElement('div');
+   wrap.className = 'pyr-btn-wrap';
+   wrap.innerHTML = '<button class="btn primary" onclick="openJuridictionPyr()">⚖️ Voir la pyramide des juridictions</button>';
+   content.prepend(wrap);
  }
 }
 
-function makeShortSummary(body){
- if(Number(currentDay)===1) return `# Jour 1 — L'essentiel
-- **Droit :** ensemble de règles qui organisent la vie en société et encadrent les relations entre personnes et avec l'État.
-- **Caractéristiques :** le droit est invasif, complexe, variable selon les lieux et évolutif dans le temps.
-- **Élaboration :** les lois sont adoptées par le pouvoir législatif ; l'exécutif prend des règlements dans les limites de ses compétences.
-- **Branches :** droit international (public/privé) et droit interne (public/privé).
-- **Droit privé :** relations entre personnes privées, en principe à égalité juridique.
-- **Droit public :** organisation de l'État et action des autorités publiques.
-- **Belgique :** la Constitution organise les pouvoirs et garantit des droits fondamentaux ; le Roi agit dans un cadre constitutionnel.
-- **Sécurité privée :** secteur réglementé, distinct des missions de police ; autorisations et contrôles reposent sur la loi.
-- **Contrôles et sanctions :** vérifications d'honorabilité ; manquements → sanctions administratives et/ou pénales.`;
- if(Number(currentDay)===2) return `# Jour 2 — L'essentiel
-- **État fédéral :** la Belgique répartit le pouvoir entre l'État fédéral et des entités fédérées.
-- **6 entités fédérées :** 3 Communautés (française, flamande, germanophone) + 3 Régions (wallonne, flamande, Bruxelles-Capitale).
-- **Communautés :** matières liées à la personne (culture, enseignement, langues).
-- **Régions :** matières liées au sol (urbanisme, environnement, travaux publics).
-- **Séparation des pouvoirs :** législatif (vote les lois), exécutif (les applique), judiciaire (tranche les litiges).
-- **Législatif :** Parlement bicaméral + Roi (promulgation).
-- **Exécutif :** Gouvernement fédéral (15 ministres) + secrétaires d'État + Roi + administrations (SPF).
-- **Judiciaire :** cours et tribunaux, juges, Procureur du Roi ; indépendant de l'exécutif.
-- **Élections :** démocratie représentative, vote obligatoire en Belgique.
-- **Tribunaux :** Juge de Paix (< 5 000 €), Tribunal de Police (infractions routières), Tribunal du Travail (conflits employeurs/travailleurs), Tribunal des Entreprises (litiges commerciaux, faillites).
-- **Compétences :** d'attribution (type de tribunal), territoriale (lieu), et double degré de juridiction (appel).`;
- const headings=body.split(/\n/).filter(s=>/^#{1,3} /.test(s));
- const bullets=body.split(/\n/).filter(s=>/^[-*] /.test(s));
- return "# Résumé — "+(headings.slice(0,1)[0]||"Fiche de cours").replace(/^#+ /,"")+"\n"+headings.slice(1,7).map(s=>"- "+s.replace(/^#+ /,"")).join("\n")+"\n"+bullets.slice(0,6).join("\n");
+function editCurrent(){
+ if(currentDay===null)return;
+ editLesson(currentDay);
 }
 
-/* ===== MARKDOWN LITE ===== */
-function markdownLite(src){
- return src.split(/\n/).map(line=>{
-  let t=esc(line).replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>");
-  if(line.startsWith("### "))return "<h4>"+esc(line.slice(4))+"</h4>";
-  if(line.startsWith("## "))return "<h3>"+esc(line.slice(3))+"</h3>";
-  if(line.startsWith("# "))return "<h3>"+esc(line.slice(2))+"</h3>";
-  if(line.startsWith("> "))return "<blockquote>"+t.slice(2)+"</blockquote>";
-  if(line.startsWith("- "))return "<li>"+t.slice(2)+"</li>";
-  if(!line.trim())return "";
-  return "<p>"+t+"</p>";
- }).join("").replace(/(?:<li>.*?<\/li>)+/gs,m=>"<ul>"+m+"</ul>");
-}
-
-/* ===== EDITOR ===== */
-function newLesson(){ soundClick(); vibClick(); editLesson(null); }
-function editCurrent(){ soundClick(); vibClick(); editLesson(currentDay); }
-
-function editLesson(day){
- editingDay=day;const x=day?lessons.find(a=>Number(a.day)===Number(day)):null;
+function newLesson(){
+ soundClick();vibClick();
  document.getElementById("homeView").classList.add("hidden");
  document.getElementById("lessonView").classList.add("hidden");
  document.getElementById("quizOnlyView").classList.add("hidden");
  document.getElementById("editorView").classList.remove("hidden");
- document.getElementById("editorHeading").textContent=x?"Modifier la fiche du jour "+x.day:"Ajouter une fiche";
- document.getElementById("editDay").value=x?x.day:(Math.max(0,...lessons.map(a=>Number(a.day)||0))+1);
- document.getElementById("editTitle").value=x&&x.title!=="À compléter"?x.title:"";
- document.getElementById("editCategory").value=x&&x.category!=="À venir"?x.category:"";
- document.getElementById("editSummary").value=x&&x.summary!=="Emplacement réservé pour ton prochain cours."?x.summary:"";
- document.getElementById("editBody").value=x?x.body:"";
- document.getElementById("deleteBtn").style.display=x&&x.day!==1&&x.day!==2?"inline-block":"none";
+ document.getElementById("editorHeading").textContent="Ajouter une fiche";
+ document.getElementById("editDay").value=lessons.length+1;
+ document.getElementById("editTitle").value="";
+ document.getElementById("editCategory").value="";
+ document.getElementById("editSummary").value="";
+ document.getElementById("editBody").value="";
+ document.getElementById("deleteBtn").style.display="none";
+ editingDay=null;
 }
-
+function editLesson(day){
+ const x=lessons.find(a=>Number(a.day)===Number(day));if(!x)return;
+ document.getElementById("homeView").classList.add("hidden");
+ document.getElementById("lessonView").classList.add("hidden");
+ document.getElementById("quizOnlyView").classList.add("hidden");
+ document.getElementById("editorView").classList.remove("hidden");
+ document.getElementById("editorHeading").textContent="Modifier la fiche";
+ document.getElementById("editDay").value=x.day;
+ document.getElementById("editTitle").value=x.title;
+ document.getElementById("editCategory").value=x.category||"";
+ document.getElementById("editSummary").value=x.summary||"";
+ document.getElementById("editBody").value=x.body||"";
+ document.getElementById("deleteBtn").style.display="inline-block";
+ editingDay=x.day;
+}
 function saveLesson(){
- soundClick(); vibClick();
- const day=Number(document.getElementById("editDay").value);if(!Number.isInteger(day)||day<1){showToast("Indique un numéro de jour valide.", "⚠️");return;}
- const data={day,title:document.getElementById("editTitle").value.trim()||"Jour "+day,category:document.getElementById("editCategory").value.trim()||"Cours",summary:document.getElementById("editSummary").value.trim(),body:document.getElementById("editBody").value.trim()};
- const existing=lessons.findIndex(x=>Number(x.day)===day);
- if(editingDay!==null&&Number(editingDay)!==day){const old=lessons.findIndex(x=>Number(x.day)===Number(editingDay));if(old>=0)lessons.splice(old,1);}
- if(existing>=0 && Number(editingDay)!==day){if(!confirm("Ce jour existe déjà. Remplacer sa fiche ?"))return;lessons[existing]=data;}
- else if(existing>=0)lessons[existing]=data;else lessons.push(data);
- lessons.sort((a,b)=>a.day-b.day);persist();showToast("Fiche enregistrée !", "💾");showHome();
+ const day=Number(document.getElementById("editDay").value);
+ const title=document.getElementById("editTitle").value.trim();
+ const category=document.getElementById("editCategory").value.trim();
+ const summary=document.getElementById("editSummary").value.trim();
+ const body=document.getElementById("editBody").value;
+ if(!title){showToast("Le titre est obligatoire","⚠️");return;}
+ const existing=lessons.find(a=>Number(a.day)===day);
+ if(existing){
+   existing.title=title; existing.category=category; existing.summary=summary; existing.body=body;
+ } else {
+   lessons.push({day,title,category,summary,body});
+ }
+ persist(); soundSuccess(); vibSuccess();
+ showToast("Fiche enregistrée","✓");
+ showHome();
 }
-
 function deleteCurrent(){
- if(editingDay===null||Number(editingDay)===1||Number(editingDay)===2)return;
- if(!confirm("Supprimer cette fiche ?"))return;
- soundError(); vibError();
- lessons=lessons.filter(x=>Number(x.day)!==Number(editingDay));persist();showToast("Fiche supprimée.", "🗑️");showHome();
+ if(editingDay===null)return;
+ if(!confirm("Supprimer cette fiche ?")) return;
+ lessons=lessons.filter(a=>Number(a.day)!==Number(editingDay));
+ persist(); showToast("Fiche supprimée","🗑️");
+ showHome();
 }
 
+function toggleSummary(){
+ const content=document.getElementById("lessonContent");
+ const toggle=document.getElementById("summaryToggle");
+ const x=lessons.find(a=>Number(a.day)===Number(currentDay));
+ if(!x)return;
+ if(content.dataset.mode==="full"){
+   content.dataset.mode="summary";
+   content.innerHTML = `<p style="font-size:16px;line-height:1.7">${esc(x.summary||"Aucun résumé disponible.")}</p>`;
+   toggle.textContent="Résumé : activé";
+   toggle.setAttribute("aria-pressed","true");
+ } else {
+   content.dataset.mode="full";
+   content.innerHTML=markdownLite(x.body);
+   if (Number(x.day) === 2) {
+     const wrap = document.createElement('div');
+     wrap.className = 'pyr-btn-wrap';
+     wrap.innerHTML = '<button class="btn primary" onclick="openPyramid()">🏛️ Voir la pyramide des pouvoirs</button>';
+     content.prepend(wrap);
+   }
+   if (Number(x.day) === 3) {
+     const wrap = document.createElement('div');
+     wrap.className = 'pyr-btn-wrap';
+     wrap.innerHTML = '<button class="btn primary" onclick="openJuridictionPyr()">⚖️ Voir la pyramide des juridictions</button>';
+     content.prepend(wrap);
+   }
+   toggle.textContent="Résumé : désactivé";
+   toggle.setAttribute("aria-pressed","false");
+ }
+}
+
+function markdownLite(md){
+  let html=esc(md);
+  html=html.replace(/^### (.*)$/gm,"<h4>$1</h4>");
+  html=html.replace(/^## (.*)$/gm,"<h3>$1</h3>");
+  html=html.replace(/^# (.*)$/gm,"<h2>$1</h2>");
+  html=html.replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>");
+  html=html.replace(/\*(.+?)\*/g,"<em>$1</em>");
+  html=html.replace(/^&gt; (.*)$/gm,"<blockquote>$1</blockquote>");
+  html=html.replace(/^- (.*)$/gm,"<li>$1</li>");
+  html=html.replace(/(<li>[\s\S]*?<\/li>)/g,function(m){return "<ul>"+m+"</ul>";});
+  html=html.replace(/\n{2,}/g,"</p><p>");
+  html="<p>"+html+"</p>";
+  html=html.replace(/<p>\s*<(h[234]|ul|blockquote)/g,"<$1");
+  html=html.replace(/<\/(h[234]|ul|blockquote)>\s*<\/p>/g,"</$1>");
+  html=html.replace(/<p><\/p>/g,"");
+  return html;
+}
+
+/* ===== QUIZ ===== */
+function openQuiz(day,tab){
+  soundClick();vibClick();
+  quizState.day=day;
+  quizState.tab=tab;
+  currentDay=day;
+  document.getElementById("homeView").classList.add("hidden");
+  document.getElementById("lessonView").classList.add("hidden");
+  document.getElementById("editorView").classList.add("hidden");
+  document.getElementById("quizOnlyView").classList.remove("hidden");
+  const x=lessons.find(a=>Number(a.day)===Number(day));
+  document.getElementById("quizOnlyEyebrow").textContent="JOUR "+day;
+  document.getElementById("quizOnlyTitle").textContent=x?x.title:"Quiz";
+  switchQuizTab(tab);
+}
+function switchQuizTab(tab){
+  quizState.tab=tab;
+  document.getElementById("tabQcm").classList.toggle("active",tab==='qcm');
+  document.getElementById("tabFill").classList.toggle("active",tab==='fill');
+  const bank=quizBank[quizState.day];
+  quizState.questions = bank && bank[tab] ? bank[tab] : [];
+  quizState.answers={};
+  quizState.fillAnswers={};
+  quizState.score=0;
+  quizState.index=0;
+  quizState.finished=false;
+  quizState.showHints=false;
+  quizState.showSynonyms=false;
+  renderQuizStep();
+  updateQuizProgress();
+}
+function updateQuizProgress(){
+  const total=quizState.questions.length;
+  const current=Math.min(quizState.index+1,total);
+  document.getElementById("progressCounter").textContent=`Question ${current} / ${total}`;
+  document.getElementById("progressBar").style.width=(total?((quizState.index+1)/total*100):0)+"%";
+}
+function renderQuizStep(){
+  const container=document.getElementById("quizStepContainer");
+  const q=quizState.questions[quizState.index];
+  if(!q){
+    container.innerHTML='<div class="quiz-step"><p>Quiz terminé !</p></div>';
+    return;
+  }
+  if(quizState.tab==='qcm'){
+    const answered=quizState.answers[quizState.index]!==undefined;
+    let html=`<div class="quiz-step"><div class="step-badge">QCM — Question ${quizState.index+1}</div><div class="question"><span class="qnum">Q${quizState.index+1}</span>${esc(q.q)}</div><div class="quiz-options">`;
+    q.options.forEach((opt,i)=>{
+      let cls="quiz-option";
+      if(answered){
+        cls+=" disabled";
+        if(i===q.correct) cls+=" correct";
+        else if(i===quizState.answers[quizState.index]) cls+=" wrong";
+      }
+      html+=`<div class="${cls}" onclick="answerQcm(${i})"><span class="check">${i===q.correct?'✓':'✕'}</span><span>${esc(opt)}</span></div>`;
+    });
+    html+='</div><div class="quiz-nav"><button class="btn" onclick="prevQuiz()" '+(quizState.index===0?'disabled':'')+'>← Précédent</button><div class="nav-right"><button class="btn primary" onclick="nextQuiz()" '+(answered?'':'disabled')+'>Suivant →</button></div></div></div>';
+    container.innerHTML=html;
+  } else {
+    let html=`<div class="quiz-step"><div class="step-badge">Texte à trou — Question ${quizState.index+1}</div>`;
+    let text=esc(q.text);
+    text=text.replace(/\{0\}/g,`<span class="fill-blank-wrap"><input class="fill-input" id="fillInput0" onkeydown="handleFillKey(event)" placeholder="…"><span class="fill-hint">${esc(q.hints?q.hints[0]:"")}</span></span>`);
+    html+=`<div class="question">${text}</div>`;
+    if(quizState.showSynonyms && q.synonyms){
+      html+=`<div class="synonym-panel show"><div class="syn-title">💡 Aide aux synonymes</div>`;
+      q.synonyms[0].forEach(syn=>{ html+=`<span class="synonym-chip" onclick="insertSynonym('${esc(syn)}')">${esc(syn)}</span>`; });
+      html+=`</div>`;
+    }
+    const answered=quizState.fillAnswers[quizState.index]!==undefined;
+    if(answered){
+      const isCorrect=quizState.fillAnswers[quizState.index];
+      html+=`<div class="quiz-feedback ${isCorrect?'ok':'ko'} show">${isCorrect?'✅ Bonne réponse !':'❌ Mauvaise réponse. La réponse attendue était : <strong>'+q.answers[0][0]+'</strong>'}</div>`;
+    }
+    html+='<div class="quiz-nav"><div class="nav-right"><button class="btn-aide" onclick="toggleHint()">💡 Indice</button><button class="btn-super-aide" onclick="toggleSynonyms()">🧠 Synonymes</button></div><div class="nav-right"><button class="btn" onclick="prevQuiz()" '+(quizState.index===0?'disabled':'')+'>← Précédent</button><button class="btn primary" onclick="checkFill()" '+(answered?'disabled':'')+'>Vérifier</button><button class="btn primary" onclick="nextQuiz()" '+(answered?'':'disabled')+'>Suivant →</button></div></div></div>';
+    container.innerHTML=html;
+    if(answered){
+      const inp=document.getElementById("fillInput0");
+      if(inp) inp.disabled=true;
+    }
+  }
+}
+function answerQcm(i){
+  if(quizState.answers[quizState.index]!==undefined) return;
+  quizState.answers[quizState.index]=i;
+  const q=quizState.questions[quizState.index];
+  if(i===q.correct){ quizState.score++; soundSuccess(); vibSuccess(); }
+  else { soundError(); vibError(); }
+  renderQuizStep();
+}
+function checkFill(){
+  const inp=document.getElementById("fillInput0");
+  if(!inp) return;
+  const val=inp.value.trim().toLowerCase();
+  const q=quizState.questions[quizState.index];
+  const ok=q.answers.some(ans=>ans.includes(val));
+  quizState.fillAnswers[quizState.index]=ok;
+  if(ok){ quizState.score++; soundSuccess(); vibSuccess(); }
+  else { soundError(); vibError(); }
+  renderQuizStep();
+}
+function handleFillKey(e){
+  if(e.key==='Enter') checkFill();
+}
+function toggleHint(){
+  const wrap=document.querySelector('.fill-blank-wrap');
+  if(wrap) wrap.classList.toggle('show-hint');
+  soundToggle(); vibToggle();
+}
+function toggleSynonyms(){
+  quizState.showSynonyms=!quizState.showSynonyms;
+  renderQuizStep();
+  soundToggle(); vibToggle();
+}
+function insertSynonym(syn){
+  const inp=document.getElementById("fillInput0");
+  if(inp){ inp.value=syn; inp.focus(); }
+  soundClick(); vibClick();
+}
+function prevQuiz(){
+  if(quizState.index>0){ quizState.index--; renderQuizStep(); updateQuizProgress(); soundSwipe(); vibClick(); }
+}
+function nextQuiz(){
+  if(quizState.index < quizState.questions.length-1){
+    quizState.index++; renderQuizStep(); updateQuizProgress(); soundSwipe(); vibClick();
+  } else {
+    quizState.finished=true;
+    soundComplete(); vibComplete();
+    if(quizState.score === quizState.questions.length) launchConfetti(50);
+    showToast(`Quiz terminé : ${quizState.score}/${quizState.questions.length}`, "🎉");
+  }
+}
+function restartCurrentQuiz(){
+  soundClick(); vibClick();
+  switchQuizTab(quizState.tab);
+}
+
+/* ===== EXPORT ===== */
 function exportData(){
- soundClick(); vibClick();
- const blob=new Blob([JSON.stringify(lessons,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="sauvegarde-carnet-droit.json";a.click();URL.revokeObjectURL(url);
- showToast("Sauvegarde exportée !", "📥");
+  const data=JSON.stringify(lessons,null,2);
+  const blob=new Blob([data],{type:"application/json"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url; a.download="carnet-droit-sauvegarde.json"; a.click();
+  URL.revokeObjectURL(url);
+  showToast("Sauvegarde téléchargée","↓");
 }
 
 /* ===== INIT ===== */
 load();
 renderGrid();
-document.addEventListener('click', () => { getAudioCtx(); }, { once: true });
 </script>
 </body>
 </html>
